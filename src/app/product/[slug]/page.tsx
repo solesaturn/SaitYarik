@@ -127,19 +127,33 @@ export default async function ProductPage({ params }: Props) {
             <div className="mt-5">
               <p className="text-sm font-semibold">Цвет</p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {colorVariants.map((v) => (
-                  <Link
-                    key={v.id}
-                    href={`/product/${v.slug}`}
-                    className={`rounded border px-3 py-1.5 text-sm ${
-                      v.id === product.id
-                        ? "border-[var(--ink)] bg-[var(--ink)] text-white"
-                        : "border-[var(--line)] bg-white hover:border-[var(--ink)]"
-                    }`}
-                  >
-                    {v.color || v.sku}
-                  </Link>
-                ))}
+                {colorVariants.map((v) => {
+                  const active = v.id === product.id;
+                  const swatch =
+                    v.color?.includes("чёрн") || v.color?.includes("черн")
+                      ? "#1a1a1a"
+                      : v.color?.includes("сер")
+                        ? "#9aa0a6"
+                        : "#f5f5f5";
+                  return (
+                    <Link
+                      key={v.id}
+                      href={`/product/${v.slug}`}
+                      className={`inline-flex items-center gap-2 rounded border bg-white px-3 py-1.5 text-sm text-[var(--ink)] transition ${
+                        active
+                          ? "border-[var(--copper)] ring-2 ring-[var(--copper)]/50"
+                          : "border-[var(--line)] hover:border-[var(--ink)]/40"
+                      }`}
+                    >
+                      <span
+                        className="h-3.5 w-3.5 shrink-0 rounded-full border border-black/15"
+                        style={{ backgroundColor: swatch }}
+                        aria-hidden
+                      />
+                      {v.color || v.sku}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           )}
