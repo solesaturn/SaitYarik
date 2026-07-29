@@ -1,0 +1,63 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# prisma
+prisma/dev.db
+prisma/dev.db-journal
+/src/generated
+
+# local tooling / agent
+.agents/
+.claude/
+.windsurf/
+AGENTS.md
+CLAUDE.md
+skills-lock.json
+
+# invoice extract intermediates (keep catalog.json + products.tsv)
+data/xlsx_extract/
+data/invoice.xls
+data/invoice.xlsx
+data/invoice.zip
+data/invoice.csv
+data/invoice.tsv
+data/invoice_unicode.txt
+data/*.py
