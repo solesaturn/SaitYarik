@@ -12,12 +12,25 @@
 
 ```bash
 cd D:\SaitYarik
+cp .env.example .env
+# Укажите DATABASE_URL (PostgreSQL). Для Vercel SQLite не подходит.
 npm install
 npm run db:reset
 npm run dev
 ```
 
 Откройте http://localhost:3000
+
+### Vercel
+
+На Vercel нужен **PostgreSQL** (Prisma Postgres / Neon / Vercel Postgres).  
+В Project Settings → Environment Variables задайте:
+
+- `DATABASE_URL` — строка подключения Postgres
+- `NEXT_PUBLIC_SITE_URL` — `https://sait-yarik.vercel.app`
+- `NEXTAUTH_SECRET` — случайная строка
+
+Build Command уже делает `prisma db push` и seed каталога Futina.
 
 ### Демо-аккаунты
 
