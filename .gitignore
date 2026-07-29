@@ -42,6 +42,7 @@ next-env.d.ts
 # prisma
 prisma/dev.db
 prisma/dev.db-journal
+# seed.db is committed for Vercel runtime copy into /tmp
 /src/generated
 
 # local tooling / agent
@@ -61,3 +62,6 @@ data/invoice.csv
 data/invoice.tsv
 data/invoice_unicode.txt
 data/*.py
+
+.vercel
+.env*

@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && prisma db push && tsx prisma/seed.ts && next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:reset": "prisma db push --force-reset && tsx prisma/seed.ts",
+    "db:prepare-vercel": "prisma db push --force-reset && tsx prisma/seed.ts && node -e \"require('fs').copyFileSync('prisma/dev.db','prisma/seed.db'); console.log('seed.db ready')\"",
     "postinstall": "prisma generate"
   },
   "prisma": {

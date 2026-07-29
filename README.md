@@ -23,14 +23,16 @@ npm run dev
 
 ### Vercel
 
-На Vercel нужен **PostgreSQL** (Prisma Postgres / Neon / Vercel Postgres).  
-В Project Settings → Environment Variables задайте:
+На serverless нельзя писать в обычный SQLite-файл проекта. Для демо в репозиторий кладётся `prisma/seed.db`,
+а при старте на Vercel он копируется в `/tmp`.
 
-- `DATABASE_URL` — строка подключения Postgres
-- `NEXT_PUBLIC_SITE_URL` — `https://sait-yarik.vercel.app`
-- `NEXTAUTH_SECRET` — случайная строка
+```bash
+npm run db:prepare-vercel
+git add prisma/seed.db
+```
 
-Build Command уже делает `prisma db push` и seed каталога Futina.
+В Environment Variables задайте `NEXT_PUBLIC_SITE_URL=https://sait-yarik.vercel.app`.
+Для постоянной продакшен-БД лучше Neon/Vercel Postgres (см. issue с заказами между инстансами).
 
 ### Демо-аккаунты
 
