@@ -1,23 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { parseCommerceML } from "@/lib/commerceml";
+import { authorizeCml } from "@/lib/cml-auth";
+
+const MAX_BODY_BYTES = 5 * 1024 * 1024;
+
+function unauthorized() {
+  return new NextResponse("failure\nauth", {
+    status: 401,
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "WWW-Authenticate": 'Basic realm="1C Exchange"',
+    },
+  });
+}
 
 /**
- * CommerceML 2.05+ receiver compatible with 1C «Обмен с сайтом».
- * Supports mode=checkauth|init|file|import (simplified HTTP protocol).
+ * CommerceML 2.05+ receiver. Все mode требуют HTTP Basic (CML_LOGIN / CML_PASSWORD).
  */
 export async function GET(req: NextRequest) {
+  if (!authorizeCml(req)) return unauthorized();
+
   const type = req.nextUrl.searchParams.get("type");
   const mode = req.nextUrl.searchParams.get("mode");
 
   if (type === "catalog" || type === "sale") {
     if (mode === "checkauth") {
-      return new NextResponse("success\nsession_id\ntoken_demo", {
+      return new NextResponse("success\nsession_id\ncml_ok", {
         headers: { "Content-Type": "text/plain; charset=utf-8" },
       });
     }
     if (mode === "init") {
-      return new NextResponse("zip=no\nfile_limit=104857600", {
+      return new NextResponse(`zip=no\nfile_limit=${MAX_BODY_BYTES}`, {
         headers: { "Content-Type": "text/plain; charset=utf-8" },
       });
     }
@@ -27,7 +41,6 @@ export async function GET(req: NextRequest) {
       });
     }
     if (mode === "query") {
-      // Export unpaid/new orders to 1C
       const orders = await prisma.order.findMany({
         where: { syncedTo1c: false },
         include: { items: true },
@@ -53,19 +66,31 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({
-    service: "CommerceML exchange",
-    endpoints: {
-      catalog: "/api/1c/exchange?type=catalog&mode=checkauth|init|file|import",
-      sale: "/api/1c/exchange?type=sale&mode=query|success",
-      upload: "POST /api/1c/exchange?filename=import.xml|offers.xml",
-    },
+  return new NextResponse("failure\nbad request", {
+    status: 400,
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
   });
 }
 
 export async function POST(req: NextRequest) {
-  const filename = req.nextUrl.searchParams.get("filename") || "import.xml";
+  if (!authorizeCml(req)) return unauthorized();
+
+  const filename = (req.nextUrl.searchParams.get("filename") || "import.xml").replace(/[^a-zA-Z0-9._-]/g, "");
+  const length = Number(req.headers.get("content-length") || 0);
+  if (length > MAX_BODY_BYTES) {
+    return new NextResponse("failure\nfile too large", {
+      status: 413,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
+
   const xml = await req.text();
+  if (xml.length > MAX_BODY_BYTES) {
+    return new NextResponse("failure\nfile too large", {
+      status: 413,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
 
   try {
     const result = await parseCommerceML(xml, filename);
@@ -88,8 +113,7 @@ export async function POST(req: NextRequest) {
         message,
       },
     });
-    // Never zero stocks/prices on failure — just report failure
-    return new NextResponse(`failure\n${message}`, {
+    return new NextResponse("failure\nimport error", {
       status: 500,
       headers: { "Content-Type": "text/plain; charset=utf-8" },
     });

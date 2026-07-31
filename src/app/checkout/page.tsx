@@ -91,7 +91,7 @@ export default function CheckoutPage() {
       window.location.href = data.paymentUrl;
       return;
     }
-    router.push(`/thanks?order=${data.number}`);
+    router.push(data.thanksUrl || `/thanks?order=${encodeURIComponent(data.number)}&t=${encodeURIComponent(data.accessToken || "")}`);
   }
 
   if (items.length === 0) {

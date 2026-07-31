@@ -6,8 +6,9 @@ export async function GET() {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  // Только заказы, привязанные к userId (без подтягивания чужих гостевых по email)
   const orders = await prisma.order.findMany({
-    where: { OR: [{ userId: session.id }, { email: session.email }] },
+    where: { userId: session.id },
     orderBy: { createdAt: "desc" },
     take: 50,
   });

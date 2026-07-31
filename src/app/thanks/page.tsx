@@ -1,17 +1,35 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { getSession, isStaff } from "@/lib/auth";
+import { verifyOrderAccessToken } from "@/lib/order-token";
 
 export const dynamic = "force-dynamic";
 
 export default async function ThanksPage({
   searchParams,
 }: {
-  searchParams: Promise<{ order?: string }>;
+  searchParams: Promise<{ order?: string; t?: string }>;
 }) {
-  const { order: number } = await searchParams;
-  const order = number
-    ? await prisma.order.findUnique({ where: { number }, include: { items: true } })
-    : null;
+  const { order: number, t: token } = await searchParams;
+  const session = await getSession();
+
+  let order: {
+    number: string;
+    status: string;
+    paymentMethod: string | null;
+    fiscalReceiptUrl: string | null;
+    userId: string | null;
+  } | null = null;
+
+  if (number) {
+    const found = await prisma.order.findUnique({ where: { number } });
+    if (found) {
+      const allowed =
+        verifyOrderAccessToken(number, token) ||
+        (session && (session.id === found.userId || isStaff(session.role)));
+      if (allowed) order = found;
+    }
+  }
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 text-center">
@@ -23,21 +41,26 @@ export default async function ThanksPage({
           <p className="mt-3 text-sm">Статус: {order.status}</p>
           {order.paymentMethod === "INVOICE" ? (
             <p className="mt-2 text-sm text-[var(--muted)]">
-              Счёт будет отправлен на e-mail. При безналичной оплате с р/с на р/с кассовый чек не пробивается — формируются счёт и УПД.
+              Счёт будет отправлен на e-mail. При безналичной оплате кассовый чек не пробивается — формируются счёт и
+              УПД.
             </p>
           ) : (
             <p className="mt-2 text-sm text-[var(--muted)]">
-              Фискальный чек отправлен на e-mail/телефон. Трекинг появится после передачи в службу доставки.
+              {order.status === "PAID"
+                ? "Оплата подтверждена. Фискальный чек — по ссылке ниже (если доступен)."
+                : "Если оплата ещё обрабатывается — обновите страницу через минуту."}
             </p>
           )}
-          {order.fiscalReceiptUrl && (
+          {order.fiscalReceiptUrl && order.status === "PAID" && (
             <a href={order.fiscalReceiptUrl} className="mt-3 inline-block text-sm underline">
-              Ссылка на чек (демо)
+              Ссылка на чек
             </a>
           )}
         </div>
       ) : (
-        <p className="mt-4 text-sm text-[var(--muted)]">Заказ принят.</p>
+        <p className="mt-4 text-sm text-[var(--muted)]">
+          {number ? "Заказ не найден или ссылка неполная." : "Заказ принят."}
+        </p>
       )}
       <div className="mt-8 flex justify-center gap-3">
         <Link href="/account" className="btn btn-primary">

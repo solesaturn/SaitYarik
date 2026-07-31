@@ -1,22 +1,63 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { verifyOrderAccessToken } from "@/lib/order-token";
+import { fetchYooKassaPayment, isYooKassaLive } from "@/lib/yookassa";
 
+/**
+ * Return URL — только редирект на thanks.
+ * PAID выставляется после проверки: live → API ЮKassa; demo → paymentId demo_* + токен заказа.
+ */
 export async function GET(req: NextRequest) {
   const orderNumber = req.nextUrl.searchParams.get("order");
-  if (!orderNumber) return NextResponse.redirect(new URL("/", req.url));
+  const token = req.nextUrl.searchParams.get("t");
+  const base = process.env.NEXT_PUBLIC_SITE_URL || new URL(req.url).origin;
+
+  if (!orderNumber || !verifyOrderAccessToken(orderNumber, token)) {
+    return NextResponse.redirect(new URL("/", base));
+  }
 
   const order = await prisma.order.findUnique({ where: { number: orderNumber } });
-  if (!order) return NextResponse.redirect(new URL("/", req.url));
+  if (!order) return NextResponse.redirect(new URL("/", base));
 
-  // Mark online payments as paid; fiscal receipt demo URL
-  if (order.paymentMethod === "SBP" || order.paymentMethod === "CARD") {
+  const thanks = new URL(`/thanks?order=${encodeURIComponent(order.number)}&t=${encodeURIComponent(token!)}`, base);
+
+  if (order.status === "PAID") {
+    return NextResponse.redirect(thanks);
+  }
+
+  if (order.paymentMethod !== "SBP" && order.paymentMethod !== "CARD") {
+    return NextResponse.redirect(thanks);
+  }
+
+  let paid = false;
+
+  if (isYooKassaLive() && order.paymentId && !order.paymentId.startsWith("demo_")) {
+    const payment = await fetchYooKassaPayment(order.paymentId);
+    if (
+      payment &&
+      (payment.status === "succeeded" || payment.status === "waiting_for_capture") &&
+      Math.abs(Number(payment.amount.value) - order.total) < 0.01
+    ) {
+      paid = true;
+    }
+  } else if (
+    req.nextUrl.searchParams.get("demo") === "1" &&
+    order.paymentId?.startsWith("demo_") &&
+    !isYooKassaLive()
+  ) {
+    // Демо-оплата: только свой заказ (токен уже проверен) и demo paymentId
+    paid = true;
+  }
+
+  if (paid) {
+    const receiptUrl =
+      order.fiscalReceiptUrl ||
+      `${base}/api/payments/receipt?order=${encodeURIComponent(order.number)}&t=${encodeURIComponent(token!)}`;
     await prisma.order.update({
       where: { id: order.id },
       data: {
         status: "PAID",
-        fiscalReceiptUrl:
-          order.fiscalReceiptUrl ||
-          `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/api/payments/receipt?order=${order.number}`,
+        fiscalReceiptUrl: receiptUrl,
         syncedTo1c: false,
       },
     });
@@ -25,10 +66,10 @@ export async function GET(req: NextRequest) {
         type: "PAYMENT",
         direction: "YOOKASSA->SITE",
         status: "OK",
-        message: `Оплата ${order.number} подтверждена, чек 54-ФЗ сформирован (облачная касса)`,
+        message: `Оплата ${order.number} подтверждена`,
       },
     });
   }
 
-  return NextResponse.redirect(new URL(`/thanks?order=${order.number}`, req.url));
+  return NextResponse.redirect(thanks);
 }

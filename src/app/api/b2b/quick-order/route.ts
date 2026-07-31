@@ -1,22 +1,39 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
+import { getProductPrice } from "@/lib/pricing";
+import { escapeHtml } from "@/lib/html";
 
 export async function POST(req: NextRequest) {
+  const session = await getSession();
+  const b2bApproved = !!session?.b2bApproved;
+
   const form = await req.formData();
   const raw = String(form.get("skus") || "");
   const lines = raw
     .split(/\r?\n/)
     .map((l) => l.trim())
-    .filter(Boolean);
+    .filter(Boolean)
+    .slice(0, 200);
 
-  const found: { sku: string; qty: number; id: string; slug: string; name: string; price: number; packQty: number; stock: number; imageUrl: string | null }[] = [];
+  const found: {
+    sku: string;
+    qty: number;
+    id: string;
+    slug: string;
+    name: string;
+    price: number;
+    packQty: number;
+    stock: number;
+    imageUrl: string | null;
+  }[] = [];
 
   for (const line of lines) {
     const [skuPart, qtyPart] = line.split(/[;,]/);
     const sku = skuPart?.trim();
-    const qty = Math.max(1, Number(qtyPart) || 1);
+    const qty = Math.max(1, Math.min(10_000, Number(qtyPart) || 1));
     if (!sku) continue;
-    const product = await prisma.product.findFirst({ where: { sku: { equals: sku } } });
+    const product = await prisma.product.findFirst({ where: { sku: { equals: sku }, active: true } });
     if (product) {
       found.push({
         sku: product.sku,
@@ -24,7 +41,7 @@ export async function POST(req: NextRequest) {
         id: product.id,
         slug: product.slug,
         name: product.name,
-        price: product.priceWholesale,
+        price: getProductPrice(product, b2bApproved),
         packQty: product.packQty,
         stock: product.stock,
         imageUrl: product.imageUrl,
@@ -32,9 +49,13 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Pass items via cookie-like redirect query is too large — use HTML bridge page
-  const html = `<!DOCTYPE html><html><body><script>
-    const items = ${JSON.stringify(found)};
+  // JSON в script: экранируем </ чтобы не сломать HTML; имена уже как JSON-строки
+  const payload = JSON.stringify(found).replace(/</g, "\\u003c");
+
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Корзина</title></head><body>
+  <p>Добавляем в корзину… ${escapeHtml(String(found.length))} поз.</p>
+  <script>
+    const items = ${payload};
     const key = 'sy_cart_v1';
     const cart = JSON.parse(localStorage.getItem(key) || '[]');
     for (const p of items) {
@@ -46,7 +67,13 @@ export async function POST(req: NextRequest) {
     }
     localStorage.setItem(key, JSON.stringify(cart));
     location.href = '/cart';
-  </script><p>Добавляем в корзину…</p></body></html>`;
+  </script></body></html>`;
 
-  return new NextResponse(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+  return new NextResponse(html, {
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "X-Content-Type-Options": "nosniff",
+      "Cache-Control": "no-store",
+    },
+  });
 }

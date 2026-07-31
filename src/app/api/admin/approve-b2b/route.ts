@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession, isStaff } from "@/lib/auth";
+import { canApproveB2B, getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   const session = await getSession();
-  if (!session || !isStaff(session.role)) {
+  if (!session || !canApproveB2B(session.role)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   const { userId } = await req.json();

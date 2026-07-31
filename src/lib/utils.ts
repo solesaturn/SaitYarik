@@ -20,6 +20,12 @@ export function packQuantity(qty: number, packQty: number) {
 export function generateOrderNumber() {
   const d = new Date();
   const stamp = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
-  const rnd = Math.floor(1000 + Math.random() * 9000);
+  const bytes = new Uint8Array(4);
+  if (typeof crypto !== "undefined" && crypto.getRandomValues) {
+    crypto.getRandomValues(bytes);
+  } else {
+    for (let i = 0; i < 4; i++) bytes[i] = Math.floor(Math.random() * 256);
+  }
+  const rnd = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
   return `SY-${stamp}-${rnd}`;
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { isValidRuPhone, toE164 } from "@/lib/phone";
+import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 async function saveLead(data: {
   name: string;
@@ -33,6 +34,12 @@ export async function POST(req: NextRequest) {
   const accept = req.headers.get("accept") || "";
   const contentType = req.headers.get("content-type") || "";
   const wantsJson = accept.includes("application/json") || contentType.includes("application/json");
+
+  const rl = rateLimit(`contact:${clientIp(req)}`, 15, 60_000);
+  if (!rl.ok) {
+    if (wantsJson) return NextResponse.json({ error: "Слишком много запросов" }, { status: 429 });
+    return NextResponse.redirect(new URL("/contacts?error=1", req.url), 303);
+  }
 
   let payload: {
     name: string;
