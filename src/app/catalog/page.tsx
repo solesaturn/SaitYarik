@@ -19,6 +19,8 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
   const color = one(sp.color);
   const productType = one(sp.type);
   const ip = one(sp.ip);
+  const posts = one(sp.posts);
+  const current = one(sp.current);
   const inStock = one(sp.stock) === "1";
   const sort = one(sp.sort) || "popular";
   const q = one(sp.q);
@@ -30,6 +32,8 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
   if (color) where.color = color;
   if (productType) where.productType = productType;
   if (ip) where.ipRating = ip;
+  if (posts) where.posts = Number(posts);
+  if (current) where.nominalCurrent = current;
   if (inStock) where.stock = { gt: 0 };
   if (q) {
     where.OR = [
@@ -73,7 +77,8 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
       </nav>
       <h1 className="section-title mt-3">Каталог электрофурнитуры</h1>
       <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">
-        Фасетные фильтры, цены по типу покупателя, пагинация. Данные каталога синхронизируются с 1С по CommerceML.
+        Сначала выберите, что нужно — розетку, выключатель или рамку, затем цвет и число постов. В корзину можно
+        добавить прямо из списка.
       </p>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[240px_1fr]">

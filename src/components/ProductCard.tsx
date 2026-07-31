@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Check, ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
-import { usePriceMode } from "@/lib/price-mode";
 import { getProductPrice } from "@/lib/pricing";
 import { FavoriteButton } from "@/components/FavoriteButton";
 
@@ -27,9 +26,8 @@ export type ProductCardData = {
 
 export function ProductCard({ product, b2bApproved = false }: { product: ProductCardData; b2bApproved?: boolean }) {
   const { addItem } = useCart();
-  const { mode } = usePriceMode();
   const [added, setAdded] = useState(false);
-  const price = getProductPrice(product, mode, b2bApproved || mode === "b2b");
+  const price = getProductPrice(product, b2bApproved);
 
   function handleAdd() {
     addItem({
@@ -81,14 +79,14 @@ export function ProductCard({ product, b2bApproved = false }: { product: Product
         <p className="mt-2 text-xs text-[var(--muted)]">
           {product.stock > 0 ? `В наличии: ${product.stock} шт.` : "Под заказ"}
         </p>
-        <div className="mt-auto flex items-end justify-between gap-2 pt-4">
-          <div>
-            <p className="font-[family-name:var(--font-display)] text-xl">{formatPrice(price)}</p>
-            {mode === "b2b" && (
-              <p className="text-[10px] uppercase tracking-wide text-[var(--muted)]">опт</p>
-            )}
-          </div>
-          <div className="flex gap-1">
+        <div className="mt-auto pt-4">
+          <div className="flex items-end justify-between gap-2">
+            <div>
+              <p className="font-[family-name:var(--font-display)] text-xl">{formatPrice(price)}</p>
+              {b2bApproved && (
+                <p className="text-[10px] uppercase tracking-wide text-[var(--muted)]">Ваша цена</p>
+              )}
+            </div>
             <FavoriteButton
               product={{
                 id: product.id,
@@ -101,17 +99,25 @@ export function ProductCard({ product, b2bApproved = false }: { product: Product
                 brandName: product.brand?.name,
               }}
             />
-            <button
-              type="button"
-              className={`rounded p-2 text-white transition ${
-                added ? "bg-[var(--ok)]" : "bg-[var(--ink)] hover:bg-[var(--ink)]/90"
-              }`}
-              aria-label={added ? "Добавлено" : "В корзину"}
-              onClick={handleAdd}
-            >
-              {added ? <Check className="h-4 w-4" strokeWidth={2.5} /> : <ShoppingCart className="h-4 w-4" />}
-            </button>
           </div>
+          <button
+            type="button"
+            className={`btn mt-3 w-full !rounded-lg ${
+              added ? "!bg-[var(--ok)] text-white" : "btn-primary"
+            }`}
+            aria-label={added ? "Добавлено" : "В корзину"}
+            onClick={handleAdd}
+          >
+            {added ? (
+              <>
+                <Check className="h-4 w-4" strokeWidth={2.5} /> Добавлено
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="h-4 w-4" /> В корзину
+              </>
+            )}
+          </button>
         </div>
       </div>
     </article>

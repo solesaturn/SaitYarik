@@ -11,7 +11,9 @@ export default async function ContactsPage({
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="section-title">Контакты</h1>
       {sent && (
-        <p className="mt-4 border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">Сообщение отправлено.</p>
+        <p className="mt-4 border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+          Заявка принята, перезвоним в течение 15 минут в рабочее время.
+        </p>
       )}
       <div className="mt-6 space-y-2 text-sm">
         <p>Телефон: {SITE.phone}</p>

@@ -5,7 +5,6 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CartProvider } from "@/lib/cart-context";
 import { FavoritesProvider } from "@/lib/favorites-context";
-import { PriceModeProvider } from "@/lib/price-mode";
 import { CookieBanner } from "@/components/CookieBanner";
 import { CartToast } from "@/components/CartToast";
 import { FavoriteToast } from "@/components/FavoriteToast";
@@ -28,7 +27,7 @@ export const metadata: Metadata = {
     template: `%s · ${SITE.name}`,
   },
   description:
-    "Интернет-магазин розеток, выключателей и электрофурнитуры. Розница и опт, интеграция с 1С, оплата ЮKassa, доставка по РФ.",
+    "Интернет-магазин розеток, выключателей и электрофурнитуры Futina. Склад в Москве, доставка по РФ.",
   openGraph: {
     title: SITE.name,
     description: SITE.tagline,
@@ -41,20 +40,18 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ru">
       <body className={`${display.variable} ${body.variable} antialiased`}>
-        <PriceModeProvider>
-          <CartProvider>
-            <FavoritesProvider>
-              <div className="flex min-h-screen flex-col">
-                <Header />
-                <main className="flex-1">{children}</main>
-                <Footer />
-                <CartToast />
-                <FavoriteToast />
-                <CookieBanner />
-              </div>
-            </FavoritesProvider>
-          </CartProvider>
-        </PriceModeProvider>
+        <CartProvider>
+          <FavoritesProvider>
+            <div className="flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <CartToast />
+              <FavoriteToast />
+              <CookieBanner />
+            </div>
+          </FavoritesProvider>
+        </CartProvider>
         <script
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer=window.dataLayer||[];`,

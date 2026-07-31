@@ -112,16 +112,18 @@ export default async function ProductPage({ params }: Props) {
           <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">{product.description}</p>
 
           <div className="mt-6 grid gap-2 text-sm sm:grid-cols-2">
-            <p>
-              Розница: <strong>{formatPrice(product.priceRetail)}</strong>
-            </p>
-            <p>
-              Опт: <strong>{formatPrice(product.priceWholesale)}</strong>
-              {!session?.b2bApproved && <span className="text-[var(--muted)]"> (после одобрения B2B)</span>}
-            </p>
             <p>Наличие: {product.stock > 0 ? `${product.stock} шт.` : "под заказ"}</p>
-            <p>Кратность: {product.packQty} {product.unit}</p>
+            <p>
+              Кратность: {product.packQty} {product.unit}
+            </p>
           </div>
+          <p className="mt-4 text-sm text-[var(--muted)]">
+            Товар сертифицирован —{" "}
+            <Link href="/certificates" className="font-semibold text-[var(--ink)] underline">
+              посмотреть документы
+            </Link>
+            .
+          </p>
 
           {colorVariants.length > 1 && (
             <div className="mt-5">

@@ -3,13 +3,13 @@ import { SITE } from "@/lib/pricing";
 
 const footerLinks = [
   { href: "/catalog", label: "Каталог" },
-  { href: "/b2b", label: "Оптовикам" },
+  { href: "/b2b", label: "Для монтажников и магазинов" },
   { href: "/delivery", label: "Доставка и оплата" },
   { href: "/returns", label: "Возврат и гарантия" },
   { href: "/about", label: "О компании" },
+  { href: "/certificates", label: "Сертификаты и документы" },
   { href: "/contacts", label: "Контакты" },
   { href: "/blog", label: "Блог" },
-  { href: "/brands", label: "Бренды" },
 ];
 
 const legalLinks = [
@@ -26,7 +26,7 @@ export function Footer() {
         <div>
           <p className="font-[family-name:var(--font-display)] text-2xl tracking-tight">{SITE.name}</p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/70">
-            Интернет-магазин электрофурнитуры: розница и опт, обмен с 1С, оплата ЮKassa и маркировка «Честный ЗНАК».
+            Электрофурнитура Futina со склада в Москве: розетки, выключатели и рамки для дома и объекта.
           </p>
         </div>
         <div>
@@ -62,7 +62,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-white/40">
-        © {new Date().getFullYear()} {SITE.name}. Сайт соответствует требованиям 54-ФЗ и 152-ФЗ.
+        © {new Date().getFullYear()} {SITE.name}. Работаем с физлицами и юрлицами.
       </div>
     </footer>
   );

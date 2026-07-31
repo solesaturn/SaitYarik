@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { formatPrice } from "@/lib/utils";
+import { LeadForm } from "@/components/LeadForm";
 
 export default function CartPage() {
   const { items, setQty, removeItem, subtotal, clear } = useCart();
@@ -45,12 +46,17 @@ export default function CartPage() {
           </div>
         ))}
       </div>
+
+      <div className="mt-8 border border-[var(--line)] bg-[var(--sand)]/40 p-5">
+        <LeadForm variant="bulk" source="cart_bulk" className="max-w-md" />
+      </div>
+
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[var(--line)] pt-6">
         <button type="button" className="text-sm text-[var(--muted)] underline" onClick={clear}>
           Очистить корзину
         </button>
         <div className="text-right">
-          <p className="text-sm text-[var(--muted)]">Предварительная доставка рассчитывается на оформлении</p>
+          <p className="text-sm text-[var(--muted)]">Доставка рассчитается на следующем шаге</p>
           <p className="mt-1 font-[family-name:var(--font-display)] text-2xl">Итого: {formatPrice(subtotal)}</p>
           <Link href="/checkout" className="btn btn-primary mt-4">
             Оформить заказ

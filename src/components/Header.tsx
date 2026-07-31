@@ -4,12 +4,11 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, Search, ShoppingCart, User, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
-import { usePriceMode } from "@/lib/price-mode";
 import { SITE } from "@/lib/pricing";
 
 const nav = [
   { href: "/catalog", label: "Каталог" },
-  { href: "/b2b", label: "Оптовикам" },
+  { href: "/b2b", label: "Для монтажников и магазинов" },
   { href: "/delivery", label: "Доставка" },
   { href: "/about", label: "О компании" },
   { href: "/contacts", label: "Контакты" },
@@ -17,7 +16,6 @@ const nav = [
 
 export function Header() {
   const { count, justAdded } = useCart();
-  const { mode, setMode } = usePriceMode();
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
 
@@ -26,23 +24,9 @@ export function Header() {
       <div className="border-b border-[var(--line)] bg-[var(--ink)] text-[var(--paper)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-1.5 text-xs">
           <p className="text-white/70">Город: {SITE.city} · Доставка по РФ · Самовывоз со склада</p>
-          <div className="flex items-center gap-2">
-            <span className="text-white/50">Цены:</span>
-            <button
-              type="button"
-              onClick={() => setMode("b2c")}
-              className={`rounded px-2 py-0.5 ${mode === "b2c" ? "bg-[var(--copper)] text-[var(--ink)]" : "text-white/80"}`}
-            >
-              B2C
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("b2b")}
-              className={`rounded px-2 py-0.5 ${mode === "b2b" ? "bg-[var(--copper)] text-[var(--ink)]" : "text-white/80"}`}
-            >
-              B2B
-            </button>
-          </div>
+          <a href={`tel:${SITE.phone.replace(/[^\d+]/g, "")}`} className="text-white/80 hover:text-white">
+            {SITE.phone}
+          </a>
         </div>
       </div>
 
@@ -70,15 +54,11 @@ export function Header() {
               name="q"
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Артикул, бренд, серия…"
+              placeholder="Розетка, выключатель, артикул…"
               className="w-full rounded-full border border-[var(--line)] bg-white py-2.5 pl-10 pr-4 text-sm outline-none ring-[var(--copper)] focus:ring-2"
             />
           </label>
         </form>
-
-        <a href={`tel:${SITE.phone.replace(/[^\d+]/g, "")}`} className="hidden text-sm font-semibold xl:block">
-          {SITE.phone}
-        </a>
 
         <Link href="/account" className="rounded-full p-2 hover:bg-black/5" aria-label="Кабинет">
           <User className="h-5 w-5" />
@@ -128,6 +108,9 @@ export function Header() {
                   {item.label}
                 </Link>
               ))}
+              <Link href="/certificates" onClick={() => setOpen(false)}>
+                Сертификаты
+              </Link>
               <Link href="/favorites" onClick={() => setOpen(false)}>
                 Избранное
               </Link>

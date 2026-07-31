@@ -102,9 +102,9 @@ export default function AccountClient() {
           {mode === "login" ? "Нет аккаунта? Зарегистрироваться" : "Уже есть аккаунт? Войти"}
         </button>
         <p className="mt-4 text-sm">
-          Юрлицо?{" "}
+          Покупаете для магазина или объекта?{" "}
           <Link href="/b2b" className="underline">
-            Регистрация B2B
+            Заявка для монтажников и магазинов
           </Link>
         </p>
       </div>
@@ -117,11 +117,17 @@ export default function AccountClient() {
         <div>
           <h1 className="section-title">Личный кабинет</h1>
           <p className="mt-2 text-sm text-[var(--muted)]">
-            {me.name || me.email} · {me.customerType}
-            {me.customerType === "B2B" && (me.b2bApproved ? " · опт одобрен" : " · ожидает модерации")}
+            {me.name || me.email}
+            {me.b2bApproved
+              ? " · доступна ваша цена"
+              : me.customerType === "B2B"
+                ? " · ждём подтверждения юрлица"
+                : ""}
           </p>
           {sp.get("registered") && (
-            <p className="mt-2 text-sm text-green-800">Регистрация принята. Для B2B дождитесь подтверждения менеджера.</p>
+            <p className="mt-2 text-sm text-green-800">
+              Регистрация принята. После подтверждения юрлица в каталоге появится ваша цена.
+            </p>
           )}
         </div>
         <div className="flex gap-2">
@@ -136,10 +142,14 @@ export default function AccountClient() {
         </div>
       </div>
 
-      {me.customerType === "B2B" && (
+      {(me.customerType === "B2B" || me.b2bApproved) && (
         <div className="mt-6 border border-[var(--line)] bg-white p-4 text-sm">
           <p className="font-semibold">{me.companyName || "Организация"}</p>
-          <p className="mt-1 text-[var(--muted)]">Счета, УПД и персональные цены — после синхронизации с 1С и одобрения.</p>
+          <p className="mt-1 text-[var(--muted)]">
+            {me.b2bApproved
+              ? "В каталоге отображается ваша цена. Счета и отгрузка — через менеджера."
+              : "После подтверждения юрлица в каталоге появится ваша цена."}
+          </p>
           <Link href="/b2b" className="mt-2 inline-block underline">
             Быстрый заказ по спецификации
           </Link>

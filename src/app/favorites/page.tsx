@@ -4,14 +4,12 @@ import Link from "next/link";
 import { Heart } from "lucide-react";
 import { useFavorites } from "@/lib/favorites-context";
 import { useCart } from "@/lib/cart-context";
-import { usePriceMode } from "@/lib/price-mode";
 import { getProductPrice } from "@/lib/pricing";
 import { formatPrice } from "@/lib/utils";
 
 export default function FavoritesPage() {
   const { items, remove, count } = useFavorites();
   const { addItem } = useCart();
-  const { mode } = usePriceMode();
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -29,11 +27,10 @@ export default function FavoritesPage() {
       ) : (
         <div className="mt-8 space-y-3">
           {items.map((item) => {
-            const price = getProductPrice(
-              { priceRetail: item.priceRetail, priceWholesale: item.priceWholesale },
-              mode,
-              mode === "b2b"
-            );
+            const price = getProductPrice({
+              priceRetail: item.priceRetail,
+              priceWholesale: item.priceWholesale,
+            });
             return (
               <div
                 key={item.id}

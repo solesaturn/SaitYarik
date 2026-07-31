@@ -2,18 +2,19 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useCart } from "@/lib/cart-context";
-import { usePriceMode } from "@/lib/price-mode";
-import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
+import { useCart } from "@/lib/cart-context";
+import { formatPrice } from "@/lib/utils";
+import { PhoneField } from "@/components/PhoneField";
+import { isValidRuPhone, toE164 } from "@/lib/phone";
 
 export default function CheckoutPage() {
   const { items, subtotal, clear } = useCart();
-  const { mode } = usePriceMode();
   const router = useRouter();
-  const [customerType, setCustomerType] = useState<"B2C" | "B2B">(mode === "b2b" ? "B2B" : "B2C");
+  const [forBusiness, setForBusiness] = useState(false);
   const [deliveryMethod, setDeliveryMethod] = useState("SELFPICKUP");
-  const [paymentMethod, setPaymentMethod] = useState(customerType === "B2B" ? "INVOICE" : "SBP");
+  const [paymentMethod, setPaymentMethod] = useState("SBP");
+  const [phone, setPhone] = useState("");
   const [promo, setPromo] = useState("");
   const [discount, setDiscount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,7 @@ export default function CheckoutPage() {
   }, [deliveryMethod, subtotal]);
 
   const total = Math.max(0, subtotal - discount + deliveryCost);
+  const needsAddress = deliveryMethod !== "SELFPICKUP";
 
   async function applyPromo() {
     const res = await fetch("/api/promo", {
@@ -45,15 +47,19 @@ export default function CheckoutPage() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
     setError("");
+    if (!isValidRuPhone(phone)) {
+      setError("Проверьте номер телефона");
+      return;
+    }
+    setLoading(true);
     const form = new FormData(e.currentTarget);
     const payload = {
-      customerType,
+      customerType: forBusiness ? "B2B" : "B2C",
       deliveryMethod,
       paymentMethod,
-      email: String(form.get("email")),
-      phone: String(form.get("phone")),
+      email: String(form.get("email") || "") || `${digitsFallback(phone)}@order.saityarik.ru`,
+      phone: toE164(phone),
       name: String(form.get("name") || ""),
       companyName: String(form.get("companyName") || ""),
       inn: String(form.get("inn") || ""),
@@ -102,37 +108,57 @@ export default function CheckoutPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
       <h1 className="section-title">Оформление заказа</h1>
+      <p className="mt-2 text-sm text-[var(--muted)]">Без регистрации. Контакты, доставка и оплата — на одной странице.</p>
       <form onSubmit={onSubmit} className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-6">
-          <div className="border border-[var(--line)] bg-white p-4">
-            <p className="font-semibold">Тип покупателя</p>
-            <div className="mt-3 flex gap-2">
-              {(["B2C", "B2B"] as const).map((t) => (
-                <button
-                  key={t}
-                  type="button"
-                  onClick={() => {
-                    setCustomerType(t);
-                    setPaymentMethod(t === "B2B" ? "INVOICE" : "SBP");
-                  }}
-                  className={`rounded px-3 py-1.5 text-sm ${customerType === t ? "bg-[var(--ink)] text-white" : "bg-[var(--sand)]"}`}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
-          </div>
-
           <div className="grid gap-3 border border-[var(--line)] bg-white p-4 sm:grid-cols-2">
-            <input name="name" required={customerType === "B2C"} placeholder="ФИО" className="rounded border border-[var(--line)] px-3 py-2 text-sm" />
-            <input name="phone" required placeholder="Телефон" className="rounded border border-[var(--line)] px-3 py-2 text-sm" />
-            <input name="email" type="email" required placeholder="E-mail" className="rounded border border-[var(--line)] px-3 py-2 text-sm sm:col-span-2" />
-            {customerType === "B2B" && (
+            <p className="font-semibold sm:col-span-2">Контакты</p>
+            <label className="grid gap-1 text-sm sm:col-span-2">
+              <span className="text-[var(--muted)]">Как к вам обращаться</span>
+              <input
+                name="name"
+                required
+                placeholder="Имя"
+                className="rounded border border-[var(--line)] px-3 py-2 text-sm"
+              />
+            </label>
+            <label className="grid gap-1 text-sm">
+              <span className="text-[var(--muted)]">Телефон</span>
+              <PhoneField value={phone} onChange={setPhone} />
+            </label>
+            <label className="grid gap-1 text-sm">
+              <span className="text-[var(--muted)]">E-mail (для чека, необязательно)</span>
+              <input
+                name="email"
+                type="email"
+                placeholder="mail@example.com"
+                className="rounded border border-[var(--line)] px-3 py-2 text-sm"
+              />
+            </label>
+            <p className="text-xs text-[var(--muted)] sm:col-span-2">
+              Позвоним один раз, чтобы подтвердить заказ. Рассылок не будет.
+            </p>
+            <label className="flex items-center gap-2 text-sm sm:col-span-2">
+              <input
+                type="checkbox"
+                checked={forBusiness}
+                onChange={(e) => {
+                  setForBusiness(e.target.checked);
+                  setPaymentMethod(e.target.checked ? "INVOICE" : "SBP");
+                }}
+              />
+              Покупаю как организация (счёт на оплату)
+            </label>
+            {forBusiness && (
               <>
-                <input name="companyName" required placeholder="Организация" className="rounded border border-[var(--line)] px-3 py-2 text-sm sm:col-span-2" />
+                <input
+                  name="companyName"
+                  required
+                  placeholder="Организация"
+                  className="rounded border border-[var(--line)] px-3 py-2 text-sm sm:col-span-2"
+                />
                 <input name="inn" required placeholder="ИНН" className="rounded border border-[var(--line)] px-3 py-2 text-sm" />
                 <input name="kpp" placeholder="КПП" className="rounded border border-[var(--line)] px-3 py-2 text-sm" />
-                <input name="legalAddress" required placeholder="Юр. адрес" className="rounded border border-[var(--line)] px-3 py-2 text-sm sm:col-span-2" />
               </>
             )}
           </div>
@@ -141,10 +167,10 @@ export default function CheckoutPage() {
             <p className="font-semibold">Доставка</p>
             <div className="mt-3 grid gap-2 text-sm">
               {[
-                ["SELFPICKUP", "Самовывоз (бесплатно)"],
-                ["PICKUP_POINT", "ПВЗ / постамат"],
+                ["SELFPICKUP", "Самовывоз со склада (бесплатно)"],
+                ["PICKUP_POINT", "Пункт выдачи (ПВЗ)"],
                 ["COURIER", "Курьер до адреса"],
-                ["B2B_CUSTOM", "B2B на объект (согласование)"],
+                ["B2B_CUSTOM", "Доставка на объект (согласование)"],
               ].map(([v, label]) => (
                 <label key={v} className="flex items-center gap-2">
                   <input type="radio" name="delivery" checked={deliveryMethod === v} onChange={() => setDeliveryMethod(v)} />
@@ -152,44 +178,60 @@ export default function CheckoutPage() {
                 </label>
               ))}
             </div>
-            {deliveryMethod !== "SELFPICKUP" && (
-              <input
-                name="deliveryAddress"
-                required
-                placeholder="Адрес доставки или код ПВЗ"
-                className="mt-3 w-full rounded border border-[var(--line)] px-3 py-2 text-sm"
-              />
+            {needsAddress && (
+              <label className="mt-3 grid gap-1 text-sm">
+                <span className="text-[var(--muted)]">
+                  {deliveryMethod === "PICKUP_POINT"
+                    ? "Адрес или код пункта выдачи"
+                    : "Адрес доставки"}
+                </span>
+                <input
+                  name="deliveryAddress"
+                  required
+                  placeholder={
+                    deliveryMethod === "PICKUP_POINT"
+                      ? "Например: ПВЗ на ул. Ленина, 10 или код CDEK-…"
+                      : "Город, улица, дом"
+                  }
+                  className="w-full rounded border border-[var(--line)] px-3 py-2 text-sm"
+                />
+              </label>
             )}
           </div>
 
           <div className="border border-[var(--line)] bg-white p-4">
             <p className="font-semibold">Оплата</p>
             <div className="mt-3 grid gap-2 text-sm">
-              {customerType === "B2C" ? (
+              {!forBusiness ? (
                 <>
                   <label className="flex items-center gap-2">
                     <input type="radio" checked={paymentMethod === "SBP"} onChange={() => setPaymentMethod("SBP")} />
-                    СБП (обязательно по ТЗ)
+                    СБП
                   </label>
                   <label className="flex items-center gap-2">
                     <input type="radio" checked={paymentMethod === "CARD"} onChange={() => setPaymentMethod("CARD")} />
-                    Карта «Мир» / другие (ЮKassa)
+                    Карта «Мир» / другие
                   </label>
                 </>
               ) : (
                 <>
                   <label className="flex items-center gap-2">
                     <input type="radio" checked={paymentMethod === "INVOICE"} onChange={() => setPaymentMethod("INVOICE")} />
-                    Счёт на оплату (безнал, без чека)
+                    Счёт на оплату (безнал)
                   </label>
                   <label className="flex items-center gap-2">
                     <input type="radio" checked={paymentMethod === "SBP"} onChange={() => setPaymentMethod("SBP")} />
-                    СБП / карта юрлица (с чеком)
+                    СБП / карта организации
                   </label>
                 </>
               )}
             </div>
-            <textarea name="comment" placeholder="Комментарий к заказу" className="mt-3 w-full rounded border border-[var(--line)] px-3 py-2 text-sm" rows={3} />
+            <textarea
+              name="comment"
+              placeholder="Комментарий к заказу (необязательно)"
+              className="mt-3 w-full rounded border border-[var(--line)] px-3 py-2 text-sm"
+              rows={2}
+            />
           </div>
 
           <label className="flex items-start gap-2 text-xs text-[var(--muted)]">
@@ -198,7 +240,10 @@ export default function CheckoutPage() {
             <Link href="/legal/offer" className="underline">
               оферту
             </Link>{" "}
-            и согласен на обработку ПДн
+            и{" "}
+            <Link href="/legal/privacy" className="underline">
+              политику обработки персональных данных
+            </Link>
           </label>
         </div>
 
@@ -247,11 +292,12 @@ export default function CheckoutPage() {
           <button type="submit" disabled={loading} className="btn btn-primary mt-5 w-full">
             {loading ? "Оформляем…" : paymentMethod === "INVOICE" ? "Запросить счёт" : "Оплатить"}
           </button>
-          <p className="mt-3 text-[11px] leading-relaxed text-[var(--muted)]">
-            После онлайн-оплаты формируется фискальный чек (54-ФЗ). Коды «Честный ЗНАК» передаются при комплектации со склада.
-          </p>
         </aside>
       </form>
     </div>
   );
+}
+
+function digitsFallback(phone: string) {
+  return phone.replace(/\D/g, "").slice(-10) || "guest";
 }
