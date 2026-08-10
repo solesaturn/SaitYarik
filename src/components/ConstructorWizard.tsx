@@ -46,28 +46,42 @@ export function ConstructorWizard() {
     return `/catalog?${q.toString()}`;
   }, [posts, color]);
 
-  const canNext1 = !!kind;
-  const canNext2 = !!posts;
   const done = !!kind && !!posts && !!color;
+
+  function pickKind(id: MechanismKind) {
+    setKind(id);
+    setStep(2);
+  }
+
+  function pickPosts(id: number) {
+    setPosts(id);
+    setStep(3);
+  }
+
+  function pickColor(id: Color) {
+    setColor(id);
+  }
 
   return (
     <div className="mt-10 space-y-6">
       <div className="flex flex-wrap gap-2">
-        {[1, 2, 3].map((n) => (
+        {[
+          { n: 1, label: "1. Механизм", ok: !!kind },
+          { n: 2, label: "2. Рамка", ok: !!posts },
+          { n: 3, label: "3. Цвет", ok: !!color },
+        ].map((s) => (
           <button
-            key={n}
+            key={s.n}
             type="button"
             onClick={() => {
-              if (n === 1) setStep(1);
-              if (n === 2 && kind) setStep(2);
-              if (n === 3 && kind && posts) setStep(3);
+              if (s.n === 1) setStep(1);
+              else if (s.n === 2 && kind) setStep(2);
+              else if (s.n === 3 && kind && posts) setStep(3);
             }}
-            className={`pill ${step === n ? "pill-active" : ""}`}
+            className={`pill inline-flex items-center gap-1 ${step === s.n ? "pill-active" : ""}`}
           >
-            {n === 1 ? "1. Механизм" : n === 2 ? "2. Рамка" : "3. Цвет"}
-            {((n === 1 && kind) || (n === 2 && posts) || (n === 3 && color)) && (
-              <Check className="ml-1 h-3.5 w-3.5" strokeWidth={2.5} />
-            )}
+            {s.label}
+            {s.ok ? <Check className="h-3.5 w-3.5" strokeWidth={2.5} /> : null}
           </button>
         ))}
       </div>
@@ -75,13 +89,13 @@ export function ConstructorWizard() {
       {step === 1 && (
         <section className="rounded-2xl bg-white p-6 sm:p-8">
           <h2 className="text-2xl font-bold tracking-tight">Что ставите в точку?</h2>
-          <p className="mt-2 text-sm text-[var(--muted)]">Выберите тип механизма — это «начинка» без рамки.</p>
+          <p className="mt-2 text-sm text-[var(--muted)]">Нажмите вариант — сразу перейдёте к рамке.</p>
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             {mechanisms.map((m) => (
               <button
                 key={m.id}
                 type="button"
-                onClick={() => setKind(m.id)}
+                onClick={() => pickKind(m.id)}
                 className={`rounded-2xl border p-4 text-left transition ${
                   kind === m.id
                     ? "border-[var(--ink)] bg-[var(--sand)]"
@@ -93,65 +107,43 @@ export function ConstructorWizard() {
               </button>
             ))}
           </div>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button
-              type="button"
-              disabled={!canNext1}
-              className="btn btn-primary disabled:opacity-40"
-              onClick={() => setStep(2)}
-            >
-              Далее <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
-            </button>
-          </div>
         </section>
       )}
 
       {step === 2 && (
         <section className="rounded-2xl bg-white p-6 sm:p-8">
           <h2 className="text-2xl font-bold tracking-tight">Сколько постов в рамке?</h2>
-          <p className="mt-2 text-sm text-[var(--muted)]">
-            Рамка покупается отдельно. Для одной розетки обычно 1 пост; для блока — 2–4.
-          </p>
+          <p className="mt-2 text-sm text-[var(--muted)]">Рамка покупается отдельно от механизма.</p>
           <div className="mt-6 flex flex-wrap gap-2">
             {postOptions.map((p) => (
               <button
                 key={p.id}
                 type="button"
-                onClick={() => setPosts(p.id)}
+                onClick={() => pickPosts(p.id)}
                 className={`pill ${posts === p.id ? "pill-active" : ""}`}
               >
                 {p.label}
               </button>
             ))}
           </div>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button type="button" className="btn btn-ghost" onClick={() => setStep(1)}>
-              Назад
-            </button>
-            <button
-              type="button"
-              disabled={!canNext2}
-              className="btn btn-primary disabled:opacity-40"
-              onClick={() => setStep(3)}
-            >
-              Далее <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
-            </button>
-          </div>
+          <button type="button" className="btn btn-ghost mt-6" onClick={() => setStep(1)}>
+            Назад
+          </button>
         </section>
       )}
 
       {step === 3 && (
         <section className="rounded-2xl bg-white p-6 sm:p-8">
           <h2 className="text-2xl font-bold tracking-tight">Цвет комплекта</h2>
-          <p className="mt-2 text-sm text-[var(--muted)]">Механизм и рамка должны быть одного цвета.</p>
+          <p className="mt-2 text-sm text-[var(--muted)]">Механизм и рамка одного цвета.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             {colors.map((c) => (
               <button
                 key={c.id}
                 type="button"
-                onClick={() => setColor(c.id)}
+                onClick={() => pickColor(c.id)}
                 className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition ${
-                  color === c.id ? "bg-[var(--ink)] text-white" : "bg-[var(--sand)]"
+                  color === c.id ? "bg-[var(--ink)] text-white" : "bg-[var(--sand)] hover:opacity-80"
                 }`}
               >
                 <span
@@ -163,17 +155,15 @@ export function ConstructorWizard() {
               </button>
             ))}
           </div>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button type="button" className="btn btn-ghost" onClick={() => setStep(2)}>
-              Назад
-            </button>
-          </div>
+          <button type="button" className="btn btn-ghost mt-6" onClick={() => setStep(2)}>
+            Назад
+          </button>
         </section>
       )}
 
       {done && (
         <section className="rounded-2xl bg-[var(--ink)] p-6 text-white sm:p-8">
-          <h2 className="text-xl font-bold tracking-tight">Ваш комплект</h2>
+          <h2 className="text-xl font-bold tracking-tight">Готово — ваш комплект</h2>
           <ul className="mt-3 space-y-1 text-sm text-white/75">
             <li>
               Механизм: <strong className="text-white">{kind}</strong>
@@ -185,24 +175,18 @@ export function ConstructorWizard() {
               Цвет: <strong className="text-white">{color}</strong>
             </li>
           </ul>
-          <p className="mt-4 text-sm text-white/65">
-            Откройте каталог с фильтрами и добавьте механизм и рамку в корзину.
-          </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href={mechanismUrl} className="btn bg-white text-[var(--ink)] hover:bg-white/90">
-              Смотреть механизмы
+            <Link href={mechanismUrl} className="btn inline-flex bg-white text-[var(--ink)] hover:bg-white/90">
+              Смотреть механизмы <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
             </Link>
-            <Link href={frameUrl} className="btn border border-white/30 bg-white/10 text-white hover:bg-white/15">
-              Смотреть рамки
+            <Link
+              href={frameUrl}
+              className="btn inline-flex border border-white/30 bg-white/10 text-white hover:bg-white/15"
+            >
+              Смотреть рамки <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
             </Link>
           </div>
         </section>
-      )}
-
-      {!done && (
-        <p className="text-sm text-[var(--muted)]">
-          Пройдите все три шага — появятся ссылки на подходящие товары в каталоге.
-        </p>
       )}
     </div>
   );
