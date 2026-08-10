@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Unbounded } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -10,12 +10,7 @@ import { CartToast } from "@/components/CartToast";
 import { FavoriteToast } from "@/components/FavoriteToast";
 import { SITE } from "@/lib/pricing";
 
-const display = Unbounded({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-display",
-});
-
-const body = Manrope({
+const body = Inter({
   subsets: ["latin", "cyrillic"],
   variable: "--font-body",
 });
@@ -39,7 +34,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru">
-      <body className={`${display.variable} ${body.variable} antialiased`}>
+      <body className={`${body.variable} antialiased`}>
         <CartProvider>
           <FavoritesProvider>
             <div className="flex min-h-screen flex-col">

@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #142033;
-  --paper: #f6f3ee;
-  --sand: #ebe4d8;
-  --copper: #d4a35c;
-  --line: #d9d0c3;
-  --muted: #667085;
+  --ink: #1a1a1a;
+  --paper: #f5f5f5;
+  --sand: #ebebeb;
+  --card: #f0f0f0;
+  --copper: #1a1a1a;
+  --line: #e0e0e0;
+  --muted: #8a8a8a;
   --ok: #1f7a4c;
+  --accent: #3b82f6;
   --background: var(--paper);
   --foreground: var(--ink);
+  --radius: 1rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-body);
-  --font-display: var(--font-display);
+  --font-display: var(--font-body);
 }
 
 * {
@@ -28,10 +31,7 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(212, 163, 92, 0.18), transparent 55%),
-    radial-gradient(900px 500px at 100% 0%, rgba(20, 32, 51, 0.08), transparent 50%),
-    var(--paper);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body), system-ui, sans-serif;
   min-height: 100vh;
@@ -43,7 +43,7 @@ a {
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--copper) 55%, white);
+  background: color-mix(in oklab, var(--ink) 18%, white);
 }
 
 .btn {
@@ -52,10 +52,10 @@ a {
   justify-content: center;
   gap: 0.5rem;
   border-radius: 999px;
-  padding: 0.75rem 1.35rem;
+  padding: 0.7rem 1.25rem;
   font-size: 0.875rem;
-  font-weight: 600;
-  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  font-weight: 500;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn:active {
@@ -72,12 +72,12 @@ a {
 }
 
 .btn-copper {
-  background: var(--copper);
+  background: var(--sand);
   color: var(--ink);
 }
 
 .btn-copper:hover {
-  filter: brightness(1.05);
+  background: color-mix(in oklab, var(--sand) 85%, var(--ink));
 }
 
 .btn-ghost {
@@ -85,40 +85,56 @@ a {
   background: transparent;
 }
 
+.btn-ghost:hover {
+  background: var(--sand);
+}
+
 .section-title {
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.15;
 }
 
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--sand);
+  color: var(--ink);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.pill:hover {
+  background: color-mix(in oklab, var(--sand) 80%, var(--ink));
+}
+
+.pill-active {
+  background: var(--ink);
+  color: white;
+}
+
+.pill-active:hover {
+  background: color-mix(in oklab, var(--ink) 90%, white);
+}
+
 .reveal {
-  animation: rise 0.7s ease both;
+  animation: rise 0.55s ease both;
 }
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes pulse-line {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.circuit-line {
-  animation: pulse-line 3.2s ease-in-out infinite;
 }
 
 @keyframes toast-in {

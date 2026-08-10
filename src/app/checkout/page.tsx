@@ -111,7 +111,7 @@ export default function CheckoutPage() {
       <p className="mt-2 text-sm text-[var(--muted)]">Без регистрации. Контакты, доставка и оплата — на одной странице.</p>
       <form onSubmit={onSubmit} className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-6">
-          <div className="grid gap-3 border border-[var(--line)] bg-white p-4 sm:grid-cols-2">
+          <div className="grid gap-3 rounded-2xl bg-white p-5 sm:grid-cols-2">
             <p className="font-semibold sm:col-span-2">Контакты</p>
             <label className="grid gap-1 text-sm sm:col-span-2">
               <span className="text-[var(--muted)]">Как к вам обращаться</span>
@@ -119,7 +119,7 @@ export default function CheckoutPage() {
                 name="name"
                 required
                 placeholder="Имя"
-                className="rounded border border-[var(--line)] px-3 py-2 text-sm"
+                className="rounded-full border border-[var(--line)] px-3 py-2 text-sm"
               />
             </label>
             <label className="grid gap-1 text-sm">
@@ -132,7 +132,7 @@ export default function CheckoutPage() {
                 name="email"
                 type="email"
                 placeholder="mail@example.com"
-                className="rounded border border-[var(--line)] px-3 py-2 text-sm"
+                className="rounded-full border border-[var(--line)] px-3 py-2 text-sm"
               />
             </label>
             <p className="text-xs text-[var(--muted)] sm:col-span-2">
@@ -163,7 +163,7 @@ export default function CheckoutPage() {
             )}
           </div>
 
-          <div className="border border-[var(--line)] bg-white p-4">
+          <div className="rounded-2xl bg-white p-5">
             <p className="font-semibold">Доставка</p>
             <div className="mt-3 grid gap-2 text-sm">
               {[
@@ -199,7 +199,7 @@ export default function CheckoutPage() {
             )}
           </div>
 
-          <div className="border border-[var(--line)] bg-white p-4">
+          <div className="rounded-2xl bg-white p-5">
             <p className="font-semibold">Оплата</p>
             <div className="mt-3 grid gap-2 text-sm">
               {!forBusiness ? (
@@ -247,7 +247,7 @@ export default function CheckoutPage() {
           </label>
         </div>
 
-        <aside className="h-fit border border-[var(--line)] bg-white p-5 lg:sticky lg:top-28">
+        <aside className="h-fit rounded-2xl bg-white p-5 lg:sticky lg:top-28">
           <p className="font-semibold">Ваш заказ</p>
           <ul className="mt-3 space-y-2 text-sm">
             {items.map((i) => (

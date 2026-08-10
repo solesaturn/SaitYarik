@@ -15,7 +15,7 @@ export default async function ContactsPage({
           Заявка принята, перезвоним в течение 15 минут в рабочее время.
         </p>
       )}
-      <div className="mt-6 space-y-2 text-sm">
+      <div className="mt-6 space-y-2 rounded-2xl bg-white p-5 text-sm">
         <p>Телефон: {SITE.phone}</p>
         <p>E-mail: {SITE.email}</p>
         <p>Город: {SITE.city}</p>

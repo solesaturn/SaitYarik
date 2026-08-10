@@ -1,107 +1,133 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
 
-type Brand = { id: string; slug: string; name: string };
+type Counts = {
+  colors: Record<string, number>;
+  posts: Record<string, number>;
+  types: Record<string, number>;
+};
 
-const types = ["розетка", "выключатель", "рамка", "механизм"];
-const colors = ["белый", "серый", "чёрный"];
-const posts = ["1", "2", "3", "4"];
-const ips = ["IP20", "IP44"];
-const currents = ["10А", "16А"];
+const typeLabels: Record<string, string> = {
+  розетка: "Розетка",
+  выключатель: "Выключатель",
+  рамка: "Рамка",
+  механизм: "Механизм",
+};
 
-export function CatalogFilters({ brands }: { brands: Brand[] }) {
+export function CatalogFilters({
+  counts,
+  resultCount,
+}: {
+  counts: Counts;
+  resultCount: number;
+}) {
   const router = useRouter();
   const sp = useSearchParams();
+  const [pending, startTransition] = useTransition();
 
   function set(key: string, value: string) {
     const next = new URLSearchParams(sp.toString());
     if (!value || next.get(key) === value) next.delete(key);
     else next.set(key, value);
     next.delete("page");
-    router.push(`/catalog?${next.toString()}`);
+    startTransition(() => router.push(`/catalog?${next.toString()}`));
   }
 
-  const techOpen =
-    !!sp.get("ip") || !!sp.get("current") || !!sp.get("brand") || sp.get("tech") === "1";
+  function toggleMulti(key: string, value: string) {
+    // single-select chips for MVP matching current query API
+    set(key, value);
+  }
+
+  const colors = Object.keys(counts.colors);
+  const posts = Object.keys(counts.posts).sort((a, b) => Number(a) - Number(b));
+  const types = Object.keys(counts.types);
 
   return (
-    <aside className="h-fit border border-[var(--line)] bg-white p-4 lg:sticky lg:top-28">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Подбор</p>
+    <aside className="h-fit lg:sticky lg:top-24">
+      <p className="text-sm font-semibold">Фильтры</p>
 
-      <label className="mt-4 block text-sm font-medium">Сортировка</label>
-      <select
-        className="mt-1 w-full rounded border border-[var(--line)] px-2 py-2 text-sm"
-        value={sp.get("sort") || "popular"}
-        onChange={(e) => set("sort", e.target.value)}
-      >
-        <option value="popular">Популярность</option>
-        <option value="price_asc">Цена ↑</option>
-        <option value="price_desc">Цена ↓</option>
-        <option value="new">Новизна</option>
-        <option value="stock">Наличие</option>
-      </select>
-
-      <FilterGroup title="Что нужно">
-        {types.map((t) => (
-          <Chip key={t} active={sp.get("type") === t} onClick={() => set("type", t)}>
-            {t}
-          </Chip>
-        ))}
-      </FilterGroup>
-
-      <FilterGroup title="Цвет">
-        {colors.map((c) => (
-          <Chip key={c} active={sp.get("color") === c} onClick={() => set("color", c)}>
-            {c}
-          </Chip>
-        ))}
-      </FilterGroup>
-
-      <FilterGroup title="Количество постов">
-        {posts.map((p) => (
-          <Chip key={p} active={sp.get("posts") === p} onClick={() => set("posts", p)}>
-            {p}
-          </Chip>
-        ))}
-      </FilterGroup>
-
-      <label className="mt-4 flex items-center gap-2 text-sm">
-        <input type="checkbox" checked={sp.get("stock") === "1"} onChange={() => set("stock", sp.get("stock") === "1" ? "" : "1")} />
-        Только в наличии
-      </label>
-
-      <details className="mt-5" open={techOpen}>
-        <summary className="cursor-pointer text-sm font-medium">Технические параметры</summary>
-        <p className="mt-1 text-xs text-[var(--muted)]">Для электриков и монтажников</p>
-
-        <FilterGroup title="Бренд">
-          {brands.map((b) => (
-            <Chip key={b.id} active={sp.get("brand") === b.slug} onClick={() => set("brand", b.slug)}>
-              {b.name}
-            </Chip>
+      {colors.length > 0 && (
+        <FilterGroup title="Цвет">
+          {colors.map((c) => (
+            <CheckRow
+              key={c}
+              label={c}
+              count={counts.colors[c]}
+              checked={sp.get("color") === c}
+              onChange={() => toggleMulti("color", c)}
+            />
           ))}
         </FilterGroup>
+      )}
 
-        <FilterGroup title="Степень защиты">
-          {ips.map((ip) => (
-            <Chip key={ip} active={sp.get("ip") === ip} onClick={() => set("ip", ip)}>
-              {ip}
-            </Chip>
+      {types.length > 0 && (
+        <FilterGroup title="Тип">
+          {types.map((t) => (
+            <CheckRow
+              key={t}
+              label={typeLabels[t] || t}
+              count={counts.types[t]}
+              checked={sp.get("type") === t}
+              onChange={() => toggleMulti("type", t)}
+            />
           ))}
         </FilterGroup>
+      )}
 
-        <FilterGroup title="Ток">
-          {currents.map((c) => (
-            <Chip key={c} active={sp.get("current") === c} onClick={() => set("current", c)}>
-              {c}
-            </Chip>
+      {posts.length > 0 && (
+        <FilterGroup title="Количество постов">
+          {posts.map((p) => (
+            <CheckRow
+              key={p}
+              label={`${p} ${Number(p) === 1 ? "пост" : Number(p) < 5 ? "поста" : "постов"}`}
+              count={counts.posts[p]}
+              checked={sp.get("posts") === p}
+              onChange={() => toggleMulti("posts", p)}
+            />
           ))}
         </FilterGroup>
+      )}
+
+      <details className="mt-6">
+        <summary className="cursor-pointer text-sm font-medium text-[var(--muted)]">Технические параметры</summary>
+        <div className="mt-3 space-y-2 text-sm">
+          {["IP20", "IP44"].map((ip) => (
+            <CheckRow
+              key={ip}
+              label={ip}
+              count={undefined}
+              checked={sp.get("ip") === ip}
+              onChange={() => set("ip", ip)}
+            />
+          ))}
+          {["10А", "16А"].map((c) => (
+            <CheckRow
+              key={c}
+              label={c}
+              count={undefined}
+              checked={sp.get("current") === c}
+              onChange={() => set("current", c)}
+            />
+          ))}
+        </div>
       </details>
 
-      <button type="button" className="btn btn-ghost mt-5 w-full" onClick={() => router.push("/catalog")}>
-        Сбросить
+      <button
+        type="button"
+        disabled={pending}
+        className="btn btn-copper mt-8 w-full !rounded-full"
+        onClick={() => startTransition(() => router.push(`/catalog?${sp.toString()}`))}
+      >
+        Показать {resultCount} {pluralGoods(resultCount)}
+      </button>
+      <button
+        type="button"
+        className="btn btn-ghost mt-3 w-full !rounded-full"
+        onClick={() => startTransition(() => router.push("/catalog"))}
+      >
+        Сбросить всё
       </button>
     </aside>
   );
@@ -109,21 +135,43 @@ export function CatalogFilters({ brands }: { brands: Brand[] }) {
 
 function FilterGroup({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="mt-5">
-      <p className="text-sm font-medium">{title}</p>
-      <div className="mt-2 flex flex-wrap gap-1.5">{children}</div>
+    <div className="mt-6">
+      <p className="text-sm font-semibold">{title}</p>
+      <div className="mt-3 space-y-2">{children}</div>
     </div>
   );
 }
 
-function Chip({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+function CheckRow({
+  label,
+  count,
+  checked,
+  onChange,
+}: {
+  label: string;
+  count?: number;
+  checked: boolean;
+  onChange: () => void;
+}) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`rounded px-2 py-1 text-xs ${active ? "bg-[var(--ink)] text-white" : "bg-[var(--sand)] text-[var(--ink)]"}`}
-    >
-      {children}
-    </button>
+    <label className="flex cursor-pointer items-center gap-2.5 text-sm">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className="h-4 w-4 rounded border-[var(--line)] accent-[var(--ink)]"
+      />
+      <span className="flex-1">{label}</span>
+      {typeof count === "number" && <span className="text-[var(--muted)]">{count}</span>}
+    </label>
   );
+}
+
+function pluralGoods(n: number) {
+  const m = n % 100;
+  const m10 = n % 10;
+  if (m > 10 && m < 20) return "товаров";
+  if (m10 === 1) return "товар";
+  if (m10 >= 2 && m10 <= 4) return "товара";
+  return "товаров";
 }

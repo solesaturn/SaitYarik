@@ -88,18 +88,18 @@ export default async function ProductPage({ params }: Props) {
       </nav>
 
       <div className="mt-6 grid gap-10 lg:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden border border-[var(--line)] bg-white">
+        <div className="relative aspect-square overflow-hidden rounded-2xl bg-[var(--card)]">
           {product.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={product.imageUrl} alt={product.name} className="h-full w-full object-contain p-8" />
+            <img src={product.imageUrl} alt={product.name} className="h-full w-full object-contain p-10" />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(160deg,#e8eef2,#d7dde3)]">
-              <div className="h-40 w-40 rounded-full border-8 border-[var(--ink)]/10 bg-white/80" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="h-40 w-40 rounded-full bg-white/80" />
             </div>
           )}
           <div className="absolute left-4 top-4 flex gap-2">
-            {product.isHit && <span className="bg-[var(--ink)] px-2 py-1 text-xs text-white">Хит</span>}
-            {product.isNew && <span className="bg-[var(--copper)] px-2 py-1 text-xs text-[var(--ink)]">Новинка</span>}
+            {product.isHit && <span className="rounded-full bg-[var(--ink)] px-3 py-1 text-xs text-white">Хит</span>}
+            {product.isNew && <span className="rounded-full bg-white px-3 py-1 text-xs">Новинка</span>}
           </div>
         </div>
 
@@ -108,7 +108,7 @@ export default async function ProductPage({ params }: Props) {
             {product.brand?.name} · арт. {product.sku}
             {product.series ? ` · серия ${product.series}` : ""}
           </p>
-          <h1 className="mt-2 font-[family-name:var(--font-display)] text-3xl tracking-tight">{product.name}</h1>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight">{product.name}</h1>
           <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">{product.description}</p>
 
           <div className="mt-6 grid gap-2 text-sm sm:grid-cols-2">
@@ -141,10 +141,8 @@ export default async function ProductPage({ params }: Props) {
                     <Link
                       key={v.id}
                       href={`/product/${v.slug}`}
-                      className={`inline-flex items-center gap-2 rounded border bg-white px-3 py-1.5 text-sm text-[var(--ink)] transition ${
-                        active
-                          ? "border-[var(--copper)] ring-2 ring-[var(--copper)]/50"
-                          : "border-[var(--line)] hover:border-[var(--ink)]/40"
+                      className={`inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-sm transition ${
+                        active ? "ring-2 ring-[var(--ink)]" : "hover:bg-[var(--sand)]"
                       }`}
                     >
                       <span
@@ -195,7 +193,7 @@ export default async function ProductPage({ params }: Props) {
 
       <section className="mt-16">
         <h2 className="section-title">Похожие и сопутствующие</h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {related.map((p) => (
             <ProductCard key={p.id} product={p} b2bApproved={session?.b2bApproved} />
           ))}

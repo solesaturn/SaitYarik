@@ -10,7 +10,7 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="section-title">О компании</h1>
-      <div className="mt-6 space-y-4 text-sm leading-relaxed text-[var(--muted)]">
+      <div className="mt-6 space-y-4 rounded-2xl bg-white p-6 text-sm leading-relaxed text-[var(--muted)]">
         <p>
           <strong className="text-[var(--ink)]">{SITE.name}</strong> — интернет-магазин электрофурнитуры Futina для
           частных покупателей, монтажников и магазинов. Мы продаём розетки, выключатели, рамки и механизмы со склада

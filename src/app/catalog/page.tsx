@@ -1,9 +1,10 @@
-import Link from "next/link";
 import { Suspense } from "react";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
 import { getSession } from "@/lib/auth";
 import { CatalogFilters } from "@/components/CatalogFilters";
+import { CatalogToolbar } from "@/components/CatalogToolbar";
 
 export const dynamic = "force-dynamic";
 
@@ -55,7 +56,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
             : { isHit: "desc" as const };
 
   const session = await getSession();
-  const [total, products, brands, categories] = await Promise.all([
+  const [total, products, allForCounts] = await Promise.all([
     prisma.product.count({ where }),
     prisma.product.findMany({
       where,
@@ -64,65 +65,87 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
       skip: (page - 1) * take,
       take,
     }),
-    prisma.brand.findMany({ orderBy: { name: "asc" } }),
-    prisma.category.findMany({ where: { parentId: null }, orderBy: { name: "asc" } }),
+    prisma.product.findMany({
+      where: { active: true },
+      select: { color: true, posts: true, productType: true },
+    }),
   ]);
 
+  const counts = {
+    colors: {} as Record<string, number>,
+    posts: {} as Record<string, number>,
+    types: {} as Record<string, number>,
+  };
+  for (const p of allForCounts) {
+    if (p.color) counts.colors[p.color] = (counts.colors[p.color] || 0) + 1;
+    if (p.posts != null) counts.posts[String(p.posts)] = (counts.posts[String(p.posts)] || 0) + 1;
+    if (p.productType) counts.types[p.productType] = (counts.types[p.productType] || 0) + 1;
+  }
+
   const pages = Math.max(1, Math.ceil(total / take));
+  const titleMap: Record<string, string> = {
+    розетка: "Розетки",
+    выключатель: "Выключатели",
+    рамка: "Рамки",
+    механизм: "Механизмы",
+  };
+  const title = productType ? titleMap[productType] || productType : "Каталог";
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
-      <nav className="text-xs text-[var(--muted)]">
-        <Link href="/">Главная</Link> / <span>Каталог</span>
-      </nav>
-      <h1 className="section-title mt-3">Каталог электрофурнитуры</h1>
-      <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">
-        Сначала выберите, что нужно — розетку, выключатель или рамку, затем цвет и число постов. В корзину можно
-        добавить прямо из списка.
-      </p>
+      <Suspense fallback={<div className="h-24" />}>
+        <CatalogToolbar title={title} />
+      </Suspense>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[240px_1fr]">
-        <Suspense fallback={<div className="border border-[var(--line)] bg-white p-4 text-sm">Фильтры…</div>}>
-          <CatalogFilters brands={brands} />
+      <div className="mt-10 grid gap-10 lg:grid-cols-[220px_1fr]">
+        <Suspense fallback={<div className="text-sm text-[var(--muted)]">Фильтры…</div>}>
+          <CatalogFilters counts={counts} resultCount={total} />
         </Suspense>
 
         <div>
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-[var(--muted)]">Найдено: {total}</p>
-            <div className="flex flex-wrap gap-2 text-sm">
-              {categories.map((c) => (
-                <Link key={c.id} href={`/catalog/${c.slug}`} className="border border-[var(--line)] bg-white px-3 py-1 hover:border-[var(--ink)]">
-                  {c.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {products.map((p) => (
-              <ProductCard key={p.id} product={p} b2bApproved={session?.b2bApproved} />
-            ))}
-          </div>
-
-          {products.length === 0 && (
-            <p className="border border-dashed border-[var(--line)] bg-white p-10 text-center text-sm text-[var(--muted)]">
+          {products.length === 0 ? (
+            <p className="rounded-2xl border border-dashed border-[var(--line)] bg-white p-10 text-center text-sm text-[var(--muted)]">
               Ничего не найдено. Сбросьте фильтры или измените запрос.
             </p>
+          ) : (
+            <div className="grid divide-y divide-[var(--line)] border-t border-[var(--line)] sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-3">
+              {products.map((p, i) => (
+                <div
+                  key={p.id}
+                  className={`p-4 sm:p-5 ${i >= 3 ? "border-t border-[var(--line)]" : ""} ${
+                    i % 3 !== 0 ? "lg:border-l lg:border-[var(--line)]" : ""
+                  }`}
+                >
+                  <ProductCard product={p} b2bApproved={session?.b2bApproved} />
+                </div>
+              ))}
+            </div>
           )}
 
-          <div className="mt-8 flex flex-wrap gap-2">
-            {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
-              <Link
-                key={p}
-                href={`/catalog?page=${p}${brand ? `&brand=${brand}` : ""}${sort ? `&sort=${sort}` : ""}`}
-                className={`min-w-9 rounded border px-3 py-1.5 text-center text-sm ${
-                  p === page ? "border-[var(--ink)] bg-[var(--ink)] text-white" : "border-[var(--line)] bg-white"
-                }`}
-              >
-                {p}
-              </Link>
-            ))}
-          </div>
+          {pages > 1 && (
+            <div className="mt-8 flex flex-wrap gap-2">
+              {Array.from({ length: pages }, (_, i) => i + 1).map((p) => {
+                const next = new URLSearchParams();
+                next.set("page", String(p));
+                if (productType) next.set("type", productType);
+                if (color) next.set("color", color);
+                if (sort) next.set("sort", sort);
+                if (inStock) next.set("stock", "1");
+                if (posts) next.set("posts", posts);
+                return (
+                  <Link
+                    key={p}
+                    href={`/catalog?${next.toString()}`}
+                    className={`min-w-9 rounded-full px-3 py-1.5 text-center text-sm ${
+                      p === page ? "bg-[var(--ink)] text-white" : "bg-white"
+                    }`}
+                  >
+                    {p}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>

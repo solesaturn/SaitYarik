@@ -16,10 +16,8 @@ export function FavoriteButton({
   return (
     <button
       type="button"
-      className={`rounded border p-2 transition ${
-        active
-          ? "border-[#b42318]/30 bg-[#b42318]/10 text-[#b42318]"
-          : "border-[var(--line)] text-[var(--ink)] hover:bg-[var(--sand)]"
+      className={`rounded-full p-2 transition ${
+        active ? "text-[#b42318]" : "text-[var(--ink)] hover:bg-black/5"
       } ${className}`}
       aria-label={active ? "Убрать из избранного" : "В избранное"}
       aria-pressed={active}
@@ -29,7 +27,7 @@ export function FavoriteButton({
         toggle(product);
       }}
     >
-      <Heart className="h-4 w-4" fill={active ? "currentColor" : "none"} />
+      <Heart className="h-4 w-4" strokeWidth={1.5} fill={active ? "currentColor" : "none"} />
     </button>
   );
 }

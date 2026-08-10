@@ -24,12 +24,17 @@ export default function CartPage() {
       <h1 className="section-title">Корзина</h1>
       <div className="mt-8 space-y-3">
         {items.map((item) => (
-          <div key={item.productId} className="flex flex-col gap-3 border border-[var(--line)] bg-white p-4 sm:flex-row sm:items-center">
+          <div
+            key={item.productId}
+            className="flex flex-col gap-3 rounded-2xl bg-white p-4 sm:flex-row sm:items-center"
+          >
             <div className="flex-1">
-              <Link href={`/product/${item.slug}`} className="font-semibold hover:underline">
+              <Link href={`/product/${item.slug}`} className="font-semibold hover:opacity-70">
                 {item.name}
               </Link>
-              <p className="text-xs text-[var(--muted)]">арт. {item.sku} · кратность {item.packQty}</p>
+              <p className="text-xs text-[var(--muted)]">
+                арт. {item.sku} · кратность {item.packQty}
+              </p>
             </div>
             <input
               type="number"
@@ -37,17 +42,17 @@ export default function CartPage() {
               step={item.packQty}
               value={item.quantity}
               onChange={(e) => setQty(item.productId, Number(e.target.value))}
-              className="w-24 rounded border border-[var(--line)] px-2 py-1.5 text-sm"
+              className="w-24 rounded-full border border-[var(--line)] px-3 py-1.5 text-sm"
             />
-            <p className="w-28 font-semibold">{formatPrice(item.price * item.quantity)}</p>
-            <button type="button" className="text-sm text-red-700" onClick={() => removeItem(item.productId)}>
+            <p className="w-28 font-bold">{formatPrice(item.price * item.quantity)}</p>
+            <button type="button" className="text-sm text-[var(--muted)] hover:text-[var(--ink)]" onClick={() => removeItem(item.productId)}>
               Удалить
             </button>
           </div>
         ))}
       </div>
 
-      <div className="mt-8 border border-[var(--line)] bg-[var(--sand)]/40 p-5">
+      <div className="mt-8 rounded-2xl bg-[var(--sand)]/60 p-5">
         <LeadForm variant="bulk" source="cart_bulk" className="max-w-md" />
       </div>
 
@@ -57,7 +62,7 @@ export default function CartPage() {
         </button>
         <div className="text-right">
           <p className="text-sm text-[var(--muted)]">Доставка рассчитается на следующем шаге</p>
-          <p className="mt-1 font-[family-name:var(--font-display)] text-2xl">Итого: {formatPrice(subtotal)}</p>
+          <p className="mt-1 text-2xl font-bold tracking-tight">Итого: {formatPrice(subtotal)}</p>
           <Link href="/checkout" className="btn btn-primary mt-4">
             Оформить заказ
           </Link>

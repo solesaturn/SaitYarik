@@ -47,11 +47,11 @@ export function ProductBuyBox({ product, b2bApproved }: { product: Product; b2bA
 
   return (
     <div className="mt-6 space-y-4">
-      <div className="border border-[var(--line)] bg-white p-4">
-        <p className="font-[family-name:var(--font-display)] text-3xl">{formatPrice(price)}</p>
+      <div className="rounded-2xl bg-white p-5">
+        <p className="text-3xl font-bold tracking-tight">{formatPrice(price)}</p>
         {b2bApproved && <p className="mt-1 text-xs uppercase tracking-wide text-[var(--muted)]">Ваша цена</p>}
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          <label className="text-sm">
+          <label className="text-sm text-[var(--muted)]">
             Кол-во
             <input
               type="number"
@@ -59,7 +59,7 @@ export function ProductBuyBox({ product, b2bApproved }: { product: Product; b2bA
               step={product.packQty}
               value={qty}
               onChange={(e) => setQty(packQuantity(Number(e.target.value) || product.packQty, product.packQty))}
-              className="ml-2 w-24 rounded border border-[var(--line)] px-2 py-1.5"
+              className="ml-2 w-24 rounded-full border border-[var(--line)] bg-[var(--paper)] px-3 py-1.5 text-[var(--ink)]"
             />
           </label>
           <button
@@ -76,7 +76,7 @@ export function ProductBuyBox({ product, b2bApproved }: { product: Product; b2bA
             )}
           </button>
           <FavoriteButton
-            className="!rounded-full !px-3 !py-3"
+            className="rounded-full bg-[var(--sand)] !px-3 !py-3"
             product={{
               id: product.id,
               slug: product.slug,
@@ -87,23 +87,13 @@ export function ProductBuyBox({ product, b2bApproved }: { product: Product; b2bA
               imageUrl: product.imageUrl,
             }}
           />
-          <OneClickBuy
-            productId={product.id}
-            productName={product.name}
-            sku={product.sku}
-            quantity={qty}
-          />
+          <OneClickBuy productId={product.id} productName={product.name} sku={product.sku} quantity={qty} />
         </div>
       </div>
 
       {!b2bApproved && (
-        <div className="border border-[var(--line)] bg-[var(--sand)]/40 p-4">
-          <LeadForm
-            variant="bulk"
-            source="product_bulk"
-            productSku={product.sku}
-            productName={product.name}
-          />
+        <div className="rounded-2xl bg-[var(--sand)]/60 p-5">
+          <LeadForm variant="bulk" source="product_bulk" productSku={product.sku} productName={product.name} />
         </div>
       )}
     </div>

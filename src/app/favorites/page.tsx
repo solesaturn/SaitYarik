@@ -17,8 +17,8 @@ export default function FavoritesPage() {
       <p className="mt-3 text-sm text-[var(--muted)]">Сохранено позиций: {count}</p>
 
       {items.length === 0 ? (
-        <div className="mt-10 border border-dashed border-[var(--line)] bg-white p-10 text-center">
-          <Heart className="mx-auto h-8 w-8 text-[var(--muted)]" />
+        <div className="mt-10 rounded-2xl border border-dashed border-[var(--line)] bg-white p-10 text-center">
+          <Heart className="mx-auto h-8 w-8 text-[var(--muted)]" strokeWidth={1.5} />
           <p className="mt-3 text-sm text-[var(--muted)]">Пока пусто. Нажмите сердечко на карточке товара.</p>
           <Link href="/catalog" className="btn btn-primary mt-6 inline-flex">
             В каталог
@@ -34,7 +34,7 @@ export default function FavoritesPage() {
             return (
               <div
                 key={item.id}
-                className="flex flex-col gap-3 border border-[var(--line)] bg-white p-4 sm:flex-row sm:items-center"
+                className="flex flex-col gap-3 rounded-2xl bg-white p-4 sm:flex-row sm:items-center"
               >
                 <div className="h-16 w-16 shrink-0 overflow-hidden rounded bg-[var(--sand)]">
                   {item.imageUrl ? (
@@ -54,7 +54,7 @@ export default function FavoritesPage() {
                     {item.brandName ? `${item.brandName} · ` : ""}
                     {item.sku || item.id}
                   </p>
-                  <p className="mt-1 font-[family-name:var(--font-display)] text-lg">{formatPrice(price)}</p>
+                  <p className="mt-1 text-lg font-bold tracking-tight">{formatPrice(price)}</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {item.slug && (
