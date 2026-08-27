@@ -8,7 +8,7 @@ import { SITE } from "@/lib/pricing";
 
 const nav = [
   { href: "/catalog", label: "Каталог" },
-  { href: "/constructor", label: "Конструктор" },
+  { href: "/kit", label: "Конструктор" },
   { href: "/about", label: "О нас" },
   { href: "/b2b", label: "Для бизнеса" },
   { href: "/documents", label: "Документы" },

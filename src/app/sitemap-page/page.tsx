@@ -17,7 +17,7 @@ export default async function SitemapHtmlPage() {
         <div>
           <h2 className="font-semibold">Разделы</h2>
           <ul className="mt-2 space-y-1 text-sm">
-            {["/", "/catalog", "/constructor", "/b2b", "/account", "/delivery", "/about", "/documents", "/contacts"].map((h) => (
+            {["/", "/catalog", "/kit", "/b2b", "/account", "/delivery", "/about", "/documents", "/contacts"].map((h) => (
               <li key={h}>
                 <Link href={h} className="underline">
                   {h}

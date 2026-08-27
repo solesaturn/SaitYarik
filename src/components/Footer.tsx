@@ -6,7 +6,7 @@ const catalogLinks = [
   { href: "/catalog?type=выключатель", label: "Выключатели" },
   { href: "/catalog?type=рамка", label: "Рамки" },
   { href: "/catalog?type=механизм", label: "Механизмы" },
-  { href: "/constructor", label: "Конструктор" },
+  { href: "/kit", label: "Конструктор" },
 ];
 
 const buyerLinks = [

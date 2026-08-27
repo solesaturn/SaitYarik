@@ -9,7 +9,7 @@ export const metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function ConstructorPage() {
+export default async function KitPage() {
   const products = await prisma.product.findMany({
     where: { active: true },
     select: {

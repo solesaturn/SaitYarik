@@ -44,7 +44,7 @@ export default async function HomePage() {
               <Link href="/catalog" className="btn btn-primary">
                 В каталог
               </Link>
-              <Link href="/constructor" className="btn btn-copper">
+              <Link href="/kit" className="btn btn-copper">
                 Собрать комплект
               </Link>
             </div>

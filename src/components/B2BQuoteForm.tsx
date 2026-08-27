@@ -8,6 +8,7 @@ import { isValidRuPhone, toE164 } from "@/lib/phone";
 export function B2BQuoteForm() {
   const { items, clear } = useCart();
   const [phone, setPhone] = useState("");
+  const [fileName, setFileName] = useState("");
   const [status, setStatus] = useState<"idle" | "ok" | "err">("idle");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,6 +47,7 @@ export function B2BQuoteForm() {
     clear();
     form.reset();
     setPhone("");
+    setFileName("");
   }
 
   return (
@@ -57,9 +59,23 @@ export function B2BQuoteForm() {
       <PhoneField value={phone} onChange={setPhone} />
       <input name="email" type="email" required placeholder="E-mail" className="w-full rounded-full border border-[var(--line)] px-3 py-2" />
       <textarea name="message" rows={3} placeholder="Комментарий" className="w-full rounded-2xl border border-[var(--line)] px-3 py-2" />
-      <label className="grid gap-1 text-[var(--muted)]">
+      <label className="grid gap-1.5 text-[var(--muted)]">
         Спецификация (необязательно)
-        <input name="file" type="file" accept=".xlsx,.xls,.pdf,.csv,.doc,.docx" />
+        <span className="flex cursor-pointer items-center gap-3 rounded-full border border-[var(--line)] bg-[var(--sand)] px-2 py-1.5 hover:border-[var(--ink)] hover:bg-white">
+          <input
+            name="file"
+            type="file"
+            accept=".xlsx,.xls,.pdf,.csv,.doc,.docx"
+            className="sr-only"
+            onChange={(e) => setFileName(e.target.files?.[0]?.name || "")}
+          />
+          <span className="shrink-0 rounded-full bg-[var(--ink)] px-3.5 py-1.5 text-xs font-medium text-white">
+            Выбрать файл
+          </span>
+          <span className={`min-w-0 truncate ${fileName ? "text-[var(--ink)]" : ""}`}>
+            {fileName || "Excel, PDF или Word"}
+          </span>
+        </span>
       </label>
       {items.length > 0 && (
         <p className="text-xs text-[var(--muted)]">В заявку попадёт текущая корзина: {items.length} поз.</p>
