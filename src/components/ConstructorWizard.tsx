@@ -166,7 +166,7 @@ export function ConstructorWizard({ products }: { products: P[] }) {
               </ul>
               <div className="mt-6 flex flex-wrap gap-3">
                 {kitPriced ? (
-                  <button type="button" className="btn bg-white text-[var(--ink)]" onClick={addKit}>
+                  <button type="button" className="btn btn-light" onClick={addKit}>
                     {added ? (
                       <>
                         <Check className="h-4 w-4" /> В корзине

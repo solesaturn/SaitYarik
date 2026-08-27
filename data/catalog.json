@@ -22,7 +22,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/socket-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -68,7 +68,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/socket-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -114,7 +114,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/socket-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -160,7 +160,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/mech-socket-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -206,7 +206,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/mech-socket-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -252,7 +252,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/mech-socket-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -298,7 +298,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/mech-switch-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -343,7 +343,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/mech-switch-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -388,7 +388,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/mech-switch-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -433,7 +433,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/mech-tv-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -478,7 +478,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/mech-tv-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -523,7 +523,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/mech-tv-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -568,7 +568,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/frame-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -605,7 +605,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/frame-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -642,7 +642,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/frame-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -679,7 +679,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/frame-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -716,7 +716,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/frame-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -753,7 +753,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/frame-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -790,7 +790,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/frame-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -827,7 +827,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/frame-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -864,7 +864,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/frame-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -901,7 +901,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -946,7 +946,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -991,7 +991,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1036,7 +1036,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1081,7 +1081,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1126,7 +1126,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1171,7 +1171,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1216,7 +1216,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1261,7 +1261,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1306,7 +1306,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1351,7 +1351,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1396,7 +1396,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/switch-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1441,7 +1441,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/usb-black.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -1488,7 +1488,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/usb-gray.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -1535,7 +1535,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/products/usb-white.svg",
+    "imageUrl": "/images/placeholder.png",
     "warranty": "1 год",
     "certs": [
       {

@@ -52,9 +52,9 @@ export default async function HomePage() {
           <div className="justify-self-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={heroProduct?.imageUrl || "/images/hero-socket.svg"}
+              src={heroProduct?.imageUrl || "/images/placeholder.png"}
               alt={heroProduct?.name || "Розетка Laitys"}
-              className="aspect-square w-full max-w-md rounded-[2rem] bg-[#d9e4ee] object-contain p-8"
+              className="aspect-square w-full max-w-md rounded-[2rem] bg-black object-cover object-left"
             />
           </div>
         </div>
@@ -72,7 +72,7 @@ export default async function HomePage() {
           </div>
           <div className="overflow-hidden rounded-[1.5rem] bg-[var(--card)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/lifestyle/interior.svg" alt="Блок розеток в интерьере" className="aspect-[4/3] w-full object-cover" />
+            <img src="/images/placeholder.png" alt="Блок розеток в интерьере" className="aspect-[4/3] w-full object-cover object-left" />
           </div>
         </div>
       </section>
@@ -144,7 +144,7 @@ export default async function HomePage() {
             оптовую цену не считает.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/b2b" className="btn bg-white text-[var(--ink)] hover:bg-white/90">
+            <Link href="/b2b" className="btn btn-light">
               Запросить расчёт
             </Link>
             <Link href="/catalog" className="btn border border-white/20 bg-transparent text-white hover:bg-white/10">

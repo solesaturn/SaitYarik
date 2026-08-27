@@ -39,7 +39,7 @@ export default function FavoritesPage() {
                 <div className="h-16 w-16 shrink-0 overflow-hidden rounded bg-[var(--sand)]">
                   {item.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={item.imageUrl} alt="" className="h-full w-full object-contain p-1" />
+                    <img src={item.imageUrl} alt="" className="h-full w-full object-cover object-left" />
                   ) : null}
                 </div>
                 <div className="min-w-0 flex-1">

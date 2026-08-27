@@ -58,7 +58,7 @@ export default async function ProductPage({ params }: Props) {
         <div className="relative aspect-square overflow-hidden rounded-2xl bg-[var(--card)]">
           {product.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={product.imageUrl} alt={product.name} className="h-full w-full object-contain p-10" />
+            <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover object-left" />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="h-40 w-40 rounded-full bg-white/80" />

@@ -33,7 +33,7 @@ export function Footer() {
             <br />
             Сталь и медь внутри.
           </p>
-          <Link href="/catalog" className="btn bg-white text-[var(--ink)] hover:bg-white/90">
+          <Link href="/catalog" className="btn btn-light">
             Перейти в каталог
           </Link>
         </div>
