@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
-import { getSession } from "@/lib/auth";
 import { CatalogFilters } from "@/components/CatalogFilters";
 import { CatalogToolbar } from "@/components/CatalogToolbar";
 
@@ -21,21 +20,29 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
   const productType = one(sp.type);
   const ip = one(sp.ip);
   const posts = one(sp.posts);
-  const current = one(sp.current);
-  const inStock = one(sp.stock) === "1";
+  const series = one(sp.series);
+  const minPrice = Number(one(sp.min) || 0);
+  const maxPrice = Number(one(sp.max) || 0);
   const sort = one(sp.sort) || "popular";
   const q = one(sp.q);
   const page = Math.max(1, Number(one(sp.page) || 1));
   const take = 12;
 
+  const inStock = one(sp.stock) === "1";
   const where: Record<string, unknown> = { active: true };
   if (brand) where.brand = { slug: brand };
   if (color) where.color = color;
   if (productType) where.productType = productType;
   if (ip) where.ipRating = ip;
   if (posts) where.posts = Number(posts);
-  if (current) where.nominalCurrent = current;
+  if (series) where.series = series;
   if (inStock) where.stock = { gt: 0 };
+  if (minPrice > 0 || maxPrice > 0) {
+    where.priceRetail = {
+      ...(minPrice > 0 ? { gte: minPrice } : {}),
+      ...(maxPrice > 0 ? { lte: maxPrice } : {}),
+    };
+  }
   if (q) {
     where.OR = [
       { name: { contains: q } },
@@ -53,9 +60,8 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
           ? { createdAt: "desc" as const }
           : sort === "stock"
             ? { stock: "desc" as const }
-            : { isHit: "desc" as const };
+            : { name: "asc" as const };
 
-  const session = await getSession();
   const [total, products, allForCounts] = await Promise.all([
     prisma.product.count({ where }),
     prisma.product.findMany({
@@ -116,7 +122,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
                     i % 3 !== 0 ? "lg:border-l lg:border-[var(--line)]" : ""
                   }`}
                 >
-                  <ProductCard product={p} b2bApproved={session?.b2bApproved} />
+                  <ProductCard product={p} />
                 </div>
               ))}
             </div>

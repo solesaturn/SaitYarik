@@ -12,6 +12,11 @@ export function formatPrice(value: number) {
   }).format(value);
 }
 
+export function formatPriceLabel(value: number) {
+  if (!(Number(value) > 0)) return "Цена уточняется";
+  return formatPrice(value);
+}
+
 export function packQuantity(qty: number, packQty: number) {
   if (packQty <= 1) return Math.max(1, qty);
   return Math.max(packQty, Math.ceil(qty / packQty) * packQty);
@@ -27,5 +32,5 @@ export function generateOrderNumber() {
     for (let i = 0; i < 4; i++) bytes[i] = Math.floor(Math.random() * 256);
   }
   const rnd = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
-  return `SY-${stamp}-${rnd}`;
+  return `LY-${stamp}-${rnd}`;
 }

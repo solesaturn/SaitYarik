@@ -1,68 +1,89 @@
 import Link from "next/link";
 import { SITE } from "@/lib/pricing";
 
-const footerLinks = [
-  { href: "/catalog", label: "Каталог" },
+const catalogLinks = [
+  { href: "/catalog?type=розетка", label: "Розетки" },
+  { href: "/catalog?type=выключатель", label: "Выключатели" },
+  { href: "/catalog?type=рамка", label: "Рамки" },
+  { href: "/catalog?type=механизм", label: "Механизмы" },
   { href: "/constructor", label: "Конструктор" },
-  { href: "/delivery", label: "Условия заказа" },
-  { href: "/returns", label: "Возврат и гарантия" },
-  { href: "/about", label: "О компании" },
-  { href: "/certificates", label: "Сертификаты" },
-  { href: "/contacts", label: "Контакты" },
-  { href: "/b2b", label: "Для монтажников и магазинов" },
 ];
 
-const legalLinks = [
+const buyerLinks = [
+  { href: "/delivery", label: "Доставка и оплата" },
+  { href: "/returns", label: "Гарантия и возврат" },
+  { href: "/documents", label: "Документы" },
+  { href: "/contacts", label: "Контакты" },
+];
+
+const bizLinks = [
+  { href: "/b2b", label: "Для бизнеса" },
+  { href: "/about", label: "О нас" },
+  { href: "/legal/offer", label: "Оферта" },
   { href: "/legal/privacy", label: "Конфиденциальность" },
-  { href: "/legal/terms", label: "Пользовательское соглашение" },
-  { href: "/legal/offer", label: "Публичная оферта" },
-  { href: "/sitemap-page", label: "Карта сайта" },
 ];
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-[var(--line)] bg-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
-          <p className="text-xl font-semibold tracking-tight lowercase">{SITE.name}</p>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-[var(--muted)]">
-            Электрофурнитура Futina со склада в Москве: розетки, выключатели и рамки.
+    <footer className="mt-auto bg-[#111] text-white">
+      <div className="mx-auto max-w-7xl px-4 py-16">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <p className="max-w-md text-2xl font-semibold tracking-tight sm:text-3xl">
+            Тонкая рамка снаружи.
+            <br />
+            Сталь и медь внутри.
           </p>
+          <Link href="/catalog" className="btn bg-white text-[var(--ink)] hover:bg-white/90">
+            Перейти в каталог
+          </Link>
         </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">Разделы</p>
-          <ul className="mt-4 space-y-2 text-sm">
-            {footerLinks.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="hover:opacity-60">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">Юридическое</p>
-          <ul className="mt-4 space-y-2 text-sm">
-            {legalLinks.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="hover:opacity-60">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">Контакты</p>
-          <p className="mt-4 text-lg font-medium">{SITE.phone}</p>
-          <p className="mt-1 text-sm text-[var(--muted)]">{SITE.email}</p>
-          <p className="mt-3 text-sm text-[var(--muted)]">{SITE.city} · склад и самовывоз</p>
+
+        <div className="mt-14 grid gap-10 border-t border-white/10 pt-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <p className="text-lg font-semibold tracking-tight">{SITE.name}</p>
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/55">
+              Электроустановочные изделия для интерьера. Белый, серый и чёрный.
+            </p>
+          </div>
+          <FooterCol title="Каталог" links={catalogLinks} />
+          <FooterCol title="Покупателям" links={buyerLinks} />
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/40">Контакты</p>
+            <p className="mt-4 text-lg font-medium">{SITE.phone}</p>
+            <p className="mt-1 text-sm text-white/55">{SITE.email}</p>
+            <p className="mt-3 text-sm text-white/55">{SITE.city}</p>
+            <ul className="mt-4 space-y-2 text-sm text-white/70">
+              {bizLinks.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="hover:text-white">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-      <div className="border-t border-[var(--line)] px-4 py-4 text-center text-xs text-[var(--muted)]">
-        © {new Date().getFullYear()} {SITE.name}
+      <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-white/40">
+        © {new Date().getFullYear()} {SITE.shortName}
       </div>
     </footer>
+  );
+}
+
+function FooterCol({ title, links }: { title: string; links: { href: string; label: string }[] }) {
+  return (
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/40">{title}</p>
+      <ul className="mt-4 space-y-2 text-sm text-white/70">
+        {links.map((l) => (
+          <li key={l.href}>
+            <Link href={l.href} className="hover:text-white">
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

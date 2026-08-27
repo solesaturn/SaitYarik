@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
       inn: inn.trim() || "—",
       contactName: contactName.trim(),
       phone: toE164(phone),
-      email: email.trim() || "no-email@saityarik.ru",
+      email: email.trim() || "",
       message,
       type: "PARTNERSHIP",
     },

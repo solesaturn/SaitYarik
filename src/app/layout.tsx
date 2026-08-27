@@ -8,28 +8,32 @@ import { FavoritesProvider } from "@/lib/favorites-context";
 import { CookieBanner } from "@/components/CookieBanner";
 import { CartToast } from "@/components/CartToast";
 import { FavoriteToast } from "@/components/FavoriteToast";
-import { SITE } from "@/lib/pricing";
+import { getSite } from "@/lib/site";
+
 
 const body = Inter({
   subsets: ["latin", "cyrillic"],
   variable: "--font-body",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
-  title: {
-    default: `${SITE.name} — ${SITE.tagline}`,
-    template: `%s · ${SITE.name}`,
-  },
-  description:
-    "Интернет-магазин розеток, выключателей и электрофурнитуры Futina. Склад в Москве, доставка по РФ.",
-  openGraph: {
-    title: SITE.name,
-    description: SITE.tagline,
-    locale: "ru_RU",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSite();
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+    title: {
+      default: `${site.name} — ${site.tagline}`,
+      template: `%s · ${site.name}`,
+    },
+    description: site.tagline,
+    robots: site.index ? { index: true, follow: true } : { index: false, follow: false },
+    openGraph: {
+      title: site.name,
+      description: site.tagline,
+      locale: "ru_RU",
+      type: "website",
+    },
+  };
+}
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -47,12 +51,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </div>
           </FavoritesProvider>
         </CartProvider>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];`,
-          }}
-        />
       </body>
     </html>
   );
 }
+
+export const dynamic = "force-dynamic";
+

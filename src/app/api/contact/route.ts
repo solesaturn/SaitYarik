@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { isValidRuPhone, toE164 } from "@/lib/phone";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { notifyStaff } from "@/lib/notify";
 
 async function saveLead(data: {
   name: string;
@@ -26,6 +27,10 @@ async function saveLead(data: {
       message: data.message?.trim() || null,
       source: data.source || "contact",
     },
+  });
+  await notifyStaff({
+    title: "Сообщение с сайта",
+    text: `${name}, ${phoneRaw}\n${data.email || ""}\n${data.message || ""}`,
   });
   return { ok: true as const };
 }

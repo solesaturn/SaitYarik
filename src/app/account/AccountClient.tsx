@@ -81,9 +81,7 @@ export default function AccountClient() {
     return (
       <div className="mx-auto max-w-md px-4 py-12">
         <h1 className="section-title">{mode === "login" ? "Вход" : "Регистрация"}</h1>
-        <p className="mt-2 text-sm text-[var(--muted)]">
-          Демо: demo@saityarik.ru / demo123 · admin@saityarik.ru / admin123 · opt@saityarik.ru / demo123
-        </p>
+        <p className="mt-2 text-sm text-[var(--muted)]">Вход для покупателя и администратора.</p>
         <form onSubmit={auth} className="mt-6 grid gap-3 border border-[var(--line)] bg-white p-5">
           {mode === "register" && (
             <>
@@ -118,11 +116,6 @@ export default function AccountClient() {
           <h1 className="section-title">Личный кабинет</h1>
           <p className="mt-2 text-sm text-[var(--muted)]">
             {me.name || me.email}
-            {me.b2bApproved
-              ? " · доступна ваша цена"
-              : me.customerType === "B2B"
-                ? " · ждём подтверждения юрлица"
-                : ""}
           </p>
           {sp.get("registered") && (
             <p className="mt-2 text-sm text-green-800">
@@ -145,13 +138,9 @@ export default function AccountClient() {
       {(me.customerType === "B2B" || me.b2bApproved) && (
         <div className="mt-6 border border-[var(--line)] bg-white p-4 text-sm">
           <p className="font-semibold">{me.companyName || "Организация"}</p>
-          <p className="mt-1 text-[var(--muted)]">
-            {me.b2bApproved
-              ? "В каталоге отображается ваша цена. Счета и отгрузка — через менеджера."
-              : "После подтверждения юрлица в каталоге появится ваша цена."}
-          </p>
+          <p className="mt-1 text-[var(--muted)]">Заявки на расчёт обрабатываются вручную.</p>
           <Link href="/b2b" className="mt-2 inline-block underline">
-            Быстрый заказ по спецификации
+            Отправить заявку
           </Link>
         </div>
       )}

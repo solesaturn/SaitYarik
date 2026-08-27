@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
-import { getSession } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +10,6 @@ export default async function SearchPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q = "" } = await searchParams;
-  const session = await getSession();
   const products = q
     ? await prisma.product.findMany({
         where: {
@@ -47,7 +45,7 @@ export default async function SearchPage({
       </p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {products.map((p) => (
-          <ProductCard key={p.id} product={p} b2bApproved={session?.b2bApproved} />
+          <ProductCard key={p.id} product={p} />
         ))}
       </div>
       {!products.length && q && (

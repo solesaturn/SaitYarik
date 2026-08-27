@@ -90,29 +90,39 @@ export function CatalogFilters({
         </FilterGroup>
       )}
 
-      <details className="mt-6">
-        <summary className="cursor-pointer text-sm font-medium text-[var(--muted)]">Технические параметры</summary>
-        <div className="mt-3 space-y-2 text-sm">
-          {["IP20", "IP44"].map((ip) => (
-            <CheckRow
-              key={ip}
-              label={ip}
-              count={undefined}
-              checked={sp.get("ip") === ip}
-              onChange={() => set("ip", ip)}
-            />
-          ))}
-          {["10А", "16А"].map((c) => (
-            <CheckRow
-              key={c}
-              label={c}
-              count={undefined}
-              checked={sp.get("current") === c}
-              onChange={() => set("current", c)}
-            />
-          ))}
-        </div>
-      </details>
+      <FilterGroup title="Серия">
+        <CheckRow
+          label="Laitys"
+          count={undefined}
+          checked={sp.get("series") === "Laitys"}
+          onChange={() => set("series", "Laitys")}
+        />
+      </FilterGroup>
+
+      <FilterGroup title="Цена">
+        <form
+          className="flex gap-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const fd = new FormData(e.currentTarget);
+            const min = String(fd.get("min") || "");
+            const max = String(fd.get("max") || "");
+            const next = new URLSearchParams(sp.toString());
+            if (min) next.set("min", min);
+            else next.delete("min");
+            if (max) next.set("max", max);
+            else next.delete("max");
+            next.delete("page");
+            startTransition(() => router.push(`/catalog?${next.toString()}`));
+          }}
+        >
+          <input name="min" defaultValue={sp.get("min") || ""} placeholder="от" className="w-20 rounded-full border border-[var(--line)] px-3 py-1.5 text-sm" />
+          <input name="max" defaultValue={sp.get("max") || ""} placeholder="до" className="w-20 rounded-full border border-[var(--line)] px-3 py-1.5 text-sm" />
+          <button type="submit" className="text-sm underline">
+            OK
+          </button>
+        </form>
+      </FilterGroup>
 
       <button
         type="button"

@@ -2,190 +2,197 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
+import { useCart } from "@/lib/cart-context";
+import { canBuildKit, colorSuffix } from "@/lib/compatibility";
+import { getProductPrice, hasConfirmedPrice } from "@/lib/pricing";
+import { formatPriceLabel } from "@/lib/utils";
 
-type MechanismKind = "розетка" | "выключатель" | "механизм";
-type Color = "белый" | "серый" | "чёрный";
+type P = {
+  id: string;
+  slug: string;
+  sku: string;
+  name: string;
+  color: string | null;
+  posts: number | null;
+  kitRole: string | null;
+  productType: string | null;
+  imageUrl: string | null;
+  priceRetail: number;
+  priceWholesale: number;
+  stock: number;
+  packQty: number;
+};
 
-const mechanisms: { id: MechanismKind; label: string; hint: string }[] = [
-  { id: "розетка", label: "Розетка", hint: "Силовая точка" },
-  { id: "выключатель", label: "Выключатель", hint: "Освещение" },
-  { id: "механизм", label: "Другой механизм", hint: "TV / спец. модуль" },
+const mechKinds = [
+  { id: "розетка", label: "Розетка Schuko", match: (p: P) => p.sku.startsWith("M-D1-") },
+  { id: "выключатель", label: "Выключатель", match: (p: P) => p.sku.startsWith("M-S1-") },
+  { id: "tv", label: "TV + компьютер", match: (p: P) => p.sku.startsWith("M-TV-") },
 ];
 
-const postOptions = [
-  { id: 1, label: "1 пост" },
-  { id: 2, label: "2 поста" },
-  { id: 3, label: "3 поста" },
-  { id: 4, label: "4 поста" },
-];
-
-const colors: { id: Color; label: string; swatch: string }[] = [
+const colors = [
   { id: "белый", label: "Белый", swatch: "#f5f5f5" },
   { id: "серый", label: "Серый", swatch: "#9aa0a6" },
   { id: "чёрный", label: "Чёрный", swatch: "#1a1a1a" },
-];
+] as const;
 
-export function ConstructorWizard() {
-  const [step, setStep] = useState(1);
-  const [kind, setKind] = useState<MechanismKind | null>(null);
+const postOptions = [2, 3, 4];
+
+export function ConstructorWizard({ products }: { products: P[] }) {
+  const { addItem } = useCart();
+  const [kind, setKind] = useState<string | null>(null);
   const [posts, setPosts] = useState<number | null>(null);
-  const [color, setColor] = useState<Color | null>(null);
+  const [color, setColor] = useState<(typeof colors)[number]["id"] | null>(null);
+  const [added, setAdded] = useState(false);
 
-  const mechanismUrl = useMemo(() => {
-    if (!kind) return "/catalog";
-    const q = new URLSearchParams({ type: kind });
-    if (color) q.set("color", color);
-    return `/catalog?${q.toString()}`;
-  }, [kind, color]);
+  const mechanism = useMemo(() => {
+    if (!kind || !color) return null;
+    const rule = mechKinds.find((k) => k.id === kind);
+    return products.find((p) => rule?.match(p) && p.color === color) || null;
+  }, [kind, color, products]);
 
-  const frameUrl = useMemo(() => {
-    const q = new URLSearchParams({ type: "рамка" });
-    if (posts) q.set("posts", String(posts));
-    if (color) q.set("color", color);
-    return `/catalog?${q.toString()}`;
-  }, [posts, color]);
+  const frame = useMemo(() => {
+    if (!posts || !color) return null;
+    const sku = `P${posts}-${colorSuffix(color)}`;
+    return products.find((p) => p.sku === sku) || null;
+  }, [posts, color, products]);
 
-  const done = !!kind && !!posts && !!color;
+  const valid = !!(kind && posts && color && mechanism && frame && canBuildKit({ mechanism, frame, color, posts }));
 
-  function pickKind(id: MechanismKind) {
-    setKind(id);
-    setStep(2);
+  function addKit() {
+    if (!valid || !mechanism || !frame) return;
+    for (const item of [mechanism, frame]) {
+      if (!hasConfirmedPrice(item)) continue;
+      addItem({
+        productId: item.id,
+        slug: item.slug,
+        name: item.name,
+        sku: item.sku,
+        price: getProductPrice(item),
+        imageUrl: item.imageUrl,
+        packQty: item.packQty,
+        stock: item.stock,
+      });
+    }
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1800);
   }
 
-  function pickPosts(id: number) {
-    setPosts(id);
-    setStep(3);
-  }
-
-  function pickColor(id: Color) {
-    setColor(id);
-  }
+  const kitPriced = !!(mechanism && frame && hasConfirmedPrice(mechanism) && hasConfirmedPrice(frame));
 
   return (
-    <div className="mt-10 space-y-6">
-      <div className="flex flex-wrap gap-2">
-        {[
-          { n: 1, label: "1. Механизм", ok: !!kind },
-          { n: 2, label: "2. Рамка", ok: !!posts },
-          { n: 3, label: "3. Цвет", ok: !!color },
-        ].map((s) => (
-          <button
-            key={s.n}
-            type="button"
-            onClick={() => {
-              if (s.n === 1) setStep(1);
-              else if (s.n === 2 && kind) setStep(2);
-              else if (s.n === 3 && kind && posts) setStep(3);
-            }}
-            className={`pill inline-flex items-center gap-1 ${step === s.n ? "pill-active" : ""}`}
-          >
-            {s.label}
-            {s.ok ? <Check className="h-3.5 w-3.5" strokeWidth={2.5} /> : null}
-          </button>
-        ))}
-      </div>
-
-      {step === 1 && (
-        <section className="rounded-2xl bg-white p-6 sm:p-8">
-          <h2 className="text-2xl font-bold tracking-tight">Что ставите в точку?</h2>
-          <p className="mt-2 text-sm text-[var(--muted)]">Нажмите вариант — сразу перейдёте к рамке.</p>
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            {mechanisms.map((m) => (
-              <button
-                key={m.id}
-                type="button"
-                onClick={() => pickKind(m.id)}
-                className={`rounded-2xl border p-4 text-left transition ${
-                  kind === m.id
-                    ? "border-[var(--ink)] bg-[var(--sand)]"
-                    : "border-transparent bg-[var(--paper)] hover:bg-[var(--sand)]"
-                }`}
-              >
-                <p className="font-semibold">{m.label}</p>
-                <p className="mt-1 text-xs text-[var(--muted)]">{m.hint}</p>
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {step === 2 && (
-        <section className="rounded-2xl bg-white p-6 sm:p-8">
-          <h2 className="text-2xl font-bold tracking-tight">Сколько постов в рамке?</h2>
-          <p className="mt-2 text-sm text-[var(--muted)]">Рамка покупается отдельно от механизма.</p>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {postOptions.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => pickPosts(p.id)}
-                className={`pill ${posts === p.id ? "pill-active" : ""}`}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-          <button type="button" className="btn btn-ghost mt-6" onClick={() => setStep(1)}>
-            Назад
-          </button>
-        </section>
-      )}
-
-      {step === 3 && (
-        <section className="rounded-2xl bg-white p-6 sm:p-8">
-          <h2 className="text-2xl font-bold tracking-tight">Цвет комплекта</h2>
-          <p className="mt-2 text-sm text-[var(--muted)]">Механизм и рамка одного цвета.</p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            {colors.map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                onClick={() => pickColor(c.id)}
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition ${
-                  color === c.id ? "bg-[var(--ink)] text-white" : "bg-[var(--sand)] hover:opacity-80"
-                }`}
-              >
-                <span
-                  className="h-4 w-4 rounded-full border border-black/15"
-                  style={{ backgroundColor: c.swatch }}
-                  aria-hidden
-                />
-                {c.label}
-              </button>
-            ))}
-          </div>
-          <button type="button" className="btn btn-ghost mt-6" onClick={() => setStep(2)}>
-            Назад
-          </button>
-        </section>
-      )}
-
-      {done && (
-        <section className="rounded-2xl bg-[var(--ink)] p-6 text-white sm:p-8">
-          <h2 className="text-xl font-bold tracking-tight">Готово — ваш комплект</h2>
-          <ul className="mt-3 space-y-1 text-sm text-white/75">
-            <li>
-              Механизм: <strong className="text-white">{kind}</strong>
-            </li>
-            <li>
-              Рамка: <strong className="text-white">{posts} пост.</strong>
-            </li>
-            <li>
-              Цвет: <strong className="text-white">{color}</strong>
-            </li>
-          </ul>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href={mechanismUrl} className="btn inline-flex bg-white text-[var(--ink)] hover:bg-white/90">
-              Смотреть механизмы <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
-            </Link>
-            <Link
-              href={frameUrl}
-              className="btn inline-flex border border-white/30 bg-white/10 text-white hover:bg-white/15"
+    <div className="mt-10 space-y-5">
+      <section className="rounded-2xl bg-white p-6 sm:p-8">
+        <h2 className="text-xl font-semibold">1. Механизм</h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {mechKinds.map((m) => (
+            <button
+              key={m.id}
+              type="button"
+              onClick={() => {
+                setKind(m.id);
+                setAdded(false);
+              }}
+              className={`rounded-2xl border p-4 text-left ${
+                kind === m.id ? "border-[var(--ink)] bg-[var(--sand)]" : "border-transparent bg-[var(--paper)]"
+              }`}
             >
-              Смотреть рамки <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
-            </Link>
-          </div>
+              <p className="font-semibold">{m.label}</p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-2xl bg-white p-6 sm:p-8">
+        <h2 className="text-xl font-semibold">2. Число постов</h2>
+        <p className="mt-2 text-sm text-[var(--muted)]">Рамка на 2, 3 или 4 поста. На один пост берите готовое изделие в каталоге.</p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {postOptions.map((p) => (
+            <button
+              key={p}
+              type="button"
+              onClick={() => {
+                setPosts(p);
+                setAdded(false);
+              }}
+              className={`pill ${posts === p ? "pill-active" : ""}`}
+            >
+              {p} поста
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-2xl bg-white p-6 sm:p-8">
+        <h2 className="text-xl font-semibold">3. Цвет</h2>
+        <p className="mt-2 text-sm text-[var(--muted)]">Механизм и рамка только одного цвета.</p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          {colors.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              onClick={() => {
+                setColor(c.id);
+                setAdded(false);
+              }}
+              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm ${
+                color === c.id ? "bg-[var(--ink)] text-white" : "bg-[var(--sand)]"
+              }`}
+            >
+              <span className="h-4 w-4 rounded-full border border-black/15" style={{ backgroundColor: c.swatch }} />
+              {c.label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {kind && posts && color && (
+        <section className="rounded-2xl bg-[#111] p-6 text-white sm:p-8">
+          {valid ? (
+            <>
+              <h2 className="text-xl font-semibold">Комплект собран</h2>
+              <ul className="mt-4 space-y-3 text-sm">
+                {[mechanism, frame].map((item) =>
+                  item ? (
+                    <li key={item.id} className="flex items-center justify-between gap-3">
+                      <span>
+                        {item.name}
+                        <span className="ml-2 text-white/50">{item.sku}</span>
+                      </span>
+                      <span>{formatPriceLabel(item.priceRetail)}</span>
+                    </li>
+                  ) : null
+                )}
+              </ul>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {kitPriced ? (
+                  <button type="button" className="btn bg-white text-[var(--ink)]" onClick={addKit}>
+                    {added ? (
+                      <>
+                        <Check className="h-4 w-4" /> В корзине
+                      </>
+                    ) : (
+                      "Добавить комплект в корзину"
+                    )}
+                  </button>
+                ) : (
+                  <p className="text-sm text-white/60">Цена комплекта уточняется. Можно открыть карточки товаров.</p>
+                )}
+                {mechanism && (
+                  <Link href={`/product/${mechanism.slug}`} className="btn border border-white/20">
+                    Механизм
+                  </Link>
+                )}
+                {frame && (
+                  <Link href={`/product/${frame.slug}`} className="btn border border-white/20">
+                    Рамка
+                  </Link>
+                )}
+              </div>
+            </>
+          ) : (
+            <p className="text-sm text-white/70">Такого комплекта нет: механизм и рамка должны совпасть по цвету и числу постов.</p>
+          )}
         </section>
       )}
     </div>

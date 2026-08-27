@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
-import { getSession } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +23,6 @@ export default async function CategoryPage({ params }: Props) {
   const category = await prisma.category.findUnique({ where: { slug } });
   if (!category) notFound();
 
-  const session = await getSession();
   const products = await prisma.product.findMany({
     where: { active: true, categories: { some: { categoryId: category.id } } },
     include: { brand: true },
@@ -44,7 +42,7 @@ export default async function CategoryPage({ params }: Props) {
       {category.description && <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">{category.description}</p>}
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {products.map((p) => (
-          <ProductCard key={p.id} product={p} b2bApproved={session?.b2bApproved} />
+          <ProductCard key={p.id} product={p} />
         ))}
       </div>
     </div>

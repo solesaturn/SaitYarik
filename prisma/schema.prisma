@@ -78,6 +78,9 @@ model Product {
   color          String?
   posts          Int?
   productType    String?
+  kitRole        String?
+  warranty       String?
+  certNumber     String?
   grounded       Boolean?
   ipRating       String?
   nominalCurrent String?
@@ -207,9 +210,26 @@ model B2BRequest {
   phone       String
   email       String
   message     String?
-  type        String   @default("PARTNERSHIP")
+  itemsJson   String   @default("[]")
+  fileName    String?
+  fileUrl     String?
+  type        String   @default("QUOTE")
   status      String   @default("NEW")
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Certificate {
+  id          String  @id @default(cuid())
+  title       String
+  number      String
+  validFrom   String?
+  validUntil  String?
+  holder      String?
+  maker       String?
+  skuList     String
+  fileUrl     String?
+  published   Boolean @default(true)
 }
 
 model PromoCode {

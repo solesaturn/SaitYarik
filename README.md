@@ -1,19 +1,18 @@
-# SaitYarik — интернет-магазин электрофурнитуры
+# Laitys — интернет-магазин электроустановочных изделий
 
-Реализация ТЗ v1.3: B2C/B2B, каталог, корзина, ЮKassa (СБП), обмен CommerceML с 1С, маркировка «Честный ЗНАК» (контур), доставка (модуль СДЭК/Ozon), SEO, админка.
+Розница оплачивает заказ на сайте. Бизнес отправляет корзину на ручной расчёт.
+
+Сайт закрыт от индексации, пока владелец не включит её в админке.
 
 ## Стек
 
-- **Next.js 16** (App Router, SSR) + TypeScript + Tailwind CSS
-- **Prisma** + SQLite (для разработки; на проде — PostgreSQL в РФ)
-- Локальная сессионная авторизация, роли: гость / розница / B2B / менеджер / админ / контент
+- Next.js (App Router) + TypeScript + Tailwind CSS
+- Prisma + SQLite (на проде лучше PostgreSQL)
 
-## Быстрый старт
+## Запуск
 
 ```bash
-cd D:\SaitYarik
 cp .env.example .env
-# Укажите DATABASE_URL (PostgreSQL). Для Vercel SQLite не подходит.
 npm install
 npm run db:reset
 npm run dev
@@ -21,60 +20,21 @@ npm run dev
 
 Откройте http://localhost:3000
 
-### Vercel
+Вход в админку: `/account` → e-mail `kamalovaar@gmail.com`, пароль из `ADMIN_PASSWORD` (по умолчанию при seed: `ChangeMeLaitys`). Смените пароль сразу.
 
-На serverless нельзя писать в обычный SQLite-файл проекта. Для демо в репозиторий кладётся `prisma/seed.db`,
-а при старте на Vercel он копируется в `/tmp`.
+## Переменные
 
-```bash
-npm run db:prepare-vercel
-git add prisma/seed.db
-```
+- `DATABASE_URL`
+- `ADMIN_EMAIL`, `ADMIN_PASSWORD` — только для seed
+- `YOOKASSA_SHOP_ID`, `YOOKASSA_SECRET_KEY` — онлайн-оплата
+- `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` или `NOTIFY_WEBHOOK_URL` — уведомления о заказах и заявках
+- `NEXT_PUBLIC_SITE_URL`
 
-В Environment Variables задайте `NEXT_PUBLIC_SITE_URL=https://sait-yarik.vercel.app`.
-Для постоянной продакшен-БД лучше Neon/Vercel Postgres (см. issue с заказами между инстансами).
+Ozon Pay и калькулятор Ozon Доставки — второй этап, когда будут доступы.
 
-### Демо-аккаунты
+## Что делает владелец без разработчика
 
-| E-mail | Пароль | Роль |
-|--------|--------|------|
-| admin@saityarik.ru | admin123 | Админ |
-| demo@saityarik.ru | demo123 | B2C |
-| opt@saityarik.ru | demo123 | B2B (одобрен) |
-
-Промокод: `ELECTRO10` (−10%)
-
-## Ключевые URL
-
-- `/catalog` — каталог и фильтры
-- `/product/[slug]` — карточка товара
-- `/cart`, `/checkout`, `/thanks` — корзина и оформление
-- `/b2b` — опт, регистрация, быстрый заказ по артикулам
-- `/account` — личный кабинет
-- `/admin` — заказы, модерация B2B, журнал 1С
-- `/api/1c/exchange` — приёмник CommerceML («Обмен с сайтом»)
-- `/api/delivery/calc` — расчёт доставки (провайдер из env)
-- `/sitemap.xml`, `/robots.txt` — SEO
-
-## Переменные окружения (`.env`)
-
-```
-DATABASE_URL="file:./dev.db"
-NEXT_PUBLIC_SITE_URL="http://localhost:3000"
-YOOKASSA_SHOP_ID="demo"
-YOOKASSA_SECRET_KEY="demo"
-DELIVERY_PROVIDER="cdek"
-NEXT_PUBLIC_YANDEX_METRIKA_ID=""
-```
-
-При реальных ключах ЮKassa платежи уходят в `api.yookassa.ru` с чеком 54-ФЗ.
-
-## Соответствие этапам ТЗ
-
-**MVP (реализовано в коде):** каталог с фильтрами, карточка, корзина/оформление, онлайн-оплата + демо-фискализация, контур маркировки, обмен 1С, базовый B2B, доставка (самовывоз + расчёт службы), возвраты (страница + логика частичного возврата в модели), юр. страницы, SEO-основа, мобильная вёрстка, аналитика dataLayer.
-
-**Этапы 2–3:** расширенный B2B (УПД PDF), полнотекстовый поиск с опечатками, лояльность, маркетплейсы — заложены моделями/разделами, дорабатываются после доступов заказчика (раздел 22 ТЗ).
-
-## Передача заказчику
-
-Исходники в Git, развёртывание на любом Node-хостинге в РФ без привязки к подрядчику. Для продакшена: PostgreSQL, HTTPS, бэкапы, 2FA админки, доступы к 1С/ЮKassa/ОФД/Честный ЗНАК.
+- Товары: цена, остаток, фото, характеристики, Excel-импорт
+- Заказы B2C и статусы
+- Заявки B2B, файлы, выгрузка CSV
+- Контакты, FAQ, сертификаты PDF

@@ -13,7 +13,7 @@ export function CookieBanner() {
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-[var(--line)] bg-white p-4">
       <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-[var(--muted)]">
-          Мы используем cookie и Яндекс.Метрику для аналитики. Продолжая пользоваться сайтом, вы соглашаетесь с{" "}
+          Мы используем cookie, чтобы сайт работал стабильно. Подробности — в{" "}
           <Link href="/legal/privacy" className="underline">
             политикой конфиденциальности
           </Link>

@@ -27,7 +27,7 @@ export function PopularProducts({
   return (
     <section className="mx-auto max-w-7xl px-4 py-14">
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <h2 className="section-title">Популярные товары</h2>
+        <h2 className="section-title">Ассортимент</h2>
         <Link href="/catalog" className="text-sm text-[var(--muted)] hover:text-[var(--ink)]">
           Все товары →
         </Link>

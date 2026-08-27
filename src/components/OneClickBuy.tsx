@@ -71,7 +71,7 @@ export function OneClickBuy({ productId, productName, sku, quantity = 1 }: Props
           >
             {done ? (
               <p className="text-sm text-green-800" role="status">
-                Заявка принята, перезвоним в течение 15 минут в рабочее время. Менеджер оформит заказ сам.
+                Сообщение отправлено. Мы свяжемся в рабочие часы.
               </p>
             ) : (
               <form onSubmit={onSubmit} className="grid gap-3">

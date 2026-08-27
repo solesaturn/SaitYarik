@@ -103,7 +103,7 @@ export async function authenticate(email: string, password: string) {
   // Реальный прод: ALLOW_DEMO_LOGIN=0 отключает сидовые учётки
   if (
     process.env.ALLOW_DEMO_LOGIN === "0" &&
-    ["admin@saityarik.ru", "demo@saityarik.ru", "opt@saityarik.ru"].includes(normalized)
+    ["admin@saityarik.ru", "demo@saityarik.ru", "opt@saityarik.ru", "admin@laitys.ru"].includes(normalized)
   ) {
     return null;
   }

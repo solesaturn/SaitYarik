@@ -15,6 +15,7 @@ type CatalogItem = {
   color: string | null;
   posts: number | null;
   productType: string;
+  kitRole: string;
   grounded: boolean | null;
   ipRating: string | null;
   nominalCurrent: string | null;
@@ -28,9 +29,16 @@ type CatalogItem = {
   isSale: boolean;
   marked: boolean;
   imageUrl: string | null;
+  warranty: string;
+  certs: { name: string; url: string; number: string }[];
   attrs: Record<string, string>;
   category: string;
 };
+
+function publicFileExists(url: string) {
+  const rel = url.replace(/^\//, "");
+  return fs.existsSync(path.join(process.cwd(), "public", rel));
+}
 
 async function main() {
   await prisma.orderItem.deleteMany();
@@ -43,6 +51,7 @@ async function main() {
   await prisma.category.deleteMany();
   await prisma.brand.deleteMany();
   await prisma.b2BRequest.deleteMany();
+  await prisma.certificate.deleteMany();
   await prisma.blogPost.deleteMany();
   await prisma.faqItem.deleteMany();
   await prisma.review.deleteMany();
@@ -53,89 +62,59 @@ async function main() {
   await prisma.user.deleteMany();
   await prisma.siteSetting.deleteMany();
 
-  const passwordHash = await bcrypt.hash("admin123", 10);
-  const retailHash = await bcrypt.hash("demo123", 10);
+  const adminEmail = (process.env.ADMIN_EMAIL || "kamalovaar@gmail.com").toLowerCase();
+  const adminPassword = process.env.ADMIN_PASSWORD || "ChangeMeLaitys";
+  const passwordHash = await bcrypt.hash(adminPassword, 10);
 
   await prisma.user.create({
     data: {
-      email: "admin@saityarik.ru",
-      name: "Администратор",
+      email: adminEmail,
+      name: "Администратор Laitys",
       passwordHash,
       role: "ADMIN",
-      phone: "+7 (495) 000-00-01",
-    },
-  });
-
-  await prisma.user.create({
-    data: {
-      email: "demo@saityarik.ru",
-      name: "Иван Розничный",
-      passwordHash: retailHash,
-      role: "RETAIL",
-      customerType: "B2C",
-      phone: "+7 (900) 111-22-33",
-    },
-  });
-
-  await prisma.user.create({
-    data: {
-      email: "opt@saityarik.ru",
-      name: "Пётр Оптовый",
-      passwordHash: retailHash,
-      role: "B2B",
-      customerType: "B2B",
-      b2bApproved: true,
-      companyName: "ООО ЭлектроМонтаж",
-      inn: "7701234567",
-      kpp: "770101001",
-      legalAddress: "г. Москва, ул. Строителей, д. 10",
-      phone: "+7 (900) 444-55-66",
+      phone: "+7 989 234-14-44",
     },
   });
 
   const brand = await prisma.brand.create({
     data: {
-      name: "Futina",
-      slug: "futina",
-      logoUrl: "/images/products/futina-logo.png",
+      name: "Laitys",
+      slug: "laitys",
     },
   });
-
-  // optional logo from invoice
-  const logoSrc = path.join(process.cwd(), "data", "xlsx_extract", "xl", "media", "image1.png");
-  const logoDest = path.join(process.cwd(), "public", "images", "products", "futina-logo.png");
-  if (fs.existsSync(logoSrc)) {
-    fs.copyFileSync(logoSrc, logoDest);
-  }
 
   const catRozetki = await prisma.category.create({
     data: {
       name: "Розетки",
       slug: "rozetki",
-      description: "Силовые розетки Schuko Futina с шторками и USB",
-      seoTitle: "Розетки Futina — купить в SaitYarik",
-      seoDescription: "Розетки Schuko и USB Futina. Розница и опт.",
+      description: "Силовые розетки Schuko и USB A+C",
+      seoTitle: "Розетки Laitys",
+      seoDescription: "Розетки Schuko и USB Laitys. Белый, серый и чёрный.",
+      sortOrder: 1,
     },
   });
   const catVykl = await prisma.category.create({
     data: {
       name: "Выключатели",
       slug: "vyklyuchateli",
-      description: "Одно- и двухклавишные, проходные выключатели 10А",
+      description: "Одно- и двухклавишные, проходные выключатели",
+      sortOrder: 2,
     },
   });
   const catRamki = await prisma.category.create({
     data: {
       name: "Рамки",
       slug: "ramki",
-      description: "Рамки на 2–4 поста серии Futina",
+      description: "Рамки на 2, 3 и 4 поста",
+      sortOrder: 3,
     },
   });
   const catMech = await prisma.category.create({
     data: {
       name: "Механизмы",
       slug: "mehanizmy",
-      description: "Модульные механизмы без рамки: розетки, выключатели, TV",
+      description: "Модульные механизмы без рамки",
+      sortOrder: 4,
     },
   });
 
@@ -150,37 +129,37 @@ async function main() {
   const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8")) as CatalogItem[];
 
   for (const item of catalog) {
+    const docs = (item.certs || []).filter((d) => publicFileExists(d.url));
     const product = await prisma.product.create({
       data: {
-        guid1c: `FUTINA-${item.sku}`,
         slug: item.slug,
         sku: item.sku,
         name: item.name,
         description: item.description,
         brandId: brand.id,
-        series: item.series,
+        series: "Laitys",
         color: item.color,
         posts: item.posts ?? undefined,
         productType: item.productType,
+        kitRole: item.kitRole,
+        warranty: item.warranty || null,
+        certNumber: item.certs?.[0]?.number || null,
         grounded: item.grounded ?? undefined,
         ipRating: item.ipRating,
         nominalCurrent: item.nominalCurrent,
         mountType: item.mountType,
-        priceRetail: item.priceRetail,
-        priceWholesale: item.priceWholesale,
-        stock: item.stock,
+        priceRetail: 0,
+        priceWholesale: 0,
+        stock: 0,
         packQty: item.packQty,
-        isHit: item.isHit,
-        isNew: item.isNew,
-        isSale: item.isSale,
-        marked: item.marked,
+        isHit: false,
+        isNew: false,
+        isSale: false,
+        marked: false,
         imageUrl: item.imageUrl,
         imagesJson: JSON.stringify(item.imageUrl ? [item.imageUrl] : []),
         attrsJson: JSON.stringify(item.attrs),
-        documentsJson: JSON.stringify([
-          { name: "Инвойс Futina (FOB Shunde)", url: "#" },
-          { name: "Паспорт изделия", url: "#" },
-        ]),
+        documentsJson: JSON.stringify(docs),
         seoTitle: `${item.name} — ${item.sku}`,
         seoDescription: item.description.slice(0, 160),
         active: true,
@@ -195,92 +174,103 @@ async function main() {
     });
   }
 
-  await prisma.promoCode.create({
-    data: { code: "ELECTRO10", percent: 10, active: true },
+  await prisma.certificate.createMany({
+    data: [
+      {
+        title: "Сертификат соответствия ТР ТС 004/2011 — выключатели",
+        number: "ЕАЭС KG417/051.CN.02.03002",
+        validFrom: "06.07.2026",
+        validUntil: "05.07.2031",
+        holder: "ИП Камалова Алла Рашидовна",
+        maker: "Guangdong Futina Electrical Co., Ltd",
+        skuList: "S1-WH/GY/BK, M-S1-WH/GY/BK, S1P-WH/GY/BK, S2-WH/GY/BK, S2P-WH/GY/BK",
+        fileUrl: publicFileExists("/docs/cert-03002.pdf") ? "/docs/cert-03002.pdf" : null,
+        published: true,
+      },
+      {
+        title: "Сертификат соответствия ТР ТС 004/2011 — розетки",
+        number: "ЕАЭС KG417/051.CN.02.03003",
+        validFrom: "07.07.2026",
+        validUntil: "06.07.2031",
+        holder: "ИП Камалова Алла Рашидовна",
+        maker: "Guangdong Futina Electrical Co., Ltd",
+        skuList: "D1-WH/GY/BK, M-D1-WH/GY/BK, M-TV-WH/GY/BK",
+        fileUrl: publicFileExists("/docs/cert-03003.pdf") ? "/docs/cert-03003.pdf" : null,
+        published: true,
+      },
+      {
+        title: "Сертификат соответствия ТР ТС 004/2011 и ТР ТС 020/2011 — USB-розетки",
+        number: "ЕАЭС KG417/051.CN.02.03058",
+        validFrom: "14.07.2026",
+        validUntil: "13.07.2031",
+        holder: "ИП Камалова Алла Рашидовна",
+        maker: "Guangdong Futina Electrical Co., Ltd",
+        skuList: "USB-WH, USB-GY, USB-BK",
+        fileUrl: publicFileExists("/docs/cert-03058.pdf") ? "/docs/cert-03058.pdf" : null,
+        published: true,
+      },
+    ],
   });
 
   await prisma.faqItem.createMany({
     data: [
       {
-        question: "Это товары из реального инвойса Futina?",
+        question: "Рамка и механизм покупаются отдельно?",
         answer:
-          "Да. Каталог загружен из коммерческого предложения Guangdong Futina Electrical Co., Ltd (FOB Shunde). Цены на сайте — розница/опт с наценкой от закупочной USD.",
+          "Да. Готовые изделия (розетка или выключатель «в сборе») уже с рамкой на 1 пост. Для блока на 2–4 поста нужны модульные механизмы и рамка того же цвета.",
         sortOrder: 1,
       },
       {
-        question: "Как получить оптовые цены?",
-        answer:
-          "Зарегистрируйтесь как юрлицо в разделе «Оптовикам». После модерации откроются оптовые цены близкие к закупочным.",
+        question: "Какие цвета есть в линейке?",
+        answer: "Белый, серый и чёрный. Механизм и рамка должны быть одного цвета — конструктор не даст собрать другой комплект.",
         sortOrder: 2,
       },
       {
-        question: "Какие цвета есть в наличии?",
-        answer: "Белый (WH), серый (GY) и чёрный (BK) — по артикулам серии Futina.",
+        question: "Какая гарантия?",
+        answer:
+          "10 лет на механизмы розеток и выключателей. Для розеток USB A+C и TV+компьютер — 1 год. Срок указан в карточке товара.",
         sortOrder: 3,
       },
       {
-        question: "Рамки и механизмы совместимы?",
+        question: "Как купить для бизнеса?",
         answer:
-          "Да, модульные механизмы M-* и рамки P2/P3/P4 одной серии Futina Modular стыкуются между собой.",
+          "Соберите корзину и отправьте заявку на расчёт. Laitys готовит условия вручную и высылает Excel, PDF или счёт. Сайт сам оптовую цену не считает.",
         sortOrder: 4,
       },
-    ],
-  });
-
-  await prisma.review.createMany({
-    data: [
       {
-        author: "Алексей М.",
-        text: "Взяли белые розетки и рамки Futina под объект — качество нормальное, артикулы совпали с инвойсом.",
-        rating: 5,
-      },
-      {
-        author: "ООО «СветСтрой»",
-        text: "Удобно, что сразу видны оптовые цены и остатки по поставке.",
-        rating: 5,
-      },
-      {
-        author: "Марина К.",
-        text: "Чёрная серия смотрится аккуратно, USB-розетка пригодилась в кабинете.",
-        rating: 4,
-      },
-    ],
-  });
-
-  await prisma.blogPost.createMany({
-    data: [
-      {
-        slug: "futina-seriya-cvetov",
-        title: "Серия Futina: белый, серый и чёрный",
-        excerpt: "Как подобрать розетки, выключатели и рамки одной цветовой линейки.",
-        content:
-          "Артикулы Futina кодируются суффиксом цвета: WH — белый, GY — серый, BK — чёрный. Механизмы M-* и рамки P2–P4 собираются в единый блок.",
-      },
-      {
-        slug: "schuko-i-usb",
-        title: "Schuko с шторками и USB A/C",
-        excerpt: "Чем отличаются D1 и USB-розетки Futina.",
-        content:
-          "D1 — силовая Schuko с защитными шторками и быстрозажимными клеммами. USB — комбинация силовой розетки и портов Type-A + Type-C в корпусе 85×85.",
+        question: "Как доставляете и как оплатить?",
+        answer:
+          "Для частных покупателей — доставка Ozon и онлайн-оплата на сайте. Заказ считается оплаченным после подтверждения платёжной системы. Для бизнеса — оплата по счёту после расчёта.",
+        sortOrder: 5,
       },
     ],
   });
 
   await prisma.siteSetting.createMany({
     data: [
-      { key: "phone", value: "+7 (495) 120-45-67" },
-      { key: "email", value: "info@saityarik.ru" },
-      { key: "city", value: "Москва" },
-      { key: "address", value: "г. Москва, складской комплекс «Электро», ворота 4" },
-      { key: "inn", value: "7700000000" },
-      { key: "ogrn", value: "1027700000000" },
-      { key: "free_delivery_from", value: "5000" },
-      { key: "delivery_provider", value: "cdek" },
-      { key: "supplier", value: "Guangdong Futina Electrical Co.,Ltd" },
+      { key: "brand_name", value: "Laitys" },
+      { key: "tagline", value: "Электроустановочные изделия. Ничего лишнего на стене." },
+      { key: "phone", value: "+7 989 234-14-44" },
+      { key: "email", value: "kamalovaar@gmail.com" },
+      { key: "city", value: "Краснодар" },
+      { key: "legal_name", value: "Индивидуальный предприниматель Камалова Алла Рашидовна" },
+      { key: "short_name", value: "ИП Камалова Алла Рашидовна" },
+      { key: "inn", value: "760403944136" },
+      { key: "ogrnip", value: "323237500310184" },
+      { key: "okpo", value: "2024672876" },
+      { key: "address", value: "350000, Краснодарский край, г. Краснодар, р-н Западный, ул. Буденного, д. 129, кв. 102" },
+      { key: "supplier", value: "Guangdong Futina Electrical Co., Ltd" },
+      { key: "delivery_provider", value: "ozon" },
+      { key: "delivery_note", value: "Ozon Доставка. Стоимость и срок — по зоне покрытия Ozon при оформлении." },
+      { key: "payment_note", value: "B2C — онлайн-оплата на сайте. B2B — счёт после ручного расчёта." },
+      { key: "warranty_note", value: "10 лет; для USB A+C и TV+PC — 1 год" },
+      { key: "index_site", value: "0" },
+      { key: "hero_title", value: "Электроустановочные изделия. Ничего лишнего на стене." },
+      { key: "about_text", value: "Laitys продаёт электроустановочные изделия: розетки, выключатели и рамки. Изготовитель механизмов — Guangdong Futina Electrical Co., Ltd. Продавец — ИП Камалова Алла Рашидовна." },
     ],
   });
 
-  console.log(`Seed OK: ${catalog.length} Futina SKU from invoice`);
+  console.log(`Seed OK: ${catalog.length} Laitys SKU, admin ${adminEmail}`);
 }
 
 main()

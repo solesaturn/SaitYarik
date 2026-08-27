@@ -10,7 +10,7 @@ import { fetchYooKassaPayment, isYooKassaLive } from "@/lib/yookassa";
 export async function GET(req: NextRequest) {
   const orderNumber = req.nextUrl.searchParams.get("order");
   const token = req.nextUrl.searchParams.get("t");
-  const base = process.env.NEXT_PUBLIC_SITE_URL || new URL(req.url).origin;
+  const base = req.nextUrl.origin;
 
   if (!orderNumber || !verifyOrderAccessToken(orderNumber, token)) {
     return NextResponse.redirect(new URL("/", base));
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(thanks);
   }
 
-  if (order.paymentMethod !== "SBP" && order.paymentMethod !== "CARD") {
+  if (order.paymentMethod !== "SBP" && order.paymentMethod !== "CARD" && order.paymentMethod !== "ONLINE") {
     return NextResponse.redirect(thanks);
   }
 
