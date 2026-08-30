@@ -26,14 +26,14 @@ const bizLinks = [
 export function Footer() {
   return (
     <footer className="mt-auto bg-[#111] text-white">
-      <div className="mx-auto max-w-7xl px-4 py-16">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <p className="max-w-md text-2xl font-semibold tracking-tight sm:text-3xl">
             Тонкая рамка снаружи.
             <br />
             Сталь и медь внутри.
           </p>
-          <Link href="/catalog" className="btn btn-light">
+          <Link href="/catalog" className="btn btn-light w-full sm:w-auto">
             Перейти в каталог
           </Link>
         </div>

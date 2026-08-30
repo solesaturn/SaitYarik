@@ -56,7 +56,11 @@ export function B2BQuoteForm() {
       <input name="companyName" required placeholder="Компания" className="w-full rounded-full border border-[var(--line)] px-3 py-2" />
       <input name="inn" required placeholder="ИНН" className="w-full rounded-full border border-[var(--line)] px-3 py-2" />
       <input name="contactName" required placeholder="Контактное лицо" className="w-full rounded-full border border-[var(--line)] px-3 py-2" />
-      <PhoneField value={phone} onChange={setPhone} />
+      <PhoneField
+        value={phone}
+        onChange={setPhone}
+        className="rounded-full border border-[var(--line)] bg-white px-3 py-2 text-sm"
+      />
       <input name="email" type="email" required placeholder="E-mail" className="w-full rounded-full border border-[var(--line)] px-3 py-2" />
       <textarea name="message" rows={3} placeholder="Комментарий" className="w-full rounded-2xl border border-[var(--line)] px-3 py-2" />
       <label className="grid gap-1.5 text-[var(--muted)]">
@@ -82,7 +86,7 @@ export function B2BQuoteForm() {
       )}
       {error && <p className="text-red-700">{error}</p>}
       {status === "ok" && <p className="text-[var(--ok)]">Заявка отправлена. Мы свяжемся и пришлём расчёт.</p>}
-      <button type="submit" disabled={loading} className="btn btn-primary">
+      <button type="submit" disabled={loading} className="btn btn-primary w-full">
         {loading ? "Отправляем…" : "Отправить заявку"}
       </button>
     </form>

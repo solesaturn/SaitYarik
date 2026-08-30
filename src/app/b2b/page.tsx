@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function B2BPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
       <h1 className="section-title">Для бизнеса</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
         Соберите корзину и отправьте заявку. Laitys считает условия вручную и высылает Excel, PDF или счёт. Сайт сам

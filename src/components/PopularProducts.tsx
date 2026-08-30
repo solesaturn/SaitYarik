@@ -25,7 +25,7 @@ export function PopularProducts({
   }, [products, tab]);
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-14">
+    <section className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <h2 className="section-title">Ассортимент</h2>
         <Link href="/catalog" className="text-sm text-[var(--muted)] hover:text-[var(--ink)]">
@@ -44,7 +44,7 @@ export function PopularProducts({
           </button>
         ))}
       </div>
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {filtered.map((p) => (
           <ProductCard key={p.id} product={p} b2bApproved={b2bApproved} />
         ))}

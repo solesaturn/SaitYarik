@@ -31,14 +31,34 @@ export function sameColor(a?: string | null, b?: string | null) {
 }
 
 export function compatibleWith(product: KitProduct, catalog: KitProduct[]) {
-  if (product.kitRole === "mechanism") {
-    return catalog.filter((p) => p.kitRole === "frame" && sameColor(p.color, product.color));
-  }
+  const same = catalog.filter((p) => p.id !== product.id && sameColor(p.color, product.color));
+  const frames = same
+    .filter((p) => p.kitRole === "frame")
+    .sort((a, b) => (a.posts || 0) - (b.posts || 0));
+  const mechanisms = same.filter((p) => p.kitRole === "mechanism");
+
+  if (product.kitRole === "frame") return mechanisms;
+  if (product.kitRole === "mechanism") return [...frames, ...mechanisms];
+  return [...frames, ...mechanisms];
+}
+
+export function kitSectionCopy(product: Pick<KitProduct, "kitRole">) {
   if (product.kitRole === "frame") {
-    return catalog.filter((p) => p.kitRole === "mechanism" && sameColor(p.color, product.color));
+    return {
+      title: "Механизмы в эту рамку",
+      text: "Только того же цвета. Число механизмов равно числу постов рамки.",
+    };
   }
-  const base = product.sku.replace(/-(WH|GY|BK)$/i, "");
-  return catalog.filter((p) => p.sku.replace(/-(WH|GY|BK)$/i, "") === base && p.id !== product.id);
+  if (product.kitRole === "mechanism") {
+    return {
+      title: "Что взять в комплект",
+      text: "Рамка того же цвета и другие механизмы на свободные посты.",
+    };
+  }
+  return {
+    title: "Что взять в комплект",
+    text: "Готовое изделие закрывает один пост. На два и больше нужны рамка и механизмы того же цвета.",
+  };
 }
 
 export function frameSku(posts: number, color: string) {

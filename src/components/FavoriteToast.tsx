@@ -13,7 +13,7 @@ export function FavoriteToast() {
       key={toast.id}
       role="status"
       aria-live="polite"
-      className="fixed bottom-5 right-4 z-[60] w-[min(100%-2rem,22rem)] animate-[toast-in_0.35s_ease] border border-[var(--line)] bg-white shadow-[0_12px_40px_rgba(20,32,51,0.18)]"
+      className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-4 right-4 z-[60] w-auto max-w-[22rem] animate-[toast-in_0.35s_ease] border border-[var(--line)] bg-white shadow-[0_12px_40px_rgba(20,32,51,0.18)] sm:left-auto sm:right-4 sm:w-[min(100%-2rem,22rem)]"
     >
       <div className="flex items-start gap-3 p-4">
         <span

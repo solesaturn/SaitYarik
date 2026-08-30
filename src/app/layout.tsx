@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
@@ -10,11 +10,16 @@ import { CartToast } from "@/components/CartToast";
 import { FavoriteToast } from "@/components/FavoriteToast";
 import { getSite } from "@/lib/site";
 
-
 const body = Inter({
   subsets: ["latin", "cyrillic"],
   variable: "--font-body",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSite();
@@ -37,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ru">
+    <html lang="ru" data-scroll-behavior="smooth">
       <body className={`${body.variable} antialiased`}>
         <CartProvider>
           <FavoritesProvider>

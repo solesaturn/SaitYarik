@@ -53,7 +53,7 @@ export function ProductBuyBox({ product }: { product: Product; b2bApproved?: boo
         <p className="mt-1 text-sm text-[var(--muted)]">Наличие уточняется</p>
       )}
       {priced ? (
-        <div className="mt-4 flex flex-wrap items-center gap-3">
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <label className="text-sm text-[var(--muted)]">
             Кол-во
             <input
@@ -65,7 +65,7 @@ export function ProductBuyBox({ product }: { product: Product; b2bApproved?: boo
               className="ml-2 w-24 rounded-full border border-[var(--line)] bg-[var(--paper)] px-3 py-1.5 text-[var(--ink)]"
             />
           </label>
-          <button type="button" className={`btn ${added ? "!bg-[var(--ok)] text-white" : "btn-primary"}`} onClick={handleAdd}>
+          <button type="button" className={`btn w-full sm:w-auto ${added ? "!bg-[var(--ok)] text-white" : "btn-primary"}`} onClick={handleAdd}>
             {added ? (
               <>
                 <Check className="h-4 w-4" strokeWidth={2.5} /> Добавлено

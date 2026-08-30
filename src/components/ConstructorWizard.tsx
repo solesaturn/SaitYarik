@@ -82,7 +82,7 @@ export function ConstructorWizard({ products }: { products: P[] }) {
 
   return (
     <div className="mt-10 space-y-5">
-      <section className="rounded-2xl bg-white p-6 sm:p-8">
+      <section className="rounded-2xl bg-white p-4 sm:p-6 lg:p-8">
         <h2 className="text-xl font-semibold">1. Механизм</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {mechKinds.map((m) => (
@@ -103,7 +103,7 @@ export function ConstructorWizard({ products }: { products: P[] }) {
         </div>
       </section>
 
-      <section className="rounded-2xl bg-white p-6 sm:p-8">
+      <section className="rounded-2xl bg-white p-4 sm:p-6 lg:p-8">
         <h2 className="text-xl font-semibold">2. Число постов</h2>
         <p className="mt-2 text-sm text-[var(--muted)]">Рамка на 2, 3 или 4 поста. На один пост берите готовое изделие в каталоге.</p>
         <div className="mt-4 flex flex-wrap gap-2">
@@ -123,7 +123,7 @@ export function ConstructorWizard({ products }: { products: P[] }) {
         </div>
       </section>
 
-      <section className="rounded-2xl bg-white p-6 sm:p-8">
+      <section className="rounded-2xl bg-white p-4 sm:p-6 lg:p-8">
         <h2 className="text-xl font-semibold">3. Цвет</h2>
         <p className="mt-2 text-sm text-[var(--muted)]">Механизм и рамка только одного цвета.</p>
         <div className="mt-4 flex flex-wrap gap-3">
@@ -147,7 +147,7 @@ export function ConstructorWizard({ products }: { products: P[] }) {
       </section>
 
       {kind && posts && color && (
-        <section className="rounded-2xl bg-[#111] p-6 text-white sm:p-8">
+        <section className="rounded-2xl bg-[#111] p-4 text-white sm:p-6 lg:p-8">
           {valid ? (
             <>
               <h2 className="text-xl font-semibold">Комплект собран</h2>
@@ -164,9 +164,9 @@ export function ConstructorWizard({ products }: { products: P[] }) {
                   ) : null
                 )}
               </ul>
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 {kitPriced ? (
-                  <button type="button" className="btn btn-light" onClick={addKit}>
+                  <button type="button" className="btn btn-light w-full sm:w-auto" onClick={addKit}>
                     {added ? (
                       <>
                         <Check className="h-4 w-4" /> В корзине
@@ -179,12 +179,12 @@ export function ConstructorWizard({ products }: { products: P[] }) {
                   <p className="text-sm text-white/60">Цена комплекта уточняется. Можно открыть карточки товаров.</p>
                 )}
                 {mechanism && (
-                  <Link href={`/product/${mechanism.slug}`} className="btn border border-white/20">
+                  <Link href={`/product/${mechanism.slug}`} className="btn w-full border border-white/20 sm:w-auto">
                     Механизм
                   </Link>
                 )}
                 {frame && (
-                  <Link href={`/product/${frame.slug}`} className="btn border border-white/20">
+                  <Link href={`/product/${frame.slug}`} className="btn w-full border border-white/20 sm:w-auto">
                     Рамка
                   </Link>
                 )}

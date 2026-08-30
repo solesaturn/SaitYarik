@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { ProductBuyBox } from "@/components/ProductBuyBox";
 import { ProductCard } from "@/components/ProductCard";
 import { hasConfirmedPrice } from "@/lib/pricing";
-import { compatibleWith } from "@/lib/compatibility";
+import { compatibleWith, kitSectionCopy } from "@/lib/compatibility";
 
 export const dynamic = "force-dynamic";
 
@@ -36,48 +36,48 @@ export default async function ProductPage({ params }: Props) {
     const base = (sku: string) => sku.replace(/-(WH|GY|BK)$/i, "");
     return base(p.sku) === base(product.sku);
   });
+  const kitCopy = kitSectionCopy(product);
 
   const attrs = JSON.parse(product.attrsJson || "{}") as Record<string, string>;
   const docs = JSON.parse(product.documentsJson || "[]") as { name: string; url: string }[];
   const priced = hasConfirmedPrice(product);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10">
-      <nav className="text-xs text-[var(--muted)]">
-        <Link href="/">Главная</Link> / <Link href="/catalog">Каталог</Link>
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:py-10">
+      <nav className="truncate text-xs text-[var(--muted)]">
+        <Link href="/">Главная</Link>
+        {" / "}
+        <Link href="/catalog">Каталог</Link>
         {product.categories[0] && (
           <>
-            {" "}
-            / <Link href={`/catalog/${product.categories[0].category.slug}`}>{product.categories[0].category.name}</Link>
+            {" / "}
+            <Link href={`/catalog/${product.categories[0].category.slug}`}>{product.categories[0].category.name}</Link>
           </>
-        )}{" "}
-        / <span>{product.name}</span>
+        )}
       </nav>
 
-      <div className="mt-6 grid gap-10 lg:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden rounded-2xl bg-[var(--card)]">
+      <div className="mt-4 grid gap-6 sm:mt-6 lg:grid-cols-2 lg:gap-10">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--card)] sm:aspect-square">
           {product.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover object-left" />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-40 w-40 rounded-full bg-white/80" />
+              <div className="h-24 w-24 rounded-full bg-white/80 sm:h-40 sm:w-40" />
             </div>
           )}
         </div>
 
-        <div>
+        <div className="min-w-0">
           <p className="text-sm text-[var(--muted)]">
             арт. {product.sku}
             {product.series ? ` · ${product.series}` : ""}
             {product.color ? ` · ${product.color}` : ""}
           </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight">{product.name}</h1>
-          <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">{product.description}</p>
+          <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{product.name}</h1>
+          <p className="mt-3 text-sm leading-relaxed text-[var(--muted)] sm:mt-4">{product.description}</p>
 
-          {product.warranty && (
-            <p className="mt-4 text-sm">Гарантия: {product.warranty}</p>
-          )}
+          {product.warranty && <p className="mt-4 text-sm">Гарантия: {product.warranty}</p>}
           {product.certNumber && (
             <p className="mt-2 text-sm">
               Сертификат:{" "}
@@ -89,7 +89,7 @@ export default async function ProductPage({ params }: Props) {
 
           {colorVariants.length > 1 && (
             <div className="mt-5">
-              <p className="text-sm font-semibold">Цвет</p>
+              <p className="text-sm font-semibold">Цвет этой модели</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {colorVariants.map((v) => {
                   const active = v.id === product.id;
@@ -103,7 +103,7 @@ export default async function ProductPage({ params }: Props) {
                     <Link
                       key={v.id}
                       href={`/product/${v.slug}`}
-                      className={`inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-sm ${
+                      className={`inline-flex min-h-10 items-center gap-2 rounded-full bg-white px-3 py-1.5 text-sm ${
                         active ? "ring-2 ring-[var(--ink)]" : ""
                       }`}
                     >
@@ -118,19 +118,19 @@ export default async function ProductPage({ params }: Props) {
 
           <ProductBuyBox product={product} />
 
-          <div className="mt-8">
-            <h2 className="font-semibold">Характеристики</h2>
-            <table className="mt-3 w-full text-sm">
-              <tbody>
+          {Object.keys(attrs).length > 0 && (
+            <div className="mt-8">
+              <h2 className="font-semibold">Характеристики</h2>
+              <dl className="mt-3 divide-y divide-[var(--line)] text-sm">
                 {Object.entries(attrs).map(([k, v]) => (
-                  <tr key={k} className="border-b border-[var(--line)]">
-                    <td className="py-2 text-[var(--muted)]">{k}</td>
-                    <td className="py-2 font-medium">{v}</td>
-                  </tr>
+                  <div key={k} className="flex justify-between gap-4 py-2.5">
+                    <dt className="shrink-0 text-[var(--muted)]">{k}</dt>
+                    <dd className="text-right font-medium">{v}</dd>
+                  </div>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </dl>
+            </div>
+          )}
 
           {docs.length > 0 && (
             <div className="mt-6">
@@ -153,15 +153,17 @@ export default async function ProductPage({ params }: Props) {
       </div>
 
       {compatible.length > 0 && (
-        <section className="mt-16">
-          <h2 className="section-title">
-            {product.kitRole === "mechanism"
-              ? "Совместимые рамки"
-              : product.kitRole === "frame"
-                ? "Совместимые механизмы"
-                : "Другие цвета"}
-          </h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <section className="mt-10 sm:mt-16">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="section-title">{kitCopy.title}</h2>
+              <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">{kitCopy.text}</p>
+            </div>
+            <Link href="/kit" className="text-sm font-medium underline underline-offset-4">
+              Собрать в конструкторе
+            </Link>
+          </div>
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
             {compatible.slice(0, 8).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

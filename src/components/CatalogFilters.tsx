@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 
 type Counts = {
   colors: Record<string, number>;
@@ -26,6 +26,7 @@ export function CatalogFilters({
   const router = useRouter();
   const sp = useSearchParams();
   const [pending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
 
   function set(key: string, value: string) {
     const next = new URLSearchParams(sp.toString());
@@ -46,7 +47,16 @@ export function CatalogFilters({
 
   return (
     <aside className="h-fit lg:sticky lg:top-24">
-      <p className="text-sm font-semibold">Фильтры</p>
+      <button
+        type="button"
+        className="btn btn-copper w-full lg:hidden"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+      >
+        {open ? "Скрыть фильтры" : "Фильтры"}
+      </button>
+      <div className={`${open ? "mt-4 block" : "hidden"} lg:mt-0 lg:block`}>
+      <p className="hidden text-sm font-semibold lg:block">Фильтры</p>
 
       {colors.length > 0 && (
         <FilterGroup title="Цвет">
@@ -139,6 +149,7 @@ export function CatalogFilters({
       >
         Сбросить всё
       </button>
+      </div>
     </aside>
   );
 }

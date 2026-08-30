@@ -8,6 +8,7 @@ const pills = [
   { href: "/catalog?type=розетка", label: "Розетки", type: "розетка" },
   { href: "/catalog?type=выключатель", label: "Выключатели", type: "выключатель" },
   { href: "/catalog?type=рамка", label: "Рамки", type: "рамка" },
+  { href: "/catalog?type=механизм", label: "Механизмы", type: "механизм" },
 ];
 
 export function CatalogToolbar({ title }: { title: string }) {
@@ -77,12 +78,12 @@ export function CatalogToolbar({ title }: { title: string }) {
           </label>
         </div>
       </div>
-      <div className="mt-6 flex flex-wrap gap-2">
+      <div className="mt-6 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap">
         {pills.map((p) => (
           <Link
             key={p.label}
             href={p.href}
-            className={`pill ${activeType === p.type ? "pill-active" : ""}`}
+            className={`pill shrink-0 ${activeType === p.type ? "pill-active" : ""}`}
           >
             {p.label}
           </Link>

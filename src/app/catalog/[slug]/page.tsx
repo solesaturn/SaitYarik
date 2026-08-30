@@ -30,7 +30,7 @@ export default async function CategoryPage({ params }: Props) {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:py-10">
       <nav className="text-xs text-[var(--muted)]">
         <Link href="/">Главная</Link>
         {" > "}
@@ -40,7 +40,7 @@ export default async function CategoryPage({ params }: Props) {
       </nav>
       <h1 className="section-title mt-3">{category.name}</h1>
       {category.description && <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">{category.description}</p>}
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
         {products.map((p) => (
           <ProductCard key={p.id} product={p} />
         ))}

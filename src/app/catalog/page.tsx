@@ -98,12 +98,12 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
   const title = productType ? titleMap[productType] || productType : "Каталог";
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:py-10">
       <Suspense fallback={<div className="h-24" />}>
         <CatalogToolbar title={title} />
       </Suspense>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[220px_1fr]">
+      <div className="mt-6 grid gap-6 lg:mt-10 lg:grid-cols-[220px_1fr] lg:gap-10">
         <Suspense fallback={<div className="text-sm text-[var(--muted)]">Фильтры…</div>}>
           <CatalogFilters counts={counts} resultCount={total} />
         </Suspense>
@@ -114,16 +114,9 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
               Ничего не найдено. Сбросьте фильтры или измените запрос.
             </p>
           ) : (
-            <div className="grid divide-y divide-[var(--line)] border-t border-[var(--line)] sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-3">
-              {products.map((p, i) => (
-                <div
-                  key={p.id}
-                  className={`p-4 sm:p-5 ${i >= 3 ? "border-t border-[var(--line)]" : ""} ${
-                    i % 3 !== 0 ? "lg:border-l lg:border-[var(--line)]" : ""
-                  }`}
-                >
-                  <ProductCard product={p} />
-                </div>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-x-5 lg:grid-cols-3">
+              {products.map((p) => (
+                <ProductCard key={p.id} product={p} />
               ))}
             </div>
           )}

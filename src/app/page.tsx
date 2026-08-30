@@ -37,14 +37,14 @@ export default async function HomePage() {
   return (
     <div>
       <section className="hero-gradient">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-16 pt-12 lg:grid-cols-[1.1fr_0.9fr] lg:pt-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-6 px-4 pb-10 pt-8 sm:gap-10 sm:pb-16 sm:pt-12 lg:grid-cols-[1.1fr_0.9fr] lg:pt-16">
           <div>
             <h1 className="section-title max-w-xl">{site.tagline}</h1>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/catalog" className="btn btn-primary">
+            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
+              <Link href="/catalog" className="btn btn-primary w-full sm:w-auto">
                 В каталог
               </Link>
-              <Link href="/kit" className="btn btn-copper">
+              <Link href="/kit" className="btn btn-copper w-full sm:w-auto">
                 Собрать комплект
               </Link>
             </div>
@@ -54,7 +54,7 @@ export default async function HomePage() {
             <img
               src={heroProduct?.imageUrl || "/images/placeholder.png"}
               alt={heroProduct?.name || "Розетка Laitys"}
-              className="aspect-square w-full max-w-md rounded-[2rem] bg-black object-cover object-left"
+              className="aspect-[5/3] w-full max-w-md rounded-[1.5rem] bg-black object-cover object-left sm:aspect-square sm:rounded-[2rem]"
             />
           </div>
         </div>
@@ -62,7 +62,7 @@ export default async function HomePage() {
 
       <PopularProducts products={products} />
 
-      <section className="mx-auto max-w-7xl px-4 py-16">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div>
             <h2 className="section-title">То, что видно каждый день</h2>
@@ -97,7 +97,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
         <h2 className="section-title">Категории</h2>
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {categories.map((c) => (
@@ -109,7 +109,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-[var(--line)] bg-white py-16">
+      <section className="border-y border-[var(--line)] bg-white py-10 sm:py-16">
         <div className="mx-auto max-w-7xl px-4">
           <h2 className="section-title">Гарантия и документы</h2>
           <div className="mt-8 grid gap-8 lg:grid-cols-3">
@@ -136,25 +136,25 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#111] py-16 text-white">
+      <section className="bg-[#111] py-10 text-white sm:py-16">
         <div className="mx-auto max-w-7xl px-4">
           <h2 className="section-title">Проект, опт и спецификация</h2>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/60">
             Соберите корзину и отправьте заявку. Laitys посчитает условия вручную и пришлёт Excel, PDF или счёт. Сайт
             оптовую цену не считает.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/b2b" className="btn btn-light">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Link href="/b2b" className="btn btn-light w-full sm:w-auto">
               Запросить расчёт
             </Link>
-            <Link href="/catalog" className="btn border border-white/20 bg-transparent text-white hover:bg-white/10">
+            <Link href="/catalog" className="btn w-full border border-white/20 bg-transparent text-white hover:bg-white/10 sm:w-auto">
               Собрать корзину
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
         <h2 className="section-title">Вопросы</h2>
         <div className="mt-8 max-w-3xl space-y-3">
           {faqs.map((f) => (

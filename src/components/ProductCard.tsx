@@ -66,7 +66,7 @@ export function ProductCard({ product }: { product: ProductCardData; b2bApproved
     product.stock > 0 ? `В наличии ${product.stock} шт` : "Наличие уточняется";
 
   return (
-    <article className="group flex flex-col">
+    <article className="group flex min-w-0 flex-col">
       <Link href={`/product/${product.slug}`} className="relative block overflow-hidden rounded-2xl bg-[var(--card)]">
         <div className="aspect-square">
           {product.imageUrl ? (
@@ -85,23 +85,23 @@ export function ProductCard({ product }: { product: ProductCardData; b2bApproved
         <Link href={`/product/${product.slug}`} className="mt-1 line-clamp-2 text-sm font-medium leading-snug hover:opacity-70">
           {product.name}
         </Link>
-        <div className="mt-auto flex items-end justify-between gap-2 pt-3">
-          <p className="text-base font-semibold tracking-tight">{formatPriceLabel(price)}</p>
+        <div className="mt-auto flex flex-col gap-1 pt-3">
+          <p className="text-sm font-semibold tracking-tight sm:text-base">{formatPriceLabel(price)}</p>
           <button
             type="button"
             onClick={copySku}
-            className="inline-flex items-center gap-1 text-xs text-[var(--muted)] hover:text-[var(--ink)]"
+            className="inline-flex max-w-full items-center gap-1 text-xs text-[var(--muted)] hover:text-[var(--ink)]"
             title="Скопировать артикул"
           >
-            <span className="font-mono">{product.sku}</span>
-            {copied ? <Check className="h-3.5 w-3.5 text-[var(--ok)]" /> : <Copy className="h-3.5 w-3.5" strokeWidth={1.5} />}
+            <span className="truncate font-mono">{product.sku}</span>
+            {copied ? <Check className="h-3.5 w-3.5 shrink-0 text-[var(--ok)]" /> : <Copy className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />}
           </button>
         </div>
         {priced ? (
           <button
             type="button"
             onClick={handleAdd}
-            className={`btn mt-3 w-full !rounded-xl ${added ? "!bg-[var(--ok)] text-white" : "btn-primary"}`}
+            className={`btn mt-3 w-full !rounded-xl !px-2 text-xs sm:!px-5 sm:text-sm ${added ? "!bg-[var(--ok)] text-white" : "btn-primary"}`}
           >
             {added ? (
               <>
@@ -109,12 +109,12 @@ export function ProductCard({ product }: { product: ProductCardData; b2bApproved
               </>
             ) : (
               <>
-                <ShoppingCart className="h-4 w-4" strokeWidth={1.5} /> В корзину
+                <ShoppingCart className="hidden h-4 w-4 sm:inline" strokeWidth={1.5} /> В корзину
               </>
             )}
           </button>
         ) : (
-          <p className="mt-3 rounded-xl bg-[var(--sand)] px-3 py-2.5 text-center text-sm text-[var(--muted)]">
+          <p className="mt-3 rounded-xl bg-[var(--sand)] px-2 py-2.5 text-center text-xs text-[var(--muted)] sm:px-3 sm:text-sm">
             Цена уточняется
           </p>
         )}
