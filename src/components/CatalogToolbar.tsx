@@ -69,7 +69,7 @@ export function CatalogToolbar({ title }: { title: string }) {
               value={sort}
               onChange={(e) => patch({ sort: e.target.value })}
             >
-              <option value="popular">Популярность</option>
+              <option value="popular">Рекомендуем</option>
               <option value="price_asc">Цена ↑</option>
               <option value="price_desc">Цена ↓</option>
               <option value="new">Новизна</option>

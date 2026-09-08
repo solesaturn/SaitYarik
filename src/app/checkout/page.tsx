@@ -12,6 +12,7 @@ export default function CheckoutPage() {
   const { items, subtotal, clear } = useCart();
   const router = useRouter();
   const [phone, setPhone] = useState("");
+  const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -31,14 +32,16 @@ export default function CheckoutPage() {
     }
     setLoading(true);
     const form = new FormData(e.currentTarget);
+    const cityValue = String(form.get("city") || city).trim();
+    const street = String(form.get("deliveryAddress") || "").trim();
     const payload = {
       customerType: "B2C",
-      deliveryMethod: "OZON",
+      deliveryMethod: "COURIER",
       paymentMethod: "ONLINE",
       email: String(form.get("email") || ""),
       phone: toE164(phone),
       name: String(form.get("name") || ""),
-      deliveryAddress: String(form.get("deliveryAddress") || ""),
+      deliveryAddress: [cityValue, street].filter(Boolean).join(", "),
       comment: String(form.get("comment") || ""),
       items: items.map((i) => ({
         productId: i.productId,
@@ -80,8 +83,8 @@ export default function CheckoutPage() {
     <div className="mx-auto max-w-5xl px-4 py-6 sm:py-10">
       <h1 className="section-title">Оформление заказа</h1>
       <p className="mt-2 text-sm text-[var(--muted)]">
-        Имя, телефон, e-mail и адрес. Доставка Ozon. Оплата на сайте. Заказ станет оплаченным после подтверждения
-        платёжной системы.
+        Доставку рассчитаем после выбора города. Оплата на сайте. Заказ станет оплаченным после подтверждения платёжной
+        системы.
       </p>
       {!ready && (
         <p className="mt-4 rounded-2xl bg-[var(--sand)] p-4 text-sm">
@@ -112,13 +115,24 @@ export default function CheckoutPage() {
 
           <div className="rounded-2xl bg-white p-5">
             <p className="font-semibold">Доставка</p>
-            <p className="mt-2 text-sm text-[var(--muted)]">Ozon Доставка. Стоимость считает Ozon по адресу.</p>
+            <p className="mt-2 text-sm text-[var(--muted)]">Доставку рассчитаем после выбора города.</p>
+            <label className="mt-3 grid gap-1 text-sm">
+              <span className="text-[var(--muted)]">Город</span>
+              <input
+                name="city"
+                required
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Город"
+                className="w-full rounded-full border border-[var(--line)] px-3 py-2 text-sm"
+              />
+            </label>
             <label className="mt-3 grid gap-1 text-sm">
               <span className="text-[var(--muted)]">Адрес доставки</span>
               <input
                 name="deliveryAddress"
                 required
-                placeholder="Город, улица, дом, квартира"
+                placeholder="Улица, дом, квартира"
                 className="w-full rounded-full border border-[var(--line)] px-3 py-2 text-sm"
               />
             </label>
@@ -126,9 +140,7 @@ export default function CheckoutPage() {
 
           <div className="rounded-2xl bg-white p-5">
             <p className="font-semibold">Оплата</p>
-            <p className="mt-2 text-sm text-[var(--muted)]">
-              Онлайн на сайте. Базовый контур — ЮKassa; Ozon Pay подключается отдельно, когда будут доступы.
-            </p>
+            <p className="mt-2 text-sm text-[var(--muted)]">Онлайн на сайте. После перехода к оплате дождитесь подтверждения.</p>
             <textarea
               name="comment"
               placeholder="Комментарий (необязательно)"
@@ -168,8 +180,8 @@ export default function CheckoutPage() {
               <span>{ready ? formatPrice(subtotal) : "уточняется"}</span>
             </p>
             <p className="flex justify-between">
-              <span>Доставка Ozon</span>
-              <span>по тарифу</span>
+              <span>Доставка</span>
+              <span>{city ? "после выбора города" : "укажите город"}</span>
             </p>
             <p className="flex justify-between border-t border-[var(--line)] pt-2 text-base font-semibold">
               <span>К оплате за товар</span>
@@ -178,7 +190,7 @@ export default function CheckoutPage() {
           </div>
           {error && <p className="mt-3 text-sm text-red-700">{error}</p>}
           <button type="submit" disabled={loading || !ready} className="btn btn-primary mt-5 w-full disabled:opacity-50">
-            {loading ? "Оформляем…" : "Оплатить"}
+            {loading ? "Ожидаем подтверждение оплаты" : ready ? `Оплатить ${formatPrice(subtotal)}` : "Оплатить"}
           </button>
         </aside>
       </form>

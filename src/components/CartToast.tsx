@@ -20,7 +20,7 @@ export function CartToast() {
           <Check className="h-5 w-5" strokeWidth={2.5} />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold text-[var(--ink)]">Добавлено в корзину</p>
+          <p className="text-sm font-semibold text-[var(--ink)]">Товар добавлен в корзину</p>
           <p className="mt-0.5 line-clamp-2 text-sm text-[var(--muted)]">
             {toast.name}
             {toast.quantity > 1 ? ` · ${toast.quantity} шт.` : ""}

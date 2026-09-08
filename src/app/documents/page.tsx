@@ -18,9 +18,9 @@ export default async function DocumentsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="section-title">Документы</h1>
-      <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
+      <p className="mt-3 leading-relaxed text-[var(--muted)]">
         Действующие сертификаты соответствия. Изготовитель в документах — Guangdong Futina Electrical Co., Ltd.
-        Заявитель — {site.shortName}. Макеты деклараций на сайт не публикуются.
+        Заявитель — {site.shortName}.
       </p>
       <ul className="mt-8 space-y-4">
         {docs.map((d) => (
@@ -32,11 +32,13 @@ export default async function DocumentsPage() {
             </p>
             <p className="mt-1 text-sm text-[var(--muted)]">Артикулы: {d.skuList}</p>
             {d.fileUrl ? (
-              <a href={d.fileUrl} className="mt-3 inline-block text-sm underline">
-                Скачать PDF
+              <a href={d.fileUrl} className="btn btn-primary mt-4">
+                Открыть сертификат
               </a>
             ) : (
-              <p className="mt-3 text-sm text-[var(--muted)]">Файл загрузит владелец в админке, когда скан будет под рукой.</p>
+              <Link href="/contacts" className="mt-3 inline-block text-sm underline">
+                Запросить документ
+              </Link>
             )}
           </li>
         ))}

@@ -17,8 +17,8 @@ export default async function ContactsPage({
         <p className="mt-4 rounded-2xl bg-green-50 px-4 py-3 text-sm text-green-800">Сообщение отправлено.</p>
       )}
       <div className="mt-6 space-y-2 rounded-2xl bg-white p-5 text-sm">
-        <p>Телефон: {site.phone}</p>
-        <p>E-mail: {site.email}</p>
+        <p>Телефон: <a href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a></p>
+        <p>E-mail: <a href={`mailto:${site.email}`}>{site.email}</a></p>
         <p>Город: {site.city}</p>
         <p className="text-[var(--muted)]">{site.shortName}</p>
       </div>

@@ -8,11 +8,9 @@ import { SITE } from "@/lib/pricing";
 
 const nav = [
   { href: "/catalog", label: "Каталог" },
-  { href: "/kit", label: "Конструктор" },
-  { href: "/about", label: "О нас" },
-  { href: "/b2b", label: "Для бизнеса" },
-  { href: "/documents", label: "Документы" },
-  { href: "/contacts", label: "Контакты" },
+  { href: "/kit", label: "Собрать блок" },
+  { href: "/delivery", label: "Доставка и оплата" },
+  { href: "/about", label: "О бренде" },
 ];
 
 export function Header() {
@@ -58,7 +56,7 @@ export function Header() {
             {SITE.name}
           </Link>
 
-          <nav className="ml-8 hidden items-center gap-5 text-sm text-[var(--ink)] lg:flex xl:gap-6">
+          <nav className="ml-6 hidden items-center gap-5 text-[0.9375rem] text-[var(--ink)] lg:flex xl:gap-6">
             {nav.map((item) => (
               <Link key={item.href} href={item.href} className="hover:opacity-60">
                 {item.label}
@@ -66,20 +64,43 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="ml-auto flex items-center">
+          <form action="/search" className="ml-auto hidden min-w-0 max-w-xs flex-1 lg:block">
+            <label className="sr-only" htmlFor="header-search">
+              Найти товар или артикул
+            </label>
+            <input
+              id="header-search"
+              name="q"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Найти товар или артикул"
+              className="w-full rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm outline-none focus:border-[var(--ink)]"
+            />
+          </form>
+
+          <div className="ml-auto flex items-center lg:ml-2">
             <button
               type="button"
-              className="rounded-full p-2.5 hover:bg-black/5"
+              className="flex min-h-11 min-w-11 items-center justify-center rounded-full hover:bg-black/5 lg:hidden"
               aria-label="Поиск"
               onClick={() => setSearchOpen((v) => !v)}
             >
               <Search className="h-5 w-5" strokeWidth={1.5} />
             </button>
-            <Link href="/account" className="rounded-full p-2.5 hover:bg-black/5" aria-label="Кабинет">
+            <Link
+              href="/account"
+              className="hidden min-h-11 min-w-11 items-center justify-center rounded-full hover:bg-black/5 lg:flex"
+              aria-label="Кабинет"
+            >
               <User className="h-5 w-5" strokeWidth={1.5} />
             </Link>
-            <Link href="/cart" className="relative rounded-full p-2.5 hover:bg-black/5" aria-label={count > 0 ? `Корзина, ${count}` : "Корзина"}>
+            <Link
+              href="/cart"
+              className="relative flex min-h-11 min-w-11 items-center justify-center rounded-full hover:bg-black/5"
+              aria-label={count > 0 ? `Корзина, ${count}` : "Корзина"}
+            >
               <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
+              <span className="sr-only">Корзина</span>
               {count > 0 && (
                 <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--ink)] px-1 text-[10px] font-semibold text-white">
                   {count}
@@ -90,14 +111,18 @@ export function Header() {
         </div>
 
         {searchOpen && (
-          <div className="border-t border-[var(--line)] px-4 py-3">
+          <div className="border-t border-[var(--line)] px-4 py-3 lg:hidden">
             <form action="/search" className="mx-auto max-w-7xl">
+              <label className="sr-only" htmlFor="header-search-mobile">
+                Найти товар или артикул
+              </label>
               <input
+                id="header-search-mobile"
                 name="q"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 autoFocus
-                placeholder="Название или артикул"
+                placeholder="Найти товар или артикул"
                 className="w-full rounded-full border border-[var(--line)] bg-white px-4 py-2.5 text-sm outline-none focus:border-[var(--ink)]"
               />
             </form>
@@ -129,11 +154,8 @@ export function Header() {
                   {item.label}
                 </Link>
               ))}
-              <Link href="/delivery" className="py-2.5" onClick={() => setOpen(false)}>
-                Доставка и оплата
-              </Link>
-              <Link href="/returns" className="py-2.5" onClick={() => setOpen(false)}>
-                Гарантия и возврат
+              <Link href="/account" className="py-2.5" onClick={() => setOpen(false)}>
+                Кабинет
               </Link>
             </nav>
           </div>

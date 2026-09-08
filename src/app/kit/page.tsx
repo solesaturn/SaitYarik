@@ -3,8 +3,8 @@ import { ConstructorWizard } from "@/components/ConstructorWizard";
 import { prisma } from "@/lib/prisma";
 
 export const metadata = {
-  title: "Конструктор комплекта",
-  description: "Соберите механизм и рамку Laitys одного цвета",
+  title: "Собрать блок",
+  description: "Соберите рамку и механизмы Laitys одного цвета",
 };
 
 export const dynamic = "force-dynamic";
@@ -30,17 +30,13 @@ export default async function KitPage() {
   });
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:py-12">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
       <nav className="text-xs text-[var(--muted)]">
         <Link href="/">Главная</Link>
         {" / "}
-        <span>Конструктор</span>
+        <span>Собрать блок</span>
       </nav>
-      <h1 className="section-title mt-3">Соберите комплект</h1>
-      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
-        Сначала механизм, затем число постов и цвет. Несовместимые сочетания собрать нельзя: рамка и механизм только
-        одного цвета, число постов рамки — 2, 3 или 4.
-      </p>
+      <h1 className="section-title mt-3">Собрать блок</h1>
       <ConstructorWizard products={products} />
     </div>
   );

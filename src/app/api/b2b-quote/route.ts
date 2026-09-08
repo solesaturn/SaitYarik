@@ -22,10 +22,13 @@ export async function POST(req: NextRequest) {
   const message = String(form.get("message") || "").trim();
   const itemsRaw = String(form.get("items") || "[]");
 
-  if (!companyName || !inn || !contactName || !email) {
-    return NextResponse.json({ error: "Заполните компанию, ИНН, контакт и e-mail" }, { status: 400 });
+  if (!companyName || !contactName) {
+    return NextResponse.json({ error: "Заполните компанию и контактное лицо" }, { status: 400 });
   }
-  if (!isValidRuPhone(phone)) {
+  if (!email && !phone) {
+    return NextResponse.json({ error: "Укажите телефон или почту для ответа" }, { status: 400 });
+  }
+  if (phone && !isValidRuPhone(phone)) {
     return NextResponse.json({ error: "Некорректный телефон" }, { status: 400 });
   }
 
@@ -65,7 +68,7 @@ export async function POST(req: NextRequest) {
       companyName,
       inn,
       contactName,
-      phone: toE164(phone),
+      phone: phone ? toE164(phone) : "",
       email,
       message: message || null,
       itemsJson,

@@ -2,6 +2,9 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getSession, isStaff } from "@/lib/auth";
 import { verifyOrderAccessToken } from "@/lib/order-token";
+import { getSite } from "@/lib/site";
+import { displayProduct } from "@/lib/product-display";
+import { formatPrice } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -12,45 +15,52 @@ export default async function ThanksPage({
 }) {
   const { order: number, t: token } = await searchParams;
   const session = await getSession();
+  const site = await getSite();
 
-  let order: {
-    number: string;
-    status: string;
-    paymentMethod: string | null;
-    fiscalReceiptUrl: string | null;
-    userId: string | null;
-  } | null = null;
+  const found = number
+    ? await prisma.order.findUnique({
+        where: { number },
+        include: { items: true },
+      })
+    : null;
 
-  if (number) {
-    const found = await prisma.order.findUnique({ where: { number } });
-    if (found) {
-      const allowed =
-        verifyOrderAccessToken(number, token) ||
-        (session && (session.id === found.userId || isStaff(session.role)));
-      if (allowed) order = found;
-    }
-  }
+  const allowed =
+    found &&
+    (verifyOrderAccessToken(number!, token) || (session && (session.id === found.userId || isStaff(session.role))));
+  const order = allowed ? found : null;
+
+  const paymentNote =
+    order?.status === "PAID"
+      ? "Оплата подтверждена."
+      : order?.status === "CANCELLED"
+        ? "Оплата не завершена. Проверьте статус заказа перед повторной оплатой."
+        : "Ожидаем подтверждение оплаты.";
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-16 text-center">
-      <h1 className="section-title">Спасибо за заказ!</h1>
+    <div className="mx-auto max-w-2xl px-4 py-16">
+      <h1 className="section-title text-center">Спасибо за заказ</h1>
       {order ? (
-        <div className="mt-6 border border-[var(--line)] bg-white p-6 text-left">
+        <div className="mt-6 rounded-2xl border border-[var(--line)] bg-white p-6">
           <p className="text-sm text-[var(--muted)]">Номер заказа</p>
-          <p className="font-[family-name:var(--font-display)] text-2xl">{order.number}</p>
-          <p className="mt-3 text-sm">Статус: {order.status}</p>
-          {order.paymentMethod === "INVOICE" ? (
-            <p className="mt-2 text-sm text-[var(--muted)]">
-              Счёт будет отправлен на e-mail. При безналичной оплате кассовый чек не пробивается — формируются счёт и
-              УПД.
-            </p>
-          ) : (
-            <p className="mt-2 text-sm text-[var(--muted)]">
-              {order.status === "PAID"
-                ? "Оплата подтверждена. Фискальный чек — по ссылке ниже (если доступен)."
-                : "Если оплата ещё обрабатывается — обновите страницу через минуту."}
-            </p>
+          <p className="text-2xl font-semibold tracking-tight">{order.number}</p>
+          <p className="mt-3 text-[0.9375rem]">{paymentNote}</p>
+          <ul className="mt-5 space-y-2 text-sm">
+            {order.items.map((item) => (
+              <li key={item.id} className="flex justify-between gap-3">
+                <span>
+                  {displayProduct({ sku: item.sku, name: item.name }).title} × {item.quantity}
+                </span>
+                <span>{formatPrice(item.price * item.quantity)}</span>
+              </li>
+            ))}
+          </ul>
+          {order.deliveryAddress && (
+            <p className="mt-4 text-sm text-[var(--muted)]">Получение: {order.deliveryAddress}</p>
           )}
+          <p className="mt-4 text-sm text-[var(--muted)]">
+            Поддержка: <a href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a>,{" "}
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </p>
           {order.fiscalReceiptUrl && order.status === "PAID" && (
             <a href={order.fiscalReceiptUrl} className="mt-3 inline-block text-sm underline">
               Ссылка на чек
@@ -58,16 +68,13 @@ export default async function ThanksPage({
           )}
         </div>
       ) : (
-        <p className="mt-4 text-sm text-[var(--muted)]">
+        <p className="mt-4 text-center text-sm text-[var(--muted)]">
           {number ? "Заказ не найден или ссылка неполная." : "Заказ принят."}
         </p>
       )}
       <div className="mt-8 flex justify-center gap-3">
-        <Link href="/account" className="btn btn-primary">
-          Личный кабинет
-        </Link>
-        <Link href="/catalog" className="btn btn-ghost">
-          Продолжить покупки
+        <Link href="/catalog" className="btn btn-primary">
+          В каталог
         </Link>
       </div>
     </div>

@@ -73,7 +73,7 @@ export function ContentForms({
           ["delivery_note", "Доставка"],
           ["payment_note", "Оплата"],
           ["warranty_note", "Гарантия"],
-          ["about_text", "О нас"],
+          ["about_text", "О бренде"],
         ].map(([k, label]) => (
           <label key={k} className="grid gap-1">
             {label}

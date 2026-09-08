@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
         customerType: "B2C",
         status: "AWAITING_PAYMENT",
         paymentMethod: "ONLINE",
-        deliveryMethod: "OZON",
+        deliveryMethod: String(body.deliveryMethod || "COURIER").slice(0, 40),
         email,
         phone: toE164(phone),
         name: name.slice(0, 120),

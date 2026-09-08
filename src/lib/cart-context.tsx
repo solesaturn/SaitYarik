@@ -20,6 +20,8 @@ export type CartLine = {
   packQty: number;
   quantity: number;
   stock: number;
+  color?: string | null;
+  kitRole?: string | null;
 };
 
 export type CartToast = {

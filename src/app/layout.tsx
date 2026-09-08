@@ -26,10 +26,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
     title: {
-      default: `${site.name} — ${site.tagline}`,
+      default: `${site.name} — розетки и выключатели`,
       template: `%s · ${site.name}`,
     },
-    description: site.tagline,
+    description: "Розетки и выключатели Laitys. Для современного интерьера. В трёх цветах.",
     robots: site.index ? { index: true, follow: true } : { index: false, follow: false },
     openGraph: {
       title: site.name,

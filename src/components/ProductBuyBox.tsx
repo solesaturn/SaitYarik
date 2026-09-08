@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { getProductPrice, hasConfirmedPrice } from "@/lib/pricing";
+import { displayProduct } from "@/lib/product-display";
 import { formatPriceLabel, packQuantity } from "@/lib/utils";
 
 type Product = {
@@ -16,6 +17,8 @@ type Product = {
   stock: number;
   packQty: number;
   imageUrl: string | null;
+  color?: string | null;
+  kitRole?: string | null;
 };
 
 export function ProductBuyBox({ product }: { product: Product; b2bApproved?: boolean }) {
@@ -31,12 +34,14 @@ export function ProductBuyBox({ product }: { product: Product; b2bApproved?: boo
       {
         productId: product.id,
         slug: product.slug,
-        name: product.name,
+        name: displayProduct(product).title,
         sku: product.sku,
         price,
         imageUrl: product.imageUrl,
         packQty: product.packQty,
         stock: product.stock,
+        color: product.color,
+        kitRole: product.kitRole,
       },
       qty
     );
@@ -76,10 +81,7 @@ export function ProductBuyBox({ product }: { product: Product; b2bApproved?: boo
           </button>
         </div>
       ) : (
-        <p className="mt-4 text-sm text-[var(--muted)]">
-          Цену подтвердит продавец. Можно добавить товар в заявку для бизнеса из корзины после появления цены или
-          отправить запрос в разделе «Для бизнеса».
-        </p>
+        <p className="mt-4 text-sm text-[var(--muted)]">Цена уточняется. Можно отправить запрос в разделе «Для бизнеса».</p>
       )}
     </div>
   );

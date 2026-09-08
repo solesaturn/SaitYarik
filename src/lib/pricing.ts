@@ -29,7 +29,7 @@ export type SiteInfo = {
 
 export const SITE: SiteInfo = {
   name: "Laitys",
-  tagline: "Электроустановочные изделия. Ничего лишнего на стене.",
+  tagline: "Розетки и выключатели. Для современного интерьера. В трёх цветах.",
   phone: "+7 989 234-14-44",
   email: "kamalovaar@gmail.com",
   city: "Краснодар",

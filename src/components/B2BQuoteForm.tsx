@@ -16,14 +16,19 @@ export function B2BQuoteForm() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
-    if (!isValidRuPhone(phone)) {
-      setError("Проверьте телефон");
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const email = String(fd.get("email") || "").trim();
+    if (!isValidRuPhone(phone) && !email) {
+      setError("Укажите телефон или почту для ответа");
+      return;
+    }
+    if (phone && !isValidRuPhone(phone)) {
+      setError("Проверьте номер телефона");
       return;
     }
     setLoading(true);
-    const form = e.currentTarget;
-    const fd = new FormData(form);
-    fd.set("phone", toE164(phone));
+    fd.set("phone", phone ? toE164(phone) : "");
     fd.set(
       "items",
       JSON.stringify(
@@ -52,19 +57,19 @@ export function B2BQuoteForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-3 rounded-2xl bg-white p-5 text-sm">
-      <p className="font-semibold">Заявка на расчёт</p>
+      <p className="font-semibold">Отправить спецификацию</p>
       <input name="companyName" required placeholder="Компания" className="w-full rounded-full border border-[var(--line)] px-3 py-2" />
-      <input name="inn" required placeholder="ИНН" className="w-full rounded-full border border-[var(--line)] px-3 py-2" />
       <input name="contactName" required placeholder="Контактное лицо" className="w-full rounded-full border border-[var(--line)] px-3 py-2" />
       <PhoneField
         value={phone}
         onChange={setPhone}
+        required={false}
         className="rounded-full border border-[var(--line)] bg-white px-3 py-2 text-sm"
       />
-      <input name="email" type="email" required placeholder="E-mail" className="w-full rounded-full border border-[var(--line)] px-3 py-2" />
+      <input name="email" type="email" placeholder="Почта для ответа" className="w-full rounded-full border border-[var(--line)] px-3 py-2" />
       <textarea name="message" rows={3} placeholder="Комментарий" className="w-full rounded-2xl border border-[var(--line)] px-3 py-2" />
       <label className="grid gap-1.5 text-[var(--muted)]">
-        Спецификация (необязательно)
+        Файл спецификации
         <span className="flex cursor-pointer items-center gap-3 rounded-full border border-[var(--line)] bg-[var(--sand)] px-2 py-1.5 hover:border-[var(--ink)] hover:bg-white">
           <input
             name="file"
@@ -73,11 +78,11 @@ export function B2BQuoteForm() {
             className="sr-only"
             onChange={(e) => setFileName(e.target.files?.[0]?.name || "")}
           />
-          <span className="shrink-0 rounded-full bg-[var(--ink)] px-3.5 py-1.5 text-xs font-medium text-white">
+          <span className="shrink-0 rounded-full bg-[var(--accent)] px-3.5 py-1.5 text-xs font-medium text-white">
             Выбрать файл
           </span>
           <span className={`min-w-0 truncate ${fileName ? "text-[var(--ink)]" : ""}`}>
-            {fileName || "Excel, PDF или Word"}
+            {fileName || "Excel, PDF или Word, до 8 МБ"}
           </span>
         </span>
       </label>
@@ -85,9 +90,11 @@ export function B2BQuoteForm() {
         <p className="text-xs text-[var(--muted)]">В заявку попадёт текущая корзина: {items.length} поз.</p>
       )}
       {error && <p className="text-red-700">{error}</p>}
-      {status === "ok" && <p className="text-[var(--ok)]">Заявка отправлена. Мы свяжемся и пришлём расчёт.</p>}
+      {status === "ok" && (
+        <p className="text-[var(--ok)]">Заявка отправлена. Мы подготовим расчёт и свяжемся по указанному контакту.</p>
+      )}
       <button type="submit" disabled={loading} className="btn btn-primary w-full">
-        {loading ? "Отправляем…" : "Отправить заявку"}
+        {loading ? "Отправляем…" : "Отправить спецификацию"}
       </button>
     </form>
   );

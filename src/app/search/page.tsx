@@ -33,7 +33,7 @@ export default async function SearchPage({
         <input
           name="q"
           defaultValue={q}
-          placeholder="Артикул, название, серия (с учётом опечаток на этапе 2)"
+          placeholder="Найти товар или артикул"
           className="flex-1 rounded border border-[var(--line)] bg-white px-3 py-2 text-sm"
         />
         <button className="btn btn-primary" type="submit">
