@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #1c1c1c;
-  --paper: #f7f7f4;
-  --sand: #eef0ec;
-  --card: #e8ebe6;
-  --copper: #a44832;
-  --line: #d8ddd7;
-  --muted: #626662;
-  --ok: #264c3b;
-  --accent: #264c3b;
-  --hero-from: #f3f1ea;
-  --hero-to: #f7f7f4;
+  --ink: #171717;
+  --paper: #f6f7f8;
+  --sand: #eef1f4;
+  --card: #e8edf2;
+  --copper: #171717;
+  --line: #e2e6ea;
+  --muted: #7a7f86;
+  --ok: #1f7a4c;
+  --accent: #171717;
+  --hero-from: #dceaf4;
+  --hero-to: #f6f7f8;
   --background: var(--paper);
   --foreground: var(--ink);
   --radius: 1rem;
@@ -36,8 +36,6 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
   min-height: 100vh;
 }
 
@@ -49,7 +47,7 @@ body {
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--accent) 18%, white);
+  background: color-mix(in oklab, var(--ink) 14%, white);
 }
 
 .hero-gradient {
@@ -63,7 +61,7 @@ body {
   gap: 0.5rem;
   border-radius: 999px;
   padding: 0.75rem 1.35rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   min-height: 2.75rem;
   touch-action: manipulation;
@@ -71,12 +69,12 @@ body {
 }
 
 .btn-primary {
-  background: var(--accent);
+  background: var(--ink);
   color: white;
 }
 
 .btn-primary:hover {
-  background: color-mix(in oklab, var(--accent) 88%, white);
+  background: color-mix(in oklab, var(--ink) 88%, white);
 }
 
 .btn-copper {
@@ -109,10 +107,10 @@ body {
 
 .section-title {
   font-family: var(--font-body), sans-serif;
-  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  font-size: clamp(1.65rem, 3vw, 2.4rem);
   font-weight: 650;
   letter-spacing: -0.03em;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .pill {
@@ -120,9 +118,9 @@ body {
   align-items: center;
   border-radius: 999px;
   padding: 0.5rem 1rem;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  min-height: 2.75rem;
+  min-height: 2.5rem;
   touch-action: manipulation;
   background: white;
   color: var(--ink);
@@ -134,13 +132,13 @@ body {
 }
 
 .pill-active {
-  background: var(--accent);
+  background: var(--ink);
   color: white;
-  border-color: var(--accent);
+  border-color: var(--ink);
 }
 
 .pill-active:hover {
-  background: color-mix(in oklab, var(--accent) 90%, white);
+  background: color-mix(in oklab, var(--ink) 90%, white);
 }
 
 input,

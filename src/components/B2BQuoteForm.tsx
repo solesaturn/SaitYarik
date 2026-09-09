@@ -78,7 +78,7 @@ export function B2BQuoteForm() {
             className="sr-only"
             onChange={(e) => setFileName(e.target.files?.[0]?.name || "")}
           />
-          <span className="shrink-0 rounded-full bg-[var(--accent)] px-3.5 py-1.5 text-xs font-medium text-white">
+            <span className="shrink-0 rounded-full bg-[var(--ink)] px-3.5 py-1.5 text-xs font-medium text-white">
             Выбрать файл
           </span>
           <span className={`min-w-0 truncate ${fileName ? "text-[var(--ink)]" : ""}`}>

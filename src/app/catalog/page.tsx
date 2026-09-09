@@ -26,17 +26,15 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
   const sort = one(sp.sort) || "popular";
   const q = one(sp.q);
   const page = Math.max(1, Number(one(sp.page) || 1));
-  const take = 36;
+  const take = 12;
 
   const inStock = one(sp.stock) === "1";
-  const kit = one(sp.kit);
   const where: Record<string, unknown> = { active: true };
   if (brand) where.brand = { slug: brand };
   if (color) where.color = color;
   if (productType) where.productType = productType;
   if (ip) where.ipRating = ip;
   if (posts) where.posts = Number(posts);
-  if (kit) where.kitRole = kit;
   if (series) where.series = series;
   if (inStock) where.stock = { gt: 0 };
   if (minPrice > 0 || maxPrice > 0) {
@@ -75,7 +73,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
     }),
     prisma.product.findMany({
       where: { active: true },
-      select: { color: true, posts: true, productType: true, kitRole: true },
+      select: { color: true, posts: true, productType: true },
     }),
   ]);
 
@@ -83,13 +81,11 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
     colors: {} as Record<string, number>,
     posts: {} as Record<string, number>,
     types: {} as Record<string, number>,
-    kits: {} as Record<string, number>,
   };
   for (const p of allForCounts) {
     if (p.color) counts.colors[p.color] = (counts.colors[p.color] || 0) + 1;
     if (p.posts != null) counts.posts[String(p.posts)] = (counts.posts[String(p.posts)] || 0) + 1;
     if (p.productType) counts.types[p.productType] = (counts.types[p.productType] || 0) + 1;
-    if (p.kitRole) counts.kits[p.kitRole] = (counts.kits[p.kitRole] || 0) + 1;
   }
 
   const pages = Math.max(1, Math.ceil(total / take));
@@ -135,7 +131,6 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
                 if (sort) next.set("sort", sort);
                 if (inStock) next.set("stock", "1");
                 if (posts) next.set("posts", posts);
-                if (kit) next.set("kit", kit);
                 return (
                   <Link
                     key={p}

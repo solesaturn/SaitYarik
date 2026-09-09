@@ -30,13 +30,16 @@ export default async function KitPage() {
   });
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:py-12">
       <nav className="text-xs text-[var(--muted)]">
         <Link href="/">Главная</Link>
         {" / "}
         <span>Собрать блок</span>
       </nav>
       <h1 className="section-title mt-3">Собрать блок</h1>
+      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
+        Для одного места выберите готовое изделие. Для нескольких — рамку и подходящие механизмы одного цвета.
+      </p>
       <ConstructorWizard products={products} />
     </div>
   );

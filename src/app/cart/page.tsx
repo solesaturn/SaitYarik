@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { formatPrice, formatPriceLabel } from "@/lib/utils";
-import { displayProduct, productAlt } from "@/lib/product-display";
+import { displayProduct } from "@/lib/product-display";
 
 export default function CartPage() {
   const { items, setQty, removeItem, subtotal, clear } = useCart();
@@ -30,10 +30,6 @@ export default function CartPage() {
           const view = displayProduct(item);
           return (
             <div key={item.productId} className="flex flex-col gap-3 rounded-2xl bg-white p-4 sm:flex-row sm:items-center">
-              <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-[var(--card)]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={item.imageUrl || "/images/placeholder.png"} alt={productAlt(item)} className="h-full w-full object-cover object-left" />
-              </div>
               <div className="min-w-0 flex-1">
                 <Link href={`/product/${item.slug}`} className="font-semibold hover:opacity-70">
                   {view.title}
