@@ -6,7 +6,7 @@ export const BUNDLE_COLORS = [
   { id: "чёрный", label: "Чёрный", swatch: "#292929", hex: "#292929" },
 ] as const;
 
-export type BundleColor = (typeof BUNDLE_COLORS)["number"]["id"];
+export type BundleColor = (typeof BUNDLE_COLORS)[number]["id"];
 export type MechKind = "m-d1" | "m-s1" | "m-tv";
 
 export const MECH_OPTIONS: { id: MechKind; label: string; skuBase: string }[] = [
