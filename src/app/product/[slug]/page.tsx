@@ -6,7 +6,8 @@ import { ProductBuyBox } from "@/components/ProductBuyBox";
 import { ProductCard } from "@/components/ProductCard";
 import { hasConfirmedPrice } from "@/lib/pricing";
 import { compatibleWith, kitSectionCopy } from "@/lib/compatibility";
-import { displayProduct, productAlt } from "@/lib/product-display";
+import { ProductGallery } from "@/components/ProductGallery";
+import { displayProduct, productAlt, productImages } from "@/lib/product-display";
 
 export const dynamic = "force-dynamic";
 
@@ -60,16 +61,7 @@ export default async function ProductPage({ params }: Props) {
       </nav>
 
       <div className="mt-4 grid gap-6 sm:mt-6 lg:grid-cols-2 lg:gap-10">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--card)] sm:aspect-square">
-          {product.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={product.imageUrl} alt={productAlt(product)} className="h-full w-full object-cover object-left" />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-24 w-24 rounded-full bg-white/80 sm:h-40 sm:w-40" />
-            </div>
-          )}
-        </div>
+        <ProductGallery key={product.slug} images={productImages(product)} alt={productAlt(product)} />
 
         <div className="min-w-0">
           <p className="text-sm text-[var(--muted)]">

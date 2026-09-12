@@ -75,7 +75,7 @@ export function ProductCard({ product }: { product: ProductCardData; b2bApproved
         <div className="aspect-square">
           {product.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={product.imageUrl} alt={productAlt(product)} className="h-full w-full object-cover object-left" />
+            <img src={product.imageUrl} alt={productAlt(product)} className="h-full w-full object-contain p-3 sm:p-4" />
           ) : (
             <div className="flex h-full items-center justify-center">
               <div className="h-20 w-20 rounded-full bg-white/70" />

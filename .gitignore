@@ -65,3 +65,5 @@ data/*.py
 
 .vercel
 .env*
+.tmp_photos/
+.tmp_source/

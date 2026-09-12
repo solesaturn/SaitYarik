@@ -33,6 +33,7 @@ export type CartToast = {
 type CartContextValue = {
   items: CartLine[];
   addItem: (item: Omit<CartLine, "quantity">, qty?: number) => void;
+  addItems: (entries: { item: Omit<CartLine, "quantity">; qty?: number }[], toastName?: string) => void;
   setQty: (productId: string, quantity: number) => void;
   removeItem: (productId: string) => void;
   clear: () => void;
@@ -49,6 +50,17 @@ const KEY = "sy_cart_v1";
 function normalizeQty(qty: number, packQty: number) {
   if (packQty <= 1) return Math.max(1, qty);
   return Math.max(packQty, Math.ceil(qty / packQty) * packQty);
+}
+
+function mergeLine(prev: CartLine[], item: Omit<CartLine, "quantity">, qty: number) {
+  const existing = prev.find((p) => p.productId === item.productId);
+  const nextQty = normalizeQty((existing?.quantity ?? 0) + qty, item.packQty);
+  if (existing) {
+    return prev.map((p) =>
+      p.productId === item.productId ? { ...p, quantity: Math.min(nextQty, item.stock || nextQty) } : p
+    );
+  }
+  return [...prev, { ...item, quantity: normalizeQty(qty, item.packQty) }];
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -88,21 +100,32 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addItem = useCallback((item: Omit<CartLine, "quantity">, qty = 1) => {
     const addedQty = normalizeQty(qty, item.packQty);
-    setItems((prev) => {
-      const existing = prev.find((p) => p.productId === item.productId);
-      const nextQty = normalizeQty((existing?.quantity ?? 0) + qty, item.packQty);
-      if (existing) {
-        return prev.map((p) =>
-          p.productId === item.productId ? { ...p, quantity: Math.min(nextQty, item.stock || nextQty) } : p
-        );
-      }
-      return [...prev, { ...item, quantity: normalizeQty(qty, item.packQty) }];
-    });
+    setItems((prev) => mergeLine(prev, item, qty));
     setJustAdded(true);
     setToast({
       id: Date.now(),
       name: item.name,
       quantity: addedQty,
+    });
+  }, []);
+
+  const addItems = useCallback((entries: { item: Omit<CartLine, "quantity">; qty?: number }[], toastName?: string) => {
+    if (!entries.length) return;
+    let units = 0;
+    setItems((prev) => {
+      let next = prev;
+      for (const entry of entries) {
+        const qty = entry.qty ?? 1;
+        units += normalizeQty(qty, entry.item.packQty);
+        next = mergeLine(next, entry.item, qty);
+      }
+      return next;
+    });
+    setJustAdded(true);
+    setToast({
+      id: Date.now(),
+      name: toastName || entries[0].item.name,
+      quantity: units,
     });
   }, []);
 
@@ -126,6 +149,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     () => ({
       items,
       addItem,
+      addItems,
       setQty,
       removeItem,
       clear,
@@ -135,7 +159,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       dismissToast,
       justAdded,
     }),
-    [items, addItem, setQty, removeItem, clear, toast, dismissToast, justAdded]
+    [items, addItem, addItems, setQty, removeItem, clear, toast, dismissToast, justAdded]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
@@ -147,6 +171,7 @@ export function useCart() {
     return {
       items: [],
       addItem: () => {},
+      addItems: () => {},
       setQty: () => {},
       removeItem: () => {},
       clear: () => {},

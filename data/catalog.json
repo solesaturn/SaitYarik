@@ -22,7 +22,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/D1-BK/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -43,7 +43,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "rozetki"
+    "category": "rozetki",
+    "images": [
+      "/images/products/D1-BK/01.png",
+      "/images/products/D1-BK/02.png",
+      "/images/products/D1-BK/03.png",
+      "/images/products/D1-BK/04.png"
+    ]
   },
   {
     "sku": "D1-GY",
@@ -68,7 +74,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/D1-GY/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -89,7 +95,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "rozetki"
+    "category": "rozetki",
+    "images": [
+      "/images/products/D1-GY/01.png",
+      "/images/products/D1-GY/02.png",
+      "/images/products/D1-GY/03.png",
+      "/images/products/D1-GY/04.png"
+    ]
   },
   {
     "sku": "D1-WH",
@@ -114,7 +126,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/D1-WH/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -135,7 +147,14 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "rozetki"
+    "category": "rozetki",
+    "images": [
+      "/images/products/D1-WH/01.png",
+      "/images/products/D1-WH/02.png",
+      "/images/products/D1-WH/03.png",
+      "/images/products/D1-WH/04.png",
+      "/images/products/D1-WH/05.png"
+    ]
   },
   {
     "sku": "M-D1-BK",
@@ -160,7 +179,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/M-D1-BK/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -181,7 +200,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "mehanizmy"
+    "category": "mehanizmy",
+    "images": [
+      "/images/products/M-D1-BK/01.png",
+      "/images/products/M-D1-BK/02.png",
+      "/images/products/M-D1-BK/03.png",
+      "/images/products/M-D1-BK/04.png"
+    ]
   },
   {
     "sku": "M-D1-GY",
@@ -206,7 +231,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/M-D1-GY/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -227,7 +252,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "mehanizmy"
+    "category": "mehanizmy",
+    "images": [
+      "/images/products/M-D1-GY/01.png",
+      "/images/products/M-D1-GY/02.png",
+      "/images/products/M-D1-GY/03.png",
+      "/images/products/M-D1-GY/04.png"
+    ]
   },
   {
     "sku": "M-D1-WH",
@@ -252,7 +283,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/M-D1-WH/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -273,7 +304,14 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "mehanizmy"
+    "category": "mehanizmy",
+    "images": [
+      "/images/products/M-D1-WH/01.png",
+      "/images/products/M-D1-WH/02.png",
+      "/images/products/M-D1-WH/03.png",
+      "/images/products/M-D1-WH/04.png",
+      "/images/products/M-D1-WH/05.png"
+    ]
   },
   {
     "sku": "M-S1-BK",
@@ -298,7 +336,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/M-S1-BK/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -318,7 +356,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "mehanizmy"
+    "category": "mehanizmy",
+    "images": [
+      "/images/products/M-S1-BK/01.png",
+      "/images/products/M-S1-BK/02.png",
+      "/images/products/M-S1-BK/03.png",
+      "/images/products/M-S1-BK/04.png"
+    ]
   },
   {
     "sku": "M-S1-GY",
@@ -343,7 +387,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/M-S1-GY/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -363,7 +407,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "mehanizmy"
+    "category": "mehanizmy",
+    "images": [
+      "/images/products/M-S1-GY/01.png",
+      "/images/products/M-S1-GY/02.png",
+      "/images/products/M-S1-GY/03.png",
+      "/images/products/M-S1-GY/04.png"
+    ]
   },
   {
     "sku": "M-S1-WH",
@@ -388,7 +438,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/M-S1-WH/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -408,7 +458,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "mehanizmy"
+    "category": "mehanizmy",
+    "images": [
+      "/images/products/M-S1-WH/01.png",
+      "/images/products/M-S1-WH/02.png",
+      "/images/products/M-S1-WH/03.png",
+      "/images/products/M-S1-WH/04.png"
+    ]
   },
   {
     "sku": "M-TV-BK",
@@ -433,7 +489,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/M-TV-BK/01.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -453,7 +509,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "mehanizmy"
+    "category": "mehanizmy",
+    "images": [
+      "/images/products/M-TV-BK/01.png",
+      "/images/products/M-TV-BK/02.png",
+      "/images/products/M-TV-BK/03.png",
+      "/images/products/M-TV-BK/04.png"
+    ]
   },
   {
     "sku": "M-TV-GY",
@@ -478,7 +540,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/M-TV-GY/01.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -498,7 +560,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "mehanizmy"
+    "category": "mehanizmy",
+    "images": [
+      "/images/products/M-TV-GY/01.png",
+      "/images/products/M-TV-GY/02.png",
+      "/images/products/M-TV-GY/03.png",
+      "/images/products/M-TV-GY/04.png"
+    ]
   },
   {
     "sku": "M-TV-WH",
@@ -523,7 +591,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/M-TV-WH/01.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -543,7 +611,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "mehanizmy"
+    "category": "mehanizmy",
+    "images": [
+      "/images/products/M-TV-WH/01.png",
+      "/images/products/M-TV-WH/02.png",
+      "/images/products/M-TV-WH/03.png",
+      "/images/products/M-TV-WH/04.png"
+    ]
   },
   {
     "sku": "P2-BK",
@@ -568,7 +642,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/P2-BK/01.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -580,7 +654,12 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "ramki"
+    "category": "ramki",
+    "images": [
+      "/images/products/P2-BK/01.png",
+      "/images/products/P2-BK/02.png",
+      "/images/products/P2-BK/03.png"
+    ]
   },
   {
     "sku": "P2-GY",
@@ -605,7 +684,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/P2-GY/01.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -617,7 +696,12 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "ramki"
+    "category": "ramki",
+    "images": [
+      "/images/products/P2-GY/01.png",
+      "/images/products/P2-GY/02.png",
+      "/images/products/P2-GY/03.png"
+    ]
   },
   {
     "sku": "P2-WH",
@@ -642,7 +726,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/P2-WH/01.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -654,7 +738,12 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "ramki"
+    "category": "ramki",
+    "images": [
+      "/images/products/P2-WH/01.png",
+      "/images/products/P2-WH/02.png",
+      "/images/products/P2-WH/03.png"
+    ]
   },
   {
     "sku": "P3-BK",
@@ -679,7 +768,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/P3-BK/01.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -691,7 +780,12 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "ramki"
+    "category": "ramki",
+    "images": [
+      "/images/products/P3-BK/01.png",
+      "/images/products/P3-BK/02.png",
+      "/images/products/P3-BK/03.png"
+    ]
   },
   {
     "sku": "P3-GY",
@@ -716,7 +810,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/P3-GY/01.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -728,7 +822,12 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "ramki"
+    "category": "ramki",
+    "images": [
+      "/images/products/P3-GY/01.png",
+      "/images/products/P3-GY/02.png",
+      "/images/products/P3-GY/03.png"
+    ]
   },
   {
     "sku": "P3-WH",
@@ -753,7 +852,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/P3-WH/01.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -765,7 +864,12 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "ramki"
+    "category": "ramki",
+    "images": [
+      "/images/products/P3-WH/01.png",
+      "/images/products/P3-WH/02.png",
+      "/images/products/P3-WH/03.png"
+    ]
   },
   {
     "sku": "P4-BK",
@@ -790,7 +894,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/P4-BK/01.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -802,7 +906,12 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "ramki"
+    "category": "ramki",
+    "images": [
+      "/images/products/P4-BK/01.png",
+      "/images/products/P4-BK/02.png",
+      "/images/products/P4-BK/03.png"
+    ]
   },
   {
     "sku": "P4-GY",
@@ -827,7 +936,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/P4-GY/01.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -839,7 +948,12 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "ramki"
+    "category": "ramki",
+    "images": [
+      "/images/products/P4-GY/01.png",
+      "/images/products/P4-GY/02.png",
+      "/images/products/P4-GY/03.png"
+    ]
   },
   {
     "sku": "P4-WH",
@@ -864,7 +978,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/P4-WH/01.png",
     "warranty": "10 лет",
     "certs": [],
     "attrs": {
@@ -876,7 +990,12 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "ramki"
+    "category": "ramki",
+    "images": [
+      "/images/products/P4-WH/01.png",
+      "/images/products/P4-WH/02.png",
+      "/images/products/P4-WH/03.png"
+    ]
   },
   {
     "sku": "S1-BK",
@@ -901,7 +1020,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S1-BK/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -921,7 +1040,12 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S1-BK/01.png",
+      "/images/products/S1-BK/02.png",
+      "/images/products/S1-BK/03.png"
+    ]
   },
   {
     "sku": "S1-GY",
@@ -946,7 +1070,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S1-GY/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -966,7 +1090,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S1-GY/01.png",
+      "/images/products/S1-GY/02.png",
+      "/images/products/S1-GY/03.png",
+      "/images/products/S1-GY/04.png"
+    ]
   },
   {
     "sku": "S1-WH",
@@ -991,7 +1121,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S1-WH/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1011,7 +1141,14 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S1-WH/01.png",
+      "/images/products/S1-WH/02.png",
+      "/images/products/S1-WH/03.png",
+      "/images/products/S1-WH/04.png",
+      "/images/products/S1-WH/05.png"
+    ]
   },
   {
     "sku": "S1P-BK",
@@ -1036,7 +1173,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S1P-BK/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1056,7 +1193,11 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S1P-BK/01.png",
+      "/images/products/S1P-BK/02.png"
+    ]
   },
   {
     "sku": "S1P-GY",
@@ -1081,7 +1222,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S1P-GY/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1101,7 +1242,10 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S1P-GY/01.png"
+    ]
   },
   {
     "sku": "S1P-WH",
@@ -1126,7 +1270,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S1P-WH/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1146,7 +1290,11 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S1P-WH/01.png",
+      "/images/products/S1P-WH/02.png"
+    ]
   },
   {
     "sku": "S2-BK",
@@ -1171,7 +1319,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S2-BK/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1191,7 +1339,10 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S2-BK/01.png"
+    ]
   },
   {
     "sku": "S2-GY",
@@ -1216,7 +1367,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S2-GY/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1236,7 +1387,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S2-GY/01.png",
+      "/images/products/S2-GY/02.png",
+      "/images/products/S2-GY/03.png",
+      "/images/products/S2-GY/04.png"
+    ]
   },
   {
     "sku": "S2-WH",
@@ -1261,7 +1418,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S2-WH/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1281,7 +1438,11 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S2-WH/01.png",
+      "/images/products/S2-WH/02.png"
+    ]
   },
   {
     "sku": "S2P-BK",
@@ -1306,7 +1467,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S2P-BK/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1326,7 +1487,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S2P-BK/01.png",
+      "/images/products/S2P-BK/02.png",
+      "/images/products/S2P-BK/03.png",
+      "/images/products/S2P-BK/04.png"
+    ]
   },
   {
     "sku": "S2P-GY",
@@ -1351,7 +1518,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S2P-GY/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1371,7 +1538,10 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S2P-GY/01.png"
+    ]
   },
   {
     "sku": "S2P-WH",
@@ -1396,7 +1566,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/S2P-WH/01.png",
     "warranty": "10 лет",
     "certs": [
       {
@@ -1416,7 +1586,14 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "vyklyuchateli"
+    "category": "vyklyuchateli",
+    "images": [
+      "/images/products/S2P-WH/01.png",
+      "/images/products/S2P-WH/02.png",
+      "/images/products/S2P-WH/03.png",
+      "/images/products/S2P-WH/04.png",
+      "/images/products/S2P-WH/05.png"
+    ]
   },
   {
     "sku": "USB-BK",
@@ -1441,7 +1618,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/USB-BK/01.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -1463,7 +1640,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "rozetki"
+    "category": "rozetki",
+    "images": [
+      "/images/products/USB-BK/01.png",
+      "/images/products/USB-BK/02.png",
+      "/images/products/USB-BK/03.png",
+      "/images/products/USB-BK/04.png"
+    ]
   },
   {
     "sku": "USB-GY",
@@ -1488,7 +1671,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/USB-GY/01.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -1510,7 +1693,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "rozetki"
+    "category": "rozetki",
+    "images": [
+      "/images/products/USB-GY/01.png",
+      "/images/products/USB-GY/02.png",
+      "/images/products/USB-GY/03.png",
+      "/images/products/USB-GY/04.png"
+    ]
   },
   {
     "sku": "USB-WH",
@@ -1535,7 +1724,7 @@
     "isNew": false,
     "isSale": false,
     "marked": false,
-    "imageUrl": "/images/placeholder.png",
+    "imageUrl": "/images/products/USB-WH/01.png",
     "warranty": "1 год",
     "certs": [
       {
@@ -1557,6 +1746,13 @@
       "Изготовитель": "Guangdong Futina Electrical Co., Ltd",
       "Бренд": "Laitys"
     },
-    "category": "rozetki"
+    "category": "rozetki",
+    "images": [
+      "/images/products/USB-WH/01.png",
+      "/images/products/USB-WH/02.png",
+      "/images/products/USB-WH/03.png",
+      "/images/products/USB-WH/04.png",
+      "/images/products/USB-WH/05.png"
+    ]
   }
 ]

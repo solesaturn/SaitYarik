@@ -9,7 +9,14 @@ export const metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function KitPage() {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+function one(v: string | string[] | undefined) {
+  return Array.isArray(v) ? v[0] : v;
+}
+
+export default async function KitPage({ searchParams }: { searchParams: SearchParams }) {
+  const sp = await searchParams;
   const products = await prisma.product.findMany({
     where: { active: true },
     select: {
@@ -30,17 +37,18 @@ export default async function KitPage() {
   });
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:py-12">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
       <nav className="text-xs text-[var(--muted)]">
         <Link href="/">Главная</Link>
         {" / "}
         <span>Собрать блок</span>
       </nav>
-      <h1 className="section-title mt-3">Собрать блок</h1>
+      <p className="mt-3 text-xs uppercase tracking-wide text-[var(--muted)]">Рамка + механизмы</p>
+      <h1 className="section-title mt-2">Собрать блок</h1>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
-        Для одного места выберите готовое изделие. Для нескольких — рамку и подходящие механизмы одного цвета.
+        Для одного места выберите готовое изделие. Для нескольких — рамку и механизм на каждое место, все одного цвета.
       </p>
-      <ConstructorWizard products={products} />
+      <ConstructorWizard key={one(sp.preset) || "default"} products={products} preset={one(sp.preset)} />
     </div>
   );
 }

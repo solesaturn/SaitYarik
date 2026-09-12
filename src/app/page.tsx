@@ -54,9 +54,9 @@ export default async function HomePage() {
           <div className="justify-self-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={heroProduct?.imageUrl || "/images/placeholder.png"}
+              src={heroProduct?.imageUrl || "/images/common/01.png"}
               alt={heroProduct?.name || "Розетка Laitys"}
-              className="aspect-[5/3] w-full max-w-md rounded-[1.5rem] bg-black object-cover object-left sm:aspect-square sm:rounded-[2rem]"
+              className="aspect-[5/3] w-full max-w-md rounded-[1.5rem] bg-[var(--card)] object-contain p-6 sm:aspect-square sm:rounded-[2rem]"
             />
           </div>
         </div>
@@ -74,7 +74,7 @@ export default async function HomePage() {
           </div>
           <div className="overflow-hidden rounded-[1.5rem] bg-[var(--card)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/placeholder.png" alt="Блок розеток в интерьере" className="aspect-[4/3] w-full object-cover object-left" />
+            <img src="/images/common/01.png" alt="Розетки Laitys белая, серая и чёрная" className="aspect-[2/1] w-full object-contain p-4 sm:p-6" />
           </div>
         </div>
       </section>
@@ -100,6 +100,29 @@ export default async function HomePage() {
         <Link href="/kit" className="btn btn-primary mt-8 w-full sm:w-auto">
           Собрать блок
         </Link>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-10 sm:pb-16">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <h2 className="section-title">Примеры</h2>
+          <Link href="/kit" className="text-sm font-medium underline underline-offset-4">
+            Подобрать свой
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-3 sm:grid-cols-3">
+          {[
+            { title: "Рабочее место", detail: "Две силовые розетки", preset: "desk", n: "2 поста" },
+            { title: "Спальня", detail: "Розетка и выключатель", preset: "bed", n: "2 поста" },
+            { title: "ТВ-зона", detail: "Две розетки и TV + компьютер", preset: "tv", n: "3 поста" },
+          ].map((x) => (
+            <Link key={x.preset} href={`/kit?preset=${x.preset}`} className="rounded-2xl bg-white p-5 hover:bg-[var(--sand)]">
+              <p className="text-xs uppercase tracking-wide text-[var(--muted)]">Пример подбора</p>
+              <p className="mt-3 text-sm text-[var(--muted)]">{x.n}</p>
+              <p className="mt-1 text-lg font-semibold tracking-tight">{x.title}</p>
+              <p className="mt-2 text-sm text-[var(--muted)]">{x.detail}</p>
+            </Link>
+          ))}
+        </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:py-16">

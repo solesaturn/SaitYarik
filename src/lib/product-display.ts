@@ -173,6 +173,19 @@ function cleanDescription(text?: string | null) {
     .trim();
 }
 
+export function productImages(product: { imageUrl?: string | null; imagesJson?: string | null }) {
+  try {
+    const parsed = JSON.parse(product.imagesJson || "[]") as unknown;
+    if (Array.isArray(parsed)) {
+      const urls = parsed.filter((x): x is string => typeof x === "string" && x.length > 0);
+      if (urls.length) return urls;
+    }
+  } catch {
+    /* ignore */
+  }
+  return product.imageUrl ? [product.imageUrl] : [];
+}
+
 export function productAlt(product: ProductDisplayInput, view = "вид спереди") {
   const { title, color } = displayProduct(product);
   const adj = color ? COLOR_ADJ[color] || color : "";

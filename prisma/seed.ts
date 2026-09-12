@@ -29,6 +29,7 @@ type CatalogItem = {
   isSale: boolean;
   marked: boolean;
   imageUrl: string | null;
+  images?: string[];
   warranty: string;
   certs: { name: string; url: string; number: string }[];
   attrs: Record<string, string>;
@@ -130,6 +131,7 @@ async function main() {
 
   for (const item of catalog) {
     const docs = (item.certs || []).filter((d) => publicFileExists(d.url));
+    const images = (item.images?.length ? item.images : item.imageUrl ? [item.imageUrl] : []).filter(publicFileExists);
     const product = await prisma.product.create({
       data: {
         slug: item.slug,
@@ -156,8 +158,8 @@ async function main() {
         isNew: false,
         isSale: false,
         marked: false,
-        imageUrl: item.imageUrl,
-        imagesJson: JSON.stringify(item.imageUrl ? [item.imageUrl] : []),
+        imageUrl: images[0] || null,
+        imagesJson: JSON.stringify(images),
         attrsJson: JSON.stringify(item.attrs),
         documentsJson: JSON.stringify(docs),
         seoTitle: `${item.name} — ${item.sku}`,

@@ -65,7 +65,7 @@ export function ProductEditForm({ product }: { product: P }) {
       </label>
       {product.imageUrl && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={product.imageUrl} alt="" className="h-32 w-32 object-cover object-left" />
+        <img src={product.imageUrl} alt="" className="h-32 w-32 rounded-xl bg-[var(--card)] object-contain p-2" />
       )}
       <button className="btn btn-primary" type="submit">
         Сохранить

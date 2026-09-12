@@ -36,10 +36,10 @@ export default function FavoritesPage() {
                 key={item.id}
                 className="flex flex-col gap-3 rounded-2xl bg-white p-4 sm:flex-row sm:items-center"
               >
-                <div className="h-16 w-16 shrink-0 overflow-hidden rounded bg-[var(--sand)]">
+                <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-[var(--card)]">
                   {item.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={item.imageUrl} alt="" className="h-full w-full object-cover object-left" />
+                    <img src={item.imageUrl} alt="" className="h-full w-full object-contain p-1" />
                   ) : null}
                 </div>
                 <div className="min-w-0 flex-1">
