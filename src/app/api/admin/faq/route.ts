@@ -6,11 +6,16 @@ export async function POST(req: NextRequest) {
   const { error } = await requireStaff();
   if (error) return error;
   const body = await req.json();
+  const question = String(body.question || "").trim().slice(0, 300);
+  const answer = String(body.answer || "").trim().slice(0, 4000);
+  if (["create", "update"].includes(body.action) && (!question || !answer)) {
+    return NextResponse.json({ error: "Заполните вопрос и ответ" }, { status: 400 });
+  }
   if (body.action === "create") {
     await prisma.faqItem.create({
       data: {
-        question: String(body.question || "").slice(0, 300),
-        answer: String(body.answer || "").slice(0, 4000),
+        question,
+        answer,
         sortOrder: Number(body.sortOrder || 0),
       },
     });
@@ -24,8 +29,8 @@ export async function POST(req: NextRequest) {
     await prisma.faqItem.update({
       where: { id: String(body.id) },
       data: {
-        question: String(body.question || ""),
-        answer: String(body.answer || ""),
+        question,
+        answer,
       },
     });
     return NextResponse.json({ ok: true });

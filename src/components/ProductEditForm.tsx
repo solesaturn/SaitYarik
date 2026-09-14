@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ProductImage } from "@/components/ProductImage";
 
 type P = {
   id: string;
@@ -60,12 +61,12 @@ export function ProductEditForm({ product }: { product: P }) {
         <input type="checkbox" name="active" defaultChecked={product.active} /> В каталоге
       </label>
       <label className="grid gap-1 text-[var(--muted)]">
-        Фото
+        Главное фото товара
         <input type="file" name="image" accept="image/*" />
       </label>
+      <p className="text-xs text-[var(--muted)]">PNG с прозрачным фоном автоматически выравнивается по размеру изделия. Пропорции фотографии сохраняются.</p>
       {product.imageUrl && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={product.imageUrl} alt="" className="h-32 w-32 rounded-xl bg-[var(--card)] object-contain p-2" />
+        <ProductImage src={product.imageUrl} alt="" className="h-32 w-32 rounded-xl bg-[var(--card)] object-contain p-2" />
       )}
       <button className="btn btn-primary" type="submit">
         Сохранить

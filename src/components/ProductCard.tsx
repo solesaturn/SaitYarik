@@ -1,5 +1,7 @@
 "use client";
 
+import { ProductImage } from "@/components/ProductImage";
+
 import Link from "next/link";
 import { useState } from "react";
 import { Check, Copy, ShoppingCart } from "lucide-react";
@@ -74,8 +76,7 @@ export function ProductCard({ product }: { product: ProductCardData; b2bApproved
       <Link href={`/product/${product.slug}`} className="relative block overflow-hidden rounded-2xl bg-[var(--card)]">
         <div className="aspect-square">
           {product.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={product.imageUrl} alt={productAlt(product)} className="h-full w-full object-contain p-3 sm:p-4" />
+            <ProductImage src={product.imageUrl} alt={productAlt(product)} className="h-full w-full object-contain p-6 sm:p-8" />
           ) : (
             <div className="flex h-full items-center justify-center">
               <div className="h-20 w-20 rounded-full bg-white/70" />

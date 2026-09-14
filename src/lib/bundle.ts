@@ -21,12 +21,14 @@ export const BUNDLE_PRESETS: Record<string, { count: number; slots: MechKind[] }
   tv: { count: 3, slots: ["m-d1", "m-d1", "m-tv"] },
 };
 
-const KIT_FRONT: Record<string, { folder: string; file: string }> = {
-  "m-d1_m-d1": { folder: "L-2D", file: "01.png" },
-  "m-d1_m-s1": { folder: "L-DS", file: "01.png" },
-  "m-d1_m-d1_m-tv": { folder: "L-2DTV", file: "02.png" },
-  "m-d1_m-d1_m-d1": { folder: "L-3D", file: "02.png" },
-  "m-d1_m-d1_m-d1_m-d1": { folder: "L-4D", file: "02.png" },
+// Verified horizontal front views. File numbering and TV position vary by colour.
+const KIT_FRONT: Record<string, Partial<Record<"WH" | "GY" | "BK", string>>> = {
+  "m-d1_m-d1": { WH: "L-2D-WH/01.png", GY: "L-2D-GY/01.png", BK: "L-2D-BK/03.png" },
+  "m-d1_m-s1": { WH: "L-DS-WH/01.png", GY: "L-DS-GY/01.png", BK: "L-DS-BK/02.png" },
+  "m-d1_m-d1_m-tv": { WH: "L-2DTV-WH/02.png" },
+  "m-tv_m-d1_m-d1": { GY: "L-2DTV-GY/03.png", BK: "L-2DTV-BK/03.png" },
+  "m-d1_m-d1_m-d1": { WH: "L-3D-WH/03.png", GY: "L-3D-GY/03.png", BK: "L-3D-BK/01.png" },
+  "m-d1_m-d1_m-d1_m-d1": { WH: "L-4D-WH/01.png", GY: "L-4D-GY/02.png", BK: "L-4D-BK/03.png" },
 };
 
 export function bundleColorMeta(color: string) {
@@ -49,10 +51,10 @@ export function mechLabel(kind: MechKind) {
 }
 
 export function getBundlePhoto(color: string, mechanisms: MechKind[]) {
-  const spec = KIT_FRONT[mechanisms.join("_")];
   const suffix = colorSuffix(color);
-  if (!spec || !suffix) return null;
-  return `/images/kits/${spec.folder}-${suffix}/${spec.file}`;
+  if (suffix !== "WH" && suffix !== "GY" && suffix !== "BK") return null;
+  const photo = KIT_FRONT[mechanisms.join("_")]?.[suffix];
+  return photo ? `/images/kits/${photo}` : null;
 }
 
 export function bundleComponentSkus(color: string, mechanisms: MechKind[]) {

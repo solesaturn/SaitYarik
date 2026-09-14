@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireStaff } from "@/lib/admin";
 import fs from "fs";
 import path from "path";
+import { randomUUID } from "crypto";
 
 export async function POST(req: NextRequest) {
   const { error } = await requireStaff();
@@ -30,7 +31,8 @@ export async function POST(req: NextRequest) {
   if (file && typeof file === "object" && "arrayBuffer" in file && (file as File).size > 0) {
     const uploaded = file as File;
     const ext = path.extname(uploaded.name || ".jpg").toLowerCase() || ".jpg";
-    const safe = `${id}${ext}`;
+    // A new URL prevents a browser from retaining the previous product photo.
+    const safe = `${randomUUID()}${ext}`;
     const dir = path.join(process.cwd(), "public", "uploads", "products");
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, safe), Buffer.from(await uploaded.arrayBuffer()));

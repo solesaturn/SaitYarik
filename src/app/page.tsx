@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PopularProducts } from "@/components/PopularProducts";
-import { HOME_FAQS } from "@/lib/product-display";
+import { getHomeFaqs } from "@/lib/home-faqs";
+import { getSetting } from "@/lib/site";
+import { ProductImage } from "@/components/ProductImage";
 import { ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [categories, products, certificates] = await Promise.all([
+  const [categories, products, certificates, faqs, heroImage] = await Promise.all([
     prisma.category.findMany({ where: { parentId: null }, orderBy: { sortOrder: "asc" } }),
     prisma.product.findMany({
       where: { active: true },
@@ -29,14 +31,14 @@ export default async function HomePage() {
       orderBy: [{ productType: "asc" }, { name: "asc" }],
     }),
     prisma.certificate.findMany({ where: { published: true }, orderBy: { number: "asc" } }),
+    getHomeFaqs(),
+    getSetting("hero_image", "/images/common/01.png"),
   ]);
-
-  const heroProduct = products.find((p) => p.sku === "D1-BK") || products[0];
 
   return (
     <div>
       <section className="hero-gradient">
-        <div className="mx-auto grid max-w-7xl items-center gap-6 px-4 pb-10 pt-8 sm:gap-10 sm:pb-16 sm:pt-12 lg:grid-cols-[1.1fr_0.9fr] lg:pt-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-6 px-4 pb-10 pt-8 sm:gap-10 sm:pb-16 sm:pt-12 lg:grid-cols-[0.85fr_1.15fr] lg:pt-16">
           <div>
             <h1 className="section-title max-w-xl">Розетки и выключатели Laitys</h1>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-[var(--muted)]">
@@ -51,12 +53,11 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="justify-self-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={heroProduct?.imageUrl || "/images/common/01.png"}
-              alt={heroProduct?.name || "Розетка Laitys"}
-              className="aspect-[5/3] w-full max-w-md rounded-[1.5rem] bg-[var(--card)] object-contain p-6 sm:aspect-square sm:rounded-[2rem]"
+          <div className="w-full py-6 sm:py-10">
+            <ProductImage
+              src={heroImage}
+              alt="Розетки Laitys в трёх цветах: чёрный, белый и серый"
+              className="aspect-[2/1] w-full object-contain"
             />
           </div>
         </div>
@@ -185,17 +186,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
-        <h2 className="section-title">Вопросы</h2>
+      {faqs.length > 0 && <section className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
+        <h2 className="section-title">Вопросы о выборе и заказе</h2>
         <div className="mt-8 max-w-3xl space-y-3">
-          {HOME_FAQS.map((f) => (
-            <details key={f.question} className="rounded-2xl bg-white p-4">
+          {faqs.map((f) => (
+            <details key={f.id} className="rounded-2xl bg-white p-4">
               <summary className="cursor-pointer font-semibold">{f.question}</summary>
               <p className="mt-2 text-sm text-[var(--muted)]">{f.answer}</p>
             </details>
           ))}
         </div>
-      </section>
+      </section>}
     </div>
   );
 }

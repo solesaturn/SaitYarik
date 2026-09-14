@@ -46,7 +46,7 @@ export default async function KitPage({ searchParams }: { searchParams: SearchPa
       <p className="mt-3 text-xs uppercase tracking-wide text-[var(--muted)]">Рамка + механизмы</p>
       <h1 className="section-title mt-2">Собрать блок</h1>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
-        Для одного места выберите готовое изделие. Для нескольких — рамку и механизм на каждое место, все одного цвета.
+        Выберите размер и цвет рамки, затем наполните её розетками и выключателями. Состав и вид блока обновляются при каждом выборе.
       </p>
       <ConstructorWizard key={one(sp.preset) || "default"} products={products} preset={one(sp.preset)} />
     </div>

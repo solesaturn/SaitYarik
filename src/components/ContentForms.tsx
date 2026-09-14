@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ProductImage } from "@/components/ProductImage";
 
 export function ContentForms({
   map,
@@ -28,10 +29,28 @@ export function ContentForms({
     router.refresh();
   }
 
-  async function addFaq(e: React.FormEvent<HTMLFormElement>) {
+  async function uploadHero(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const res = await fetch("/api/admin/hero", { method: "POST", body: new FormData(e.currentTarget) });
+    const data = await res.json();
+    setMsg(res.ok ? "Фото главной страницы сохранено" : data.error || "Ошибка загрузки");
+    if (res.ok) router.refresh();
+  }
+
+  async function updateFaq(e: React.FormEvent<HTMLFormElement>, id: string) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    await fetch("/api/admin/faq", {
+    const res = await fetch("/api/admin/faq", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "update", id, question: fd.get("question"), answer: fd.get("answer") }) });
+    setMsg(res.ok ? "Вопрос сохранён" : "Не удалось сохранить вопрос");
+    if (res.ok) router.refresh();
+  }
+
+  async function addFaq(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const res = await fetch("/api/admin/faq", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -40,17 +59,18 @@ export function ContentForms({
         answer: fd.get("answer"),
       }),
     });
-    (e.currentTarget as HTMLFormElement).reset();
-    router.refresh();
+    setMsg(res.ok ? "Вопрос добавлен" : "Не удалось добавить вопрос");
+    if (res.ok) { form.reset(); router.refresh(); }
   }
 
   async function delFaq(id: string) {
-    await fetch("/api/admin/faq", {
+    const res = await fetch("/api/admin/faq", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "delete", id }),
     });
-    router.refresh();
+    setMsg(res.ok ? "Вопрос удалён" : "Не удалось удалить вопрос");
+    if (res.ok) router.refresh();
   }
 
   async function uploadCert(e: React.FormEvent<HTMLFormElement>) {
@@ -62,6 +82,14 @@ export function ContentForms({
 
   return (
     <div className="mt-8 space-y-10 text-sm">
+      {msg && <p role="status" className="rounded-xl bg-[var(--sand)] p-3">{msg}</p>}
+      <form onSubmit={uploadHero} className="space-y-3 rounded-2xl bg-white p-5">
+        <h2 className="font-semibold">Фото главной страницы</h2>
+        <ProductImage src={map.hero_image || "/images/common/01.png"} alt="Текущий баннер" className="h-40 w-full" />
+        <label className="grid gap-2">Заменить фото <input type="file" name="image" accept="image/png,image/jpeg,image/webp" required /></label>
+        <p className="text-xs text-[var(--muted)]">PNG, JPG или WebP до 5 МБ. Для автоматического выравнивания используйте PNG с прозрачным фоном. Фото товаров меняются в разделе «Товары».</p>
+        <button type="submit" className="btn btn-primary">Сохранить фото</button>
+      </form>
       <form onSubmit={saveSettings} className="space-y-3 rounded-2xl bg-white p-5">
         <p className="font-semibold">Контакты и тексты</p>
         {[
@@ -98,23 +126,24 @@ export function ContentForms({
         {msg && <span className="ml-2">{msg}</span>}
       </form>
 
-      <form onSubmit={addFaq} className="space-y-3 rounded-2xl bg-white p-5">
-        <p className="font-semibold">FAQ</p>
+      <section className="space-y-3 rounded-2xl bg-white p-5">
+        <h2 className="font-semibold">Вопросы на главной странице</h2>
         {faqs.map((f) => (
-          <div key={f.id} className="border-b border-[var(--line)] pb-3">
-            <p className="font-medium">{f.question}</p>
-            <p className="mt-1 text-[var(--muted)]">{f.answer}</p>
-            <button type="button" className="mt-1 text-xs underline" onClick={() => delFaq(f.id)}>
-              Удалить
-            </button>
-          </div>
+          <form key={`${f.id}-${f.question}-${f.answer}`} onSubmit={(e) => updateFaq(e, f.id)} className="space-y-3 border-b border-[var(--line)] pb-4">
+            <label className="grid gap-1">Вопрос<input name="question" required maxLength={300} defaultValue={f.question} className="w-full rounded-xl border px-3 py-2" /></label>
+            <label className="grid gap-1">Ответ<textarea name="answer" required maxLength={4000} defaultValue={f.answer} rows={4} className="w-full rounded-xl border px-3 py-2" /></label>
+            <button type="submit" className="btn btn-copper">Сохранить вопрос</button>
+            <button type="button" className="ml-3 text-xs underline" onClick={() => delFaq(f.id)}>Удалить</button>
+          </form>
         ))}
+        <form onSubmit={addFaq} className="space-y-3 pt-3">
         <input name="question" required placeholder="Вопрос" className="w-full rounded-full border px-3 py-2" />
         <textarea name="answer" required placeholder="Ответ" rows={3} className="w-full rounded-2xl border px-3 py-2" />
         <button className="btn btn-copper" type="submit">
           Добавить вопрос
         </button>
-      </form>
+        </form>
+      </section>
 
       <div className="space-y-3 rounded-2xl bg-white p-5">
         <p className="font-semibold">Сертификаты (только действующие файлы)</p>

@@ -1,5 +1,7 @@
 "use client";
 
+import { ProductImage } from "@/components/ProductImage";
+
 import { useState } from "react";
 
 export function ProductGallery({
@@ -26,8 +28,7 @@ export function ProductGallery({
   return (
     <div>
       <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--card)] sm:aspect-square">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={current} alt={alt} className="h-full w-full object-contain p-4 sm:p-8" />
+        <ProductImage src={current} alt={alt} className="h-full w-full object-contain p-4 sm:p-8" />
       </div>
       {photos.length > 1 && (
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
@@ -41,8 +42,7 @@ export function ProductGallery({
               }`}
               aria-label={`Фото ${i + 1}`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" className="h-full w-full object-contain p-1" />
+              <ProductImage src={src} alt="" className="h-full w-full object-contain p-1" />
             </button>
           ))}
         </div>

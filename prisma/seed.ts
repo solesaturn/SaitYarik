@@ -1,3 +1,4 @@
+import { HOME_FAQS } from "../src/lib/product-display";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import fs from "fs";
@@ -215,24 +216,7 @@ async function main() {
   });
 
   await prisma.faqItem.createMany({
-    data: [
-      {
-        question: "Рамка входит в комплект?",
-        answer: "Состав указан в карточке товара.",
-        sortOrder: 1,
-      },
-      {
-        question: "Что такое проходной выключатель?",
-        answer:
-          "Он используется для управления светом из разных мест. Схему и совместимые устройства поможет выбрать электрик.",
-        sortOrder: 2,
-      },
-      {
-        question: "Где узнать стоимость доставки?",
-        answer: "При оформлении, после выбора города.",
-        sortOrder: 3,
-      },
-    ],
+    data: HOME_FAQS.map((faq, index) => ({ ...faq, sortOrder: index + 1 })),
   });
 
   await prisma.siteSetting.createMany({

@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getSession, isStaff } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { AdminNav } from "@/components/AdminNav";
+import { getHomeFaqs } from "@/lib/home-faqs";
 import { ContentForms } from "@/components/ContentForms";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +12,7 @@ export default async function AdminContentPage() {
   if (!session || !isStaff(session.role)) redirect("/account");
   const [settings, faqs, certs] = await Promise.all([
     prisma.siteSetting.findMany(),
-    prisma.faqItem.findMany({ orderBy: { sortOrder: "asc" } }),
+    getHomeFaqs(),
     prisma.certificate.findMany({ orderBy: { number: "asc" } }),
   ]);
   const map = Object.fromEntries(settings.map((s) => [s.key, s.value]));
