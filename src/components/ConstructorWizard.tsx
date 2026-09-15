@@ -2,8 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ProductImage } from "@/components/ProductImage";
-import { Check } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { getProductPrice, hasConfirmedPrice } from "@/lib/pricing";
 import { formatPriceLabel } from "@/lib/utils";
@@ -18,6 +17,7 @@ import {
   type MechKind,
 } from "@/lib/bundle";
 import { BundlePreview } from "@/components/BundlePreview";
+import "./calculator.css";
 
 type P = {
   id: string;
@@ -50,7 +50,6 @@ export function ConstructorWizard({ products, preset }: { products: P[]; preset?
   const [color, setColor] = useState<(typeof BUNDLE_COLORS)[number]["id"]>(initial.color);
   const [count, setCount] = useState(initial.count);
   const [slots, setSlots] = useState<MechKind[]>(initial.slots);
-  const [activeSlot, setActiveSlot] = useState(0);
   const [added, setAdded] = useState(false);
 
   const bySku = useMemo(() => {
@@ -61,7 +60,6 @@ export function ConstructorWizard({ products, preset }: { products: P[]; preset?
 
   function setPostCount(n: number) {
     setCount(n);
-    setActiveSlot(Math.min(activeSlot, n - 1));
     setSlots(Array.from({ length: n }, (_, i) => slots[i] || "m-d1"));
     setAdded(false);
   }
@@ -110,119 +108,85 @@ export function ConstructorWizard({ products, preset }: { products: P[]; preset?
   }
 
   return (
-    <div className="mt-8 grid items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
-      <div className="min-w-0 rounded-3xl border border-[var(--line)] bg-white p-5 sm:p-7">
-        <h2 className="text-lg font-semibold">01 · Количество мест</h2>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {[2, 3, 4].map((n) => (
-            <button
-              key={n}
-              type="button"
-              aria-pressed={count === n}
-              onClick={() => setPostCount(n)}
-              className={`pill ${count === n ? "pill-active" : ""}`}
-            >
-              {n} поста
-            </button>
-          ))}
-        </div>
-        <p className="mt-3 text-sm text-[var(--muted)]">
-          Одно место?{" "}
-          <Link href="/catalog" className="underline underline-offset-4">
-            Выберите готовое изделие
-          </Link>.
-        </p>
-
-        <h2 className="mt-8 text-lg font-semibold">02 · Цвет</h2>
-        <p className="mt-2 text-sm text-[var(--muted)]">Рамка и механизмы только одного цвета.</p>
-        <div className="mt-4 flex flex-wrap gap-3">
-          {BUNDLE_COLORS.map((c) => (
-            <button
-              key={c.id}
-              aria-pressed={color === c.id}
-              type="button"
-              onClick={() => {
-                setColor(c.id);
-                setAdded(false);
-              }}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm ${
-                color === c.id ? "bg-[var(--ink)] text-white" : "bg-[var(--sand)]"
-              }`}
-            >
-              <span className="h-4 w-4 rounded-full border border-black/15" style={{ backgroundColor: c.swatch }} />
-              {c.label}
-            </button>
-          ))}
-        </div>
-
-        <h2 className="mt-8 text-lg font-semibold">03 · Наполнение блока</h2>
-        <p className="mt-2 text-sm text-[var(--muted)]">Выберите место, затем нажмите на нужный механизм. Порядок — слева направо.</p>
-        <div className="mt-4 grid gap-2" style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}>
-          {slots.map((slot, index) => {
-            const product = bySku.get(mechSku(slot, color) || "");
-            return <button key={index} type="button" aria-pressed={activeSlot === index}
-              aria-label={`Выбрать место ${index + 1}`} onClick={() => setActiveSlot(index)}
-              className={`min-w-0 rounded-2xl border-2 p-2 text-center ${activeSlot === index ? "border-[var(--ink)] bg-[var(--sand)]" : "border-transparent bg-[var(--paper)]"}`}>
-              <span className="text-xs font-medium">Место {index + 1}</span>
-              {product?.imageUrl ? <ProductImage src={product.imageUrl} alt={displayProduct(product).title} className="mt-2 aspect-square w-full p-2" /> : <span className="block py-4 text-xs">Нет фото</span>}
-            </button>;
-          })}
-        </div>
-        <p className="mt-6 text-sm font-semibold">Механизм для места {activeSlot + 1}</p>
-        <div className="mt-3 grid gap-2 sm:grid-cols-3">
-          {MECH_OPTIONS.map((option) => {
-            const product = bySku.get(mechSku(option.id, color) || "");
-            const selected = slots[activeSlot] === option.id;
-            return <button key={option.id} type="button" aria-pressed={selected} disabled={!product}
-              onClick={() => { setSlots(slots.map((slot, index) => index === activeSlot ? option.id : slot)); setAdded(false); }}
-              className={`flex items-center gap-3 rounded-2xl border p-3 text-left disabled:opacity-40 sm:flex-col sm:items-stretch ${selected ? "border-[var(--ink)] bg-[var(--sand)]" : "border-[var(--line)] hover:bg-[var(--paper)]"}`}>
-              {product?.imageUrl && <ProductImage src={product.imageUrl} alt="" className="h-14 w-14 shrink-0 p-1 sm:h-24 sm:w-full sm:p-3" />}
-              <span className="text-xs font-medium leading-relaxed">{option.label}{!product && " · Недоступен"}</span>
-            </button>;
-          })}
-        </div>
+    <section className="laitys-calculator" aria-label="Конструктор блока">
+      <div className="laitys-calculator__controls">
+        <fieldset>
+          <legend>01 · Количество мест</legend>
+          <div className="laitys-calculator__choices">
+            {[2, 3, 4].map((n) => (
+              <button key={n} type="button" aria-pressed={count === n} onClick={() => setPostCount(n)}>
+                {n} поста
+              </button>
+            ))}
+          </div>
+          <p className="laitys-calculator__hint">
+            Одно место? <Link href="/catalog">Выберите готовое изделие</Link>.
+          </p>
+        </fieldset>
+        <fieldset>
+          <legend>02 · Цвет</legend>
+          <div className="laitys-calculator__choices">
+            {BUNDLE_COLORS.map((c) => (
+              <button key={c.id} type="button" aria-pressed={color === c.id}
+                onClick={() => { setColor(c.id); setAdded(false); }}>
+                <span className="laitys-calculator__swatch" style={{ backgroundColor: c.swatch }} aria-hidden="true" />
+                {c.label}
+              </button>
+            ))}
+          </div>
+          <p className="laitys-calculator__hint">Рамка и все механизмы — в одном цвете.</p>
+        </fieldset>
+        <fieldset>
+          <legend>03 · Механизмы</legend>
+          <div className="laitys-calculator__slots">
+            {slots.map((slot, index) => (
+              <label key={index}>
+                <span>Место {index + 1}</span>
+                <select aria-label={("Механизм для места " + (index + 1))} value={slot}
+                  onChange={(event) => {
+                    const value = event.target.value as MechKind;
+                    setSlots(slots.map((current, i) => i === index ? value : current));
+                    setAdded(false);
+                  }}>
+                  {MECH_OPTIONS.map((option) => {
+                    const available = bySku.has(mechSku(option.id, color) || "");
+                    return <option key={option.id} value={option.id} disabled={!available}>
+                      {option.label}{!available ? " · Недоступен" : ""}
+                    </option>;
+                  })}
+                </select>
+              </label>
+            ))}
+          </div>
+          <p className="laitys-calculator__hint">Порядок механизмов — слева направо.</p>
+        </fieldset>
       </div>
-
-      <div className="min-w-0 rounded-3xl bg-[var(--sand)] p-5 sm:p-7 lg:sticky lg:top-24">
-        <p className="text-xs uppercase tracking-wide text-[var(--muted)]">Ваш комплект</p>
-        <h2 className="mt-2 text-2xl font-semibold tracking-tight">
-          {count} поста · {bundleColorMeta(color).label.toLowerCase()}
-        </h2>
-        <BundlePreview key={`${color}-${slots.join("_")}`} color={color} mechanisms={slots} products={products} />
-        <p className="mt-3 text-sm text-[var(--muted)]">
-          В комплекте одна рамка и {count} механизма. Расположение показано слева направо.
-        </p>
-        <dl className="mt-5 divide-y divide-[var(--line)] text-sm">
+      <div className="laitys-calculator__result">
+        <p className="laitys-calculator__eyebrow">Ваш комплект</p>
+        <h2>{count} поста · {bundleColorMeta(color).label.toLowerCase()}</h2>
+        <BundlePreview key={(color + "-" + slots.join("_"))} color={color} mechanisms={slots} />
+        <p className="laitys-calculator__hint">В комплекте одна рамка и {count} механизма.</p>
+        <dl>
           {grouped.map(({ product, qty }) => (
-            <div key={product.id} className="flex items-center justify-between gap-3 py-2.5">
+            <div key={product.id}>
               <dt>
-                <Link href={`/product/${product.slug}`} className="hover:opacity-70">
-                  {displayProduct(product).title}
-                </Link>
-                <span className="ml-2 text-[var(--muted)]">{product.sku}</span>
+                <Link href={("/product/" + product.slug)}>{displayProduct(product).title}</Link>
+                <small>{product.sku}</small>
               </dt>
-              <dd className="shrink-0 font-medium">{qty} шт.</dd>
+              <dd>{qty} шт.</dd>
             </div>
           ))}
         </dl>
-        {!complete && (
-          <p className="mt-4 text-sm text-[var(--muted)]">Такого комплекта нет в каталоге.</p>
-        )}
-        <div className="mt-6 flex items-end justify-between gap-3">
-          <span className="text-sm text-[var(--muted)]">Полный комплект</span>
-          <strong className="text-xl font-semibold tracking-tight">{complete ? formatPriceLabel(priced ? total : 0) : "—"}</strong>
+        {!complete && <p className="laitys-calculator__hint" role="status">Такого комплекта нет в каталоге.</p>}
+        <div className="laitys-calculator__total" aria-live="polite" aria-atomic="true">
+          <span>Полный комплект</span>
+          <strong>{complete ? formatPriceLabel(priced ? total : 0) : "—"}</strong>
         </div>
-        {!priced && <p className="mt-4 text-sm text-[var(--muted)]">Для расчёта сообщите менеджеру состав комплекта. <Link href="/contacts" className="underline">Связаться с нами</Link></p>}
-        <button type="button" className="btn btn-primary mt-5 w-full disabled:cursor-not-allowed disabled:opacity-40" disabled={!complete || !priced} onClick={addKit}>
-          {added ? (
-            <>
-              <Check className="h-4 w-4" /> В корзине
-            </>
-          ) : (
-            priced ? "Добавить комплект в корзину" : "Цена комплекта уточняется"
-          )}
+        {!priced && <p className="laitys-calculator__hint">Для расчёта сообщите менеджеру состав комплекта. <Link href="/contacts">Связаться с нами</Link></p>}
+        <button type="button" className="laitys-calculator__add" disabled={!complete || !priced} onClick={addKit}>
+          {added ? <><Check size={18} /> В корзине</> : priced ? <>Добавить комплект в корзину <Plus size={18} /></> : "Цена комплекта уточняется"}
         </button>
       </div>
-    </div>
+    </section>
   );
 }
