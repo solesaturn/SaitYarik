@@ -186,15 +186,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {faqs.length > 0 && <section className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
-        <h2 className="section-title">Вопросы о выборе и заказе</h2>
-        <div className="mt-8 max-w-3xl space-y-3">
+      {faqs.length > 0 && <section aria-labelledby="home-faq-title" className="border-y border-[var(--line)] bg-[#e5edf3] py-12 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4">
+        <h2 id="home-faq-title" className="section-title">Вопросы о выборе и заказе</h2>
+        <div className="mt-8 grid items-start gap-4 sm:mt-10 lg:grid-cols-2 lg:gap-6">
           {faqs.map((f) => (
-            <details key={f.id} className="rounded-2xl bg-white p-4">
-              <summary className="cursor-pointer font-semibold">{f.question}</summary>
-              <p className="mt-2 text-sm text-[var(--muted)]">{f.answer}</p>
+            <details key={f.id} open className="rounded-2xl border border-black/10 border-t-4 border-t-[var(--ink)] bg-white p-5 shadow-sm sm:p-7">
+              <summary className="cursor-pointer text-lg font-semibold leading-snug marker:text-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-4 sm:text-xl">{f.question}</summary>
+              <p className="mt-4 whitespace-pre-line text-base leading-relaxed text-[#454b52]">{f.answer}</p>
             </details>
           ))}
+        </div>
         </div>
       </section>}
     </div>
