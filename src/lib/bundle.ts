@@ -50,7 +50,7 @@ export function mechLabel(kind: MechKind) {
   return MECH_OPTIONS.find((m) => m.id === kind)?.label || kind;
 }
 
-export function getBundlePhoto(color: string, mechanisms: MechKind[]) {
+export function getBundlePhoto(color: string, mechanisms: string[]) {
   const suffix = colorSuffix(color);
   if (suffix !== "WH" && suffix !== "GY" && suffix !== "BK") return null;
   const photo = KIT_FRONT[mechanisms.join("_")]?.[suffix];

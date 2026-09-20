@@ -9,6 +9,7 @@ import { formatPriceLabel } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { getProductPrice, hasConfirmedPrice } from "@/lib/pricing";
 import { displayProduct, productAlt } from "@/lib/product-display";
+import { formatBadge, productBenefits } from "@/lib/product-content";
 
 export type ProductCardData = {
   id: string;
@@ -27,6 +28,8 @@ export type ProductCardData = {
   isNew?: boolean;
   isSale?: boolean;
   brand?: { name: string } | null;
+  posts?: number | null;
+  attrsJson?: string | null;
 };
 
 export function ProductCard({ product }: { product: ProductCardData; b2bApproved?: boolean }) {
@@ -87,7 +90,7 @@ export function ProductCard({ product }: { product: ProductCardData; b2bApproved
 
       <div className="flex flex-1 flex-col pt-3">
         <p className="text-xs text-[var(--muted)]">{stockLabel}</p>
-        <Link href={`/product/${product.slug}`} className="mt-1 line-clamp-2 text-sm font-medium leading-snug hover:opacity-70">
+        <Link href={`/product/${product.slug}`} className="mt-1 min-h-10 line-clamp-2 text-sm font-medium leading-snug hover:opacity-70">
           {view.title}
         </Link>
         {(view.color || view.completeness) && (
@@ -95,6 +98,8 @@ export function ProductCard({ product }: { product: ProductCardData; b2bApproved
             {[view.color, view.completeness, ...view.extras].filter(Boolean).join(" · ")}
           </p>
         )}
+        <p className="mt-2 min-h-12 text-xs font-medium leading-relaxed">{formatBadge(product)}</p>
+        <ul className="mt-1 min-h-14 text-xs leading-relaxed text-[var(--muted)]">{productBenefits(product).map(b=><li key={b}>{b}</li>)}</ul>
         <div className="mt-auto flex flex-col gap-1 pt-3">
           <p className="text-sm font-semibold tracking-tight sm:text-base">{formatPriceLabel(price)}</p>
           <button
@@ -124,9 +129,7 @@ export function ProductCard({ product }: { product: ProductCardData; b2bApproved
             )}
           </button>
         ) : (
-          <p className="mt-3 rounded-xl bg-[var(--sand)] px-2 py-2.5 text-center text-xs text-[var(--muted)] sm:px-3 sm:text-sm">
-            Цена уточняется
-          </p>
+          <Link href={`/product/${product.slug}`} className="btn btn-copper mt-3 w-full !rounded-xl !px-2 text-xs sm:text-sm">Подробнее</Link>
         )}
       </div>
     </article>

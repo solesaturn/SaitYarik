@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Check, Plus } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
@@ -10,12 +10,11 @@ import { displayProduct } from "@/lib/product-display";
 import {
   BUNDLE_COLORS,
   BUNDLE_PRESETS,
-  MECH_OPTIONS,
   bundleColorMeta,
-  bundleComponentSkus,
-  mechSku,
-  type MechKind,
 } from "@/lib/bundle";
+import { constructorEnabled } from "@/lib/product-content";
+import { sameColor } from "@/lib/compatibility";
+import { skuBase } from "@/lib/product-display";
 import { BundlePreview } from "@/components/BundlePreview";
 import "./calculator.css";
 
@@ -33,40 +32,39 @@ type P = {
   priceWholesale: number;
   stock: number;
   packQty: number;
+  attrsJson: string;
 };
 
-function presetState(preset?: string | null) {
-  const found = preset ? BUNDLE_PRESETS[preset] : undefined;
-  return {
-    color: "белый" as const,
-    count: found?.count ?? 2,
-    slots: (found?.slots ?? ["m-d1", "m-d1"]) as MechKind[],
-  };
-}
-
 export function ConstructorWizard({ products, preset }: { products: P[]; preset?: string | null }) {
-  const initial = presetState(preset);
+  const initial = preset ? BUNDLE_PRESETS[preset] : undefined;
+  const modules = products.filter(constructorEnabled);
+  const initialModules = modules.filter(p=>sameColor(p.color,'белый'));
   const { addItems } = useCart();
-  const [color, setColor] = useState<(typeof BUNDLE_COLORS)[number]["id"]>(initial.color);
-  const [count, setCount] = useState(initial.count);
-  const [slots, setSlots] = useState<MechKind[]>(initial.slots);
+  const [color, setColor] = useState<(typeof BUNDLE_COLORS)[number]["id"]>('белый');
+  const [count, setCount] = useState(initial?.count || 2);
+  const [slots, setSlots] = useState<string[]>(()=>(initial?.slots || ['m-d1','m-d1']).map(kind=>initialModules.find(p=>skuBase(p.sku).toLowerCase()===kind)?.id || initialModules[0]?.id || ''));
   const [added, setAdded] = useState(false);
 
-  const bySku = useMemo(() => {
-    const map = new Map<string, P>();
-    for (const p of products) map.set(p.sku.toUpperCase(), p);
-    return map;
-  }, [products]);
+  const available = modules.filter(p=>sameColor(p.color,color));
+  function changeColor(next: typeof color) {
+    const candidates = modules.filter(p=>sameColor(p.color,next));
+    setSlots(slots.map(id=>{
+      const previous=modules.find(p=>p.id===id);
+      return candidates.find(p=>previous && skuBase(p.sku)===skuBase(previous.sku))?.id || candidates[0]?.id || '';
+    }));
+    setColor(next);setAdded(false);
+  }
 
   function setPostCount(n: number) {
     setCount(n);
-    setSlots(Array.from({ length: n }, (_, i) => slots[i] || "m-d1"));
+    setSlots(Array.from({ length: n }, (_, i) => slots[i] || available[0]?.id || ''));
     setAdded(false);
   }
 
-  const componentSkus = bundleComponentSkus(color, slots);
-  const components = componentSkus.map((sku) => bySku.get(sku.toUpperCase()) || null);
-  const complete = components.length > 0 && components.every(Boolean);
+  const frame = products.find(p=>p.kitRole==='frame' && p.posts===count && sameColor(p.color,color));
+  const selected = slots.map(id=>available.find(p=>p.id===id) || null);
+  const components = [frame || null, ...selected];
+  const complete = slots.length === count && [2,3,4].includes(count) && components.every(Boolean);
   const priced = complete && components.every((p) => p && hasConfirmedPrice(p));
   const total = complete
     ? components.reduce((sum, p) => sum + getProductPrice(p!), 0)
@@ -111,7 +109,7 @@ export function ConstructorWizard({ products, preset }: { products: P[]; preset?
     <section className="laitys-calculator" aria-label="Конструктор блока">
       <div className="laitys-calculator__controls">
         <fieldset>
-          <legend>01 · Количество мест</legend>
+          <legend>01 · Количество постов</legend>
           <div className="laitys-calculator__choices">
             {[2, 3, 4].map((n) => (
               <button key={n} type="button" aria-pressed={count === n} onClick={() => setPostCount(n)}>
@@ -120,7 +118,7 @@ export function ConstructorWizard({ products, preset }: { products: P[]; preset?
             ))}
           </div>
           <p className="laitys-calculator__hint">
-            Одно место? <Link href="/catalog">Выберите готовое изделие</Link>.
+            Одно место? <Link href="/catalog?format=assembled">Выберите готовое изделие</Link> — отдельная рамка не нужна.
           </p>
         </fieldset>
         <fieldset>
@@ -128,44 +126,40 @@ export function ConstructorWizard({ products, preset }: { products: P[]; preset?
           <div className="laitys-calculator__choices">
             {BUNDLE_COLORS.map((c) => (
               <button key={c.id} type="button" aria-pressed={color === c.id}
-                onClick={() => { setColor(c.id); setAdded(false); }}>
+                onClick={() => changeColor(c.id)}>
                 <span className="laitys-calculator__swatch" style={{ backgroundColor: c.swatch }} aria-hidden="true" />
                 {c.label}
               </button>
             ))}
           </div>
-          <p className="laitys-calculator__hint">Рамка и все механизмы — в одном цвете.</p>
+          <p className="laitys-calculator__hint">Рамка и все модули — в одном цвете.</p>
         </fieldset>
         <fieldset>
-          <legend>03 · Механизмы</legend>
+          <legend>03 · Модули слева направо</legend>
           <div className="laitys-calculator__slots">
             {slots.map((slot, index) => (
               <label key={index}>
                 <span>Место {index + 1}</span>
-                <select aria-label={("Механизм для места " + (index + 1))} value={slot}
+                <select aria-label={("Модуль для поста " + (index + 1))} value={slot} disabled={!available.length}
                   onChange={(event) => {
-                    const value = event.target.value as MechKind;
+                    const value = event.target.value;
                     setSlots(slots.map((current, i) => i === index ? value : current));
                     setAdded(false);
                   }}>
-                  {MECH_OPTIONS.map((option) => {
-                    const available = bySku.has(mechSku(option.id, color) || "");
-                    return <option key={option.id} value={option.id} disabled={!available}>
-                      {option.label}{!available ? " · Недоступен" : ""}
-                    </option>;
-                  })}
+                  {!available.length && <option value="">Нет доступных модулей</option>}
+                  {available.map(p=><option key={p.id} value={p.id}>{displayProduct(p).title} · {p.sku}</option>)}
                 </select>
               </label>
             ))}
           </div>
-          <p className="laitys-calculator__hint">Порядок механизмов — слева направо.</p>
+          <p className="laitys-calculator__hint">Один пост — одно место для одного модуля.</p>
         </fieldset>
       </div>
       <div className="laitys-calculator__result">
         <p className="laitys-calculator__eyebrow">Ваш комплект</p>
         <h2>{count} поста · {bundleColorMeta(color).label.toLowerCase()}</h2>
-        <BundlePreview key={(color + "-" + slots.join("_"))} color={color} mechanisms={slots} />
-        <p className="laitys-calculator__hint">В комплекте одна рамка и {count} механизма.</p>
+        <BundlePreview key={(color + "-" + slots.join("_"))} color={color} mechanisms={selected.map(p=>p ? skuBase(p.sku).toLowerCase() : '')} labels={selected.map(p=>p ? displayProduct(p).title : 'Нет модуля')} images={selected.map(p=>p?.imageUrl || null)} />
+        <p className="laitys-calculator__hint">В комплекте одна рамка и {count} модуля.</p>
         <dl>
           {grouped.map(({ product, qty }) => (
             <div key={product.id}>

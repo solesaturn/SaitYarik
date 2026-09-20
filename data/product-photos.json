@@ -1,0 +1,1002 @@
+{
+  "D1-BK": {
+    "originals": [
+      "/images/products/D1-BK/01.png",
+      "/images/products/D1-BK/02.png",
+      "/images/products/D1-BK/03.png",
+      "/images/products/D1-BK/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/D1-BK/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/D1-BK/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/D1-BK/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/D1-BK/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Розетка со шторками, в сборе, чёрная",
+    "originalDescription": "Розетка для одной точки подключения. Защитные шторки закрывают отверстия контактов, когда вилка не вставлена.",
+    "name": "Розетка со шторками, чёрная",
+    "description": "Розетка для одной точки подключения. Защитные шторки закрывают отверстия контактов, когда вилка не вставлена."
+  },
+  "D1-GY": {
+    "originals": [
+      "/images/products/D1-GY/01.png",
+      "/images/products/D1-GY/02.png",
+      "/images/products/D1-GY/03.png",
+      "/images/products/D1-GY/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/D1-GY/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/D1-GY/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/D1-GY/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/D1-GY/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Розетка со шторками, в сборе, серая",
+    "originalDescription": "Розетка для одной точки подключения. Защитные шторки закрывают отверстия контактов, когда вилка не вставлена.",
+    "name": "Розетка со шторками, серая",
+    "description": "Розетка для одной точки подключения. Защитные шторки закрывают отверстия контактов, когда вилка не вставлена."
+  },
+  "D1-WH": {
+    "originals": [
+      "/images/products/D1-WH/01.png",
+      "/images/products/D1-WH/02.png",
+      "/images/products/D1-WH/03.png",
+      "/images/products/D1-WH/04.png",
+      "/images/products/D1-WH/05.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/D1-WH/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/D1-WH/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/D1-WH/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/D1-WH/04.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/D1-WH/05.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Розетка со шторками, в сборе, белая",
+    "originalDescription": "Розетка для одной точки подключения. Защитные шторки закрывают отверстия контактов, когда вилка не вставлена.",
+    "name": "Розетка со шторками, белая",
+    "description": "Розетка для одной точки подключения. Защитные шторки закрывают отверстия контактов, когда вилка не вставлена."
+  },
+  "M-D1-BK": {
+    "originals": [
+      "/images/products/M-D1-BK/01.png",
+      "/images/products/M-D1-BK/02.png",
+      "/images/products/M-D1-BK/03.png",
+      "/images/products/M-D1-BK/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/M-D1-BK/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/M-D1-BK/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-D1-BK/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-D1-BK/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Механизм розетки Schuko (без панели), чёрный",
+    "originalDescription": "Механизм розетки Schuko (без панели), чёрный. Один вставной функциональный компонент немецкого образца (с защитной дверцей) (быстрое соединение) (черный функциональный компонент)",
+    "name": "Модуль розетки Schuko, чёрный",
+    "description": "Модуль розетки Schuko. Для установки нужна рамка на 2, 3 или 4 поста того же цвета. Один модуль занимает один пост."
+  },
+  "M-D1-GY": {
+    "originals": [
+      "/images/products/M-D1-GY/01.png",
+      "/images/products/M-D1-GY/02.png",
+      "/images/products/M-D1-GY/03.png",
+      "/images/products/M-D1-GY/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/M-D1-GY/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/M-D1-GY/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-D1-GY/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-D1-GY/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Механизм розетки Schuko (без панели), серый",
+    "originalDescription": "Механизм розетки Schuko (без панели), серый. Один вставной функциональный компонент немецкого образца (с защитной дверцей) (быстрое соединение) (серый функциональный компонент)",
+    "name": "Модуль розетки Schuko, серый",
+    "description": "Модуль розетки Schuko. Для установки нужна рамка на 2, 3 или 4 поста того же цвета. Один модуль занимает один пост."
+  },
+  "M-D1-WH": {
+    "originals": [
+      "/images/products/M-D1-WH/01.png",
+      "/images/products/M-D1-WH/02.png",
+      "/images/products/M-D1-WH/03.png",
+      "/images/products/M-D1-WH/04.png",
+      "/images/products/M-D1-WH/05.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/M-D1-WH/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/M-D1-WH/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-D1-WH/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-D1-WH/04.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-D1-WH/05.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Механизм розетки Schuko (без панели), белый",
+    "originalDescription": "Механизм розетки Schuko (без панели), белый. Один вставной функциональный компонент немецкого образца (с защитной дверцей) (быстрое соединение) (белый функциональный компонент)",
+    "name": "Модуль розетки Schuko, белый",
+    "description": "Модуль розетки Schuko. Для установки нужна рамка на 2, 3 или 4 поста того же цвета. Один модуль занимает один пост."
+  },
+  "M-S1-BK": {
+    "originals": [
+      "/images/products/M-S1-BK/01.png",
+      "/images/products/M-S1-BK/02.png",
+      "/images/products/M-S1-BK/03.png",
+      "/images/products/M-S1-BK/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/M-S1-BK/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/M-S1-BK/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-S1-BK/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-S1-BK/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Механизм выключателя 1-кл. (без панели), чёрный",
+    "originalDescription": "Механизм выключателя 1-кл. (без панели), чёрный. Один управляющий переключатель на 10 А (быстрое подключение) (черный функциональный компонент)",
+    "name": "Модуль одноклавишного выключателя, чёрный",
+    "description": "Модуль одноклавишного выключателя. Для установки нужна рамка на 2, 3 или 4 поста того же цвета. Один модуль занимает один пост."
+  },
+  "M-S1-GY": {
+    "originals": [
+      "/images/products/M-S1-GY/01.png",
+      "/images/products/M-S1-GY/02.png",
+      "/images/products/M-S1-GY/03.png",
+      "/images/products/M-S1-GY/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/M-S1-GY/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/M-S1-GY/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-S1-GY/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-S1-GY/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Механизм выключателя 1-кл. (без панели), серый",
+    "originalDescription": "Механизм выключателя 1-кл. (без панели), серый. Однополюсный выключатель 10 А (быстрое подключение) (серый функциональный компонент)",
+    "name": "Модуль одноклавишного выключателя, серый",
+    "description": "Модуль одноклавишного выключателя. Для установки нужна рамка на 2, 3 или 4 поста того же цвета. Один модуль занимает один пост."
+  },
+  "M-S1-WH": {
+    "originals": [
+      "/images/products/M-S1-WH/01.png",
+      "/images/products/M-S1-WH/02.png",
+      "/images/products/M-S1-WH/03.png",
+      "/images/products/M-S1-WH/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/M-S1-WH/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/M-S1-WH/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-S1-WH/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-S1-WH/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Механизм выключателя 1-кл. (без панели), белый",
+    "originalDescription": "Механизм выключателя 1-кл. (без панели), белый. Один однополюсный выключатель 10 А (быстрое подключение) (белый функциональный компонент)",
+    "name": "Модуль одноклавишного выключателя, белый",
+    "description": "Модуль одноклавишного выключателя. Для установки нужна рамка на 2, 3 или 4 поста того же цвета. Один модуль занимает один пост."
+  },
+  "M-TV-BK": {
+    "originals": [
+      "/images/products/M-TV-BK/01.png",
+      "/images/products/M-TV-BK/02.png",
+      "/images/products/M-TV-BK/03.png",
+      "/images/products/M-TV-BK/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/M-TV-BK/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/M-TV-BK/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-TV-BK/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-TV-BK/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Розетка TV+компьютер (механизм), чёрная",
+    "originalDescription": "Розетка TV+компьютер (механизм), чёрная. Телевизор + Компьютер (черный функциональный компонент)",
+    "name": "Модуль TV + компьютер, чёрный",
+    "description": "Модуль TV + компьютер. Для установки нужна рамка на 2, 3 или 4 поста того же цвета. Один модуль занимает один пост."
+  },
+  "M-TV-GY": {
+    "originals": [
+      "/images/products/M-TV-GY/01.png",
+      "/images/products/M-TV-GY/02.png",
+      "/images/products/M-TV-GY/03.png",
+      "/images/products/M-TV-GY/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/M-TV-GY/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/M-TV-GY/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-TV-GY/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-TV-GY/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Розетка TV+компьютер (механизм), серая",
+    "originalDescription": "Розетка TV+компьютер (механизм), серая. Телевизор + Компьютер (серый функциональный компонент)",
+    "name": "Модуль TV + компьютер, серый",
+    "description": "Модуль TV + компьютер. Для установки нужна рамка на 2, 3 или 4 поста того же цвета. Один модуль занимает один пост."
+  },
+  "M-TV-WH": {
+    "originals": [
+      "/images/products/M-TV-WH/01.png",
+      "/images/products/M-TV-WH/02.png",
+      "/images/products/M-TV-WH/03.png",
+      "/images/products/M-TV-WH/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/M-TV-WH/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/M-TV-WH/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-TV-WH/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/M-TV-WH/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Розетка TV+компьютер (механизм), белая",
+    "originalDescription": "Розетка TV+компьютер (механизм), белая. Телевизор + Компьютер (белый функциональный компонент)",
+    "name": "Модуль TV + компьютер, белый",
+    "description": "Модуль TV + компьютер. Для установки нужна рамка на 2, 3 или 4 поста того же цвета. Один модуль занимает один пост."
+  },
+  "P2-BK": {
+    "originals": [
+      "/images/products/P2-BK/01.png",
+      "/images/products/P2-BK/02.png",
+      "/images/products/P2-BK/03.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/P2-BK/03.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/P2-BK/01.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/P2-BK/02.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Панель 2 поста, чёрная",
+    "originalDescription": "Панель 2 поста, чёрная. Двухпозиционный компонент панели (черный)",
+    "name": "Рамка на 2 поста, чёрная",
+    "description": "Рамка на 2 поста. Для сборки блока выберите по одному модулю на каждый пост. Все элементы должны быть одного цвета."
+  },
+  "P2-GY": {
+    "originals": [
+      "/images/products/P2-GY/01.png",
+      "/images/products/P2-GY/02.png",
+      "/images/products/P2-GY/03.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/P2-GY/03.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/P2-GY/01.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/P2-GY/02.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Панель 2 поста, серая",
+    "originalDescription": "Панель 2 поста, серая. Двумерный компонент панели (серый)",
+    "name": "Рамка на 2 поста, серая",
+    "description": "Рамка на 2 поста. Для сборки блока выберите по одному модулю на каждый пост. Все элементы должны быть одного цвета."
+  },
+  "P2-WH": {
+    "originals": [
+      "/images/products/P2-WH/01.png",
+      "/images/products/P2-WH/02.png",
+      "/images/products/P2-WH/03.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/P2-WH/03.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/P2-WH/01.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/P2-WH/02.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Панель 2 поста, белая",
+    "originalDescription": "Панель 2 поста, белая. Двухпозиционный панельный компонент (белый)",
+    "name": "Рамка на 2 поста, белая",
+    "description": "Рамка на 2 поста. Для сборки блока выберите по одному модулю на каждый пост. Все элементы должны быть одного цвета."
+  },
+  "P3-BK": {
+    "originals": [
+      "/images/products/P3-BK/01.png",
+      "/images/products/P3-BK/02.png",
+      "/images/products/P3-BK/03.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/P3-BK/02.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/P3-BK/01.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/P3-BK/03.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Панель 3 поста, чёрная",
+    "originalDescription": "Панель 3 поста, чёрная. Трехмерный компонент панели (черный)",
+    "name": "Рамка на 3 поста, чёрная",
+    "description": "Рамка на 3 поста. Для сборки блока выберите по одному модулю на каждый пост. Все элементы должны быть одного цвета."
+  },
+  "P3-GY": {
+    "originals": [
+      "/images/products/P3-GY/01.png",
+      "/images/products/P3-GY/02.png",
+      "/images/products/P3-GY/03.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/P3-GY/02.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/P3-GY/01.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/P3-GY/03.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Панель 3 поста, серая",
+    "originalDescription": "Панель 3 поста, серая. Трехмерный компонент панели (серый)",
+    "name": "Рамка на 3 поста, серая",
+    "description": "Рамка на 3 поста. Для сборки блока выберите по одному модулю на каждый пост. Все элементы должны быть одного цвета."
+  },
+  "P3-WH": {
+    "originals": [
+      "/images/products/P3-WH/01.png",
+      "/images/products/P3-WH/02.png",
+      "/images/products/P3-WH/03.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/P3-WH/03.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/P3-WH/01.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/P3-WH/02.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Панель 3 поста, белая",
+    "originalDescription": "Панель 3 поста, белая. Трехмерный панельный компонент (белый)",
+    "name": "Рамка на 3 поста, белая",
+    "description": "Рамка на 3 поста. Для сборки блока выберите по одному модулю на каждый пост. Все элементы должны быть одного цвета."
+  },
+  "P4-BK": {
+    "originals": [
+      "/images/products/P4-BK/01.png",
+      "/images/products/P4-BK/02.png",
+      "/images/products/P4-BK/03.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/P4-BK/02.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/P4-BK/01.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/P4-BK/03.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Панель 4 поста, чёрная",
+    "originalDescription": "Панель 4 поста, чёрная. Четырехпозиционная панель в сборе (черная)",
+    "name": "Рамка на 4 поста, чёрная",
+    "description": "Рамка на 4 поста. Для сборки блока выберите по одному модулю на каждый пост. Все элементы должны быть одного цвета."
+  },
+  "P4-GY": {
+    "originals": [
+      "/images/products/P4-GY/01.png",
+      "/images/products/P4-GY/02.png",
+      "/images/products/P4-GY/03.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/P4-GY/02.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/P4-GY/01.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/P4-GY/03.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Панель 4 поста, серая",
+    "originalDescription": "Панель 4 поста, серая. Четырехпозиционный компонент панели (серый)",
+    "name": "Рамка на 4 поста, серая",
+    "description": "Рамка на 4 поста. Для сборки блока выберите по одному модулю на каждый пост. Все элементы должны быть одного цвета."
+  },
+  "P4-WH": {
+    "originals": [
+      "/images/products/P4-WH/01.png",
+      "/images/products/P4-WH/02.png",
+      "/images/products/P4-WH/03.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/P4-WH/03.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/P4-WH/01.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/P4-WH/02.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Панель 4 поста, белая",
+    "originalDescription": "Панель 4 поста, белая. Четырехпозиционная панель в сборе (белая)",
+    "name": "Рамка на 4 поста, белая",
+    "description": "Рамка на 4 поста. Для сборки блока выберите по одному модулю на каждый пост. Все элементы должны быть одного цвета."
+  },
+  "S1-BK": {
+    "originals": [
+      "/images/products/S1-BK/01.png",
+      "/images/products/S1-BK/02.png",
+      "/images/products/S1-BK/03.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/S1-BK/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/S1-BK/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S1-BK/03.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Выключатель 1-клавишный, в сборе, чёрный",
+    "originalDescription": "Выключатель 1-клавишный, в сборе, чёрный. Один управляющий переключатель на 10 А (быстрое подключение) (черный)",
+    "name": "Одноклавишный выключатель, чёрный",
+    "description": "Выключатель 1-клавишный, в сборе, чёрный. Один управляющий переключатель на 10 А (быстрое подключение) (черный)"
+  },
+  "S1-GY": {
+    "originals": [
+      "/images/products/S1-GY/01.png",
+      "/images/products/S1-GY/02.png",
+      "/images/products/S1-GY/03.png",
+      "/images/products/S1-GY/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/S1-GY/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/S1-GY/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S1-GY/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S1-GY/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Выключатель 1-клавишный, в сборе, серый",
+    "originalDescription": "Выключатель 1-клавишный, в сборе, серый. Один управляющий переключатель на 10 А (быстрое подключение) (серый)",
+    "name": "Одноклавишный выключатель, серый",
+    "description": "Выключатель 1-клавишный, в сборе, серый. Один управляющий переключатель на 10 А (быстрое подключение) (серый)"
+  },
+  "S1-WH": {
+    "originals": [
+      "/images/products/S1-WH/01.png",
+      "/images/products/S1-WH/02.png",
+      "/images/products/S1-WH/03.png",
+      "/images/products/S1-WH/04.png",
+      "/images/products/S1-WH/05.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/S1-WH/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/S1-WH/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S1-WH/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S1-WH/04.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S1-WH/05.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Выключатель 1-клавишный, в сборе, белый",
+    "originalDescription": "Выключатель 1-клавишный, в сборе, белый. Один однополюсный выключатель 10 А (быстрое подключение) (белый)",
+    "name": "Одноклавишный выключатель, белый",
+    "description": "Выключатель 1-клавишный, в сборе, белый. Один однополюсный выключатель 10 А (быстрое подключение) (белый)"
+  },
+  "S1P-BK": {
+    "originals": [
+      "/images/products/S1P-BK/01.png",
+      "/images/products/S1P-BK/02.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/S1P-BK/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/S1P-BK/02.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Выключатель 1-кл. проходной, в сборе, чёрный",
+    "originalDescription": "Выключатель 1-кл. проходной, в сборе, чёрный. Один двухполюсный выключатель 10 А (быстрое подключение) (черный)",
+    "name": "Одноклавишный проходной выключатель, чёрный",
+    "description": "Выключатель 1-кл. проходной, в сборе, чёрный. Один двухполюсный выключатель 10 А (быстрое подключение) (черный)"
+  },
+  "S1P-GY": {
+    "originals": [
+      "/images/products/S1P-GY/01.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/front-needed.svg",
+        "caption": "Фото лицевой стороны ожидается. Ниже — фотографии обратной стороны."
+      },
+      {
+        "url": "/images/optimized/S1P-GY/01.webp",
+        "caption": "Обратная сторона изделия"
+      }
+    ],
+    "originalName": "Выключатель 1-кл. проходной, в сборе, серый",
+    "originalDescription": "Выключатель 1-кл. проходной, в сборе, серый. Один двухполюсный выключатель 10 А (быстрое подключение) (серый)",
+    "name": "Одноклавишный проходной выключатель, серый",
+    "description": "Выключатель 1-кл. проходной, в сборе, серый. Один двухполюсный выключатель 10 А (быстрое подключение) (серый)"
+  },
+  "S1P-WH": {
+    "originals": [
+      "/images/products/S1P-WH/01.png",
+      "/images/products/S1P-WH/02.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/front-needed.svg",
+        "caption": "Фото лицевой стороны ожидается. Ниже — фотографии обратной стороны."
+      },
+      {
+        "url": "/images/optimized/S1P-WH/01.webp",
+        "caption": "Обратная сторона изделия"
+      },
+      {
+        "url": "/images/optimized/S1P-WH/02.webp",
+        "caption": "Обратная сторона изделия"
+      }
+    ],
+    "originalName": "Выключатель 1-кл. проходной, в сборе, белый",
+    "originalDescription": "Выключатель 1-кл. проходной, в сборе, белый. Один двухполюсный выключатель 10 А (быстрое подключение) (белый)",
+    "name": "Одноклавишный проходной выключатель, белый",
+    "description": "Выключатель 1-кл. проходной, в сборе, белый. Один двухполюсный выключатель 10 А (быстрое подключение) (белый)"
+  },
+  "S2-BK": {
+    "originals": [
+      "/images/products/S2-BK/01.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/front-needed.svg",
+        "caption": "Фото лицевой стороны ожидается. Ниже — фотографии обратной стороны."
+      },
+      {
+        "url": "/images/optimized/S2-BK/01.webp",
+        "caption": "Обратная сторона изделия"
+      }
+    ],
+    "originalName": "Выключатель 2-клавишный, в сборе, чёрный",
+    "originalDescription": "Выключатель 2-клавишный, в сборе, чёрный. Двухпозиционный однополюсный переключатель 10А (быстрое подключение) (черный)",
+    "name": "Двухклавишный выключатель, чёрный",
+    "description": "Выключатель 2-клавишный, в сборе, чёрный. Двухпозиционный однополюсный переключатель 10А (быстрое подключение) (черный)"
+  },
+  "S2-GY": {
+    "originals": [
+      "/images/products/S2-GY/01.png",
+      "/images/products/S2-GY/02.png",
+      "/images/products/S2-GY/03.png",
+      "/images/products/S2-GY/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/S2-GY/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/S2-GY/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S2-GY/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S2-GY/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Выключатель 2-клавишный, в сборе, серый",
+    "originalDescription": "Выключатель 2-клавишный, в сборе, серый. Двухпозиционный однополюсный переключатель 10А (быстрое подключение) (серый)",
+    "name": "Двухклавишный выключатель, серый",
+    "description": "Выключатель 2-клавишный, в сборе, серый. Двухпозиционный однополюсный переключатель 10А (быстрое подключение) (серый)"
+  },
+  "S2-WH": {
+    "originals": [
+      "/images/products/S2-WH/01.png",
+      "/images/products/S2-WH/02.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/front-needed.svg",
+        "caption": "Фото лицевой стороны ожидается. Ниже — фотографии обратной стороны."
+      },
+      {
+        "url": "/images/optimized/S2-WH/01.webp",
+        "caption": "Обратная сторона изделия"
+      },
+      {
+        "url": "/images/optimized/S2-WH/02.webp",
+        "caption": "Обратная сторона изделия"
+      }
+    ],
+    "originalName": "Выключатель 2-клавишный, в сборе, белый",
+    "originalDescription": "Выключатель 2-клавишный, в сборе, белый. Двухпозиционный однополюсный переключатель 10А (быстрое подключение) (белый)",
+    "name": "Двухклавишный выключатель, белый",
+    "description": "Выключатель 2-клавишный, в сборе, белый. Двухпозиционный однополюсный переключатель 10А (быстрое подключение) (белый)"
+  },
+  "S2P-BK": {
+    "originals": [
+      "/images/products/S2P-BK/01.png",
+      "/images/products/S2P-BK/02.png",
+      "/images/products/S2P-BK/03.png",
+      "/images/products/S2P-BK/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/S2P-BK/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/S2P-BK/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S2P-BK/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S2P-BK/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Выключатель 2-кл. проходной, в сборе, чёрный",
+    "originalDescription": "Выключатель 2-кл. проходной, в сборе, чёрный. Двухпозиционный двухполюсный переключатель 10А (быстрое подключение) (черный)",
+    "name": "Двухклавишный проходной выключатель, чёрный",
+    "description": "Выключатель 2-кл. проходной, в сборе, чёрный. Двухпозиционный двухполюсный переключатель 10А (быстрое подключение) (черный)"
+  },
+  "S2P-GY": {
+    "originals": [
+      "/images/products/S2P-GY/01.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/front-needed.svg",
+        "caption": "Фото лицевой стороны ожидается. Ниже — фотографии обратной стороны."
+      },
+      {
+        "url": "/images/optimized/S2P-GY/01.webp",
+        "caption": "Обратная сторона изделия"
+      }
+    ],
+    "originalName": "Выключатель 2-кл. проходной, в сборе, серый",
+    "originalDescription": "Выключатель 2-кл. проходной, в сборе, серый. Двухпозиционный двухполюсный выключатель 10А (быстрое подключение) (серый)",
+    "name": "Двухклавишный проходной выключатель, серый",
+    "description": "Выключатель 2-кл. проходной, в сборе, серый. Двухпозиционный двухполюсный выключатель 10А (быстрое подключение) (серый)"
+  },
+  "S2P-WH": {
+    "originals": [
+      "/images/products/S2P-WH/01.png",
+      "/images/products/S2P-WH/02.png",
+      "/images/products/S2P-WH/03.png",
+      "/images/products/S2P-WH/04.png",
+      "/images/products/S2P-WH/05.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/S2P-WH/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/S2P-WH/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S2P-WH/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S2P-WH/04.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/S2P-WH/05.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Выключатель 2-кл. проходной, в сборе, белый",
+    "originalDescription": "Выключатель 2-кл. проходной, в сборе, белый. Двухпозиционный двухполюсный выключатель 10А (быстрое подключение) (белый)",
+    "name": "Двухклавишный проходной выключатель, белый",
+    "description": "Выключатель 2-кл. проходной, в сборе, белый. Двухпозиционный двухполюсный выключатель 10А (быстрое подключение) (белый)"
+  },
+  "USB-BK": {
+    "originals": [
+      "/images/products/USB-BK/01.png",
+      "/images/products/USB-BK/02.png",
+      "/images/products/USB-BK/03.png",
+      "/images/products/USB-BK/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/USB-BK/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/USB-BK/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/USB-BK/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/USB-BK/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Розетка USB A+C + Schuko 85×85, чёрная",
+    "originalDescription": "Розетка с разъёмами USB A и USB C для одной точки. Мощность и протоколы зарядки указаны в характеристиках этой модели.",
+    "name": "Розетка Schuko с USB A+C, чёрная",
+    "description": "Розетка с разъёмами USB A и USB C для одной точки. Мощность и протоколы зарядки указаны в характеристиках этой модели."
+  },
+  "USB-GY": {
+    "originals": [
+      "/images/products/USB-GY/01.png",
+      "/images/products/USB-GY/02.png",
+      "/images/products/USB-GY/03.png",
+      "/images/products/USB-GY/04.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/USB-GY/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/USB-GY/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/USB-GY/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/USB-GY/04.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Розетка USB A+C + Schuko 85×85, серая",
+    "originalDescription": "Розетка с разъёмами USB A и USB C для одной точки. Мощность и протоколы зарядки указаны в характеристиках этой модели.",
+    "name": "Розетка Schuko с USB A+C, серая",
+    "description": "Розетка с разъёмами USB A и USB C для одной точки. Мощность и протоколы зарядки указаны в характеристиках этой модели."
+  },
+  "USB-WH": {
+    "originals": [
+      "/images/products/USB-WH/01.png",
+      "/images/products/USB-WH/02.png",
+      "/images/products/USB-WH/03.png",
+      "/images/products/USB-WH/04.png",
+      "/images/products/USB-WH/05.png"
+    ],
+    "photos": [
+      {
+        "url": "/images/optimized/USB-WH/01.webp",
+        "caption": "Вид спереди"
+      },
+      {
+        "url": "/images/optimized/USB-WH/02.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/USB-WH/03.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/USB-WH/04.webp",
+        "caption": "Детали изделия"
+      },
+      {
+        "url": "/images/optimized/USB-WH/05.webp",
+        "caption": "Детали изделия"
+      }
+    ],
+    "originalName": "Розетка USB A+C + Schuko 85×85, белая",
+    "originalDescription": "Розетка с разъёмами USB A и USB C для одной точки. Мощность и протоколы зарядки указаны в характеристиках этой модели.",
+    "name": "Розетка Schuko с USB A+C, белая",
+    "description": "Розетка с разъёмами USB A и USB C для одной точки. Мощность и протоколы зарядки указаны в характеристиках этой модели."
+  }
+}

@@ -8,7 +8,11 @@ const legacy = [
   ["Где узнать стоимость доставки?", "При оформлении, после выбора города."],
 ];
 
-export async function getHomeFaqs() {
+export async function getHomeFaqs(preview = false) {
+  if (preview) {
+    const draft = await prisma.siteSetting.findUnique({where:{key:'draft:faqs'}});
+    if (draft) return JSON.parse(draft.value) as {id:string;question:string;answer:string;sortOrder:number}[];
+  }
   const rows = await prisma.faqItem.findMany({ orderBy: [{ sortOrder: "asc" }, { id: "asc" }] });
   return rows.map((row) => {
     const index = legacy.findIndex(([question, answer]) => row.question === question && row.answer === answer);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { bundleColorMeta, getBundlePhoto, mechLabel, type MechKind } from "@/lib/bundle";
+import { bundleColorMeta, getBundlePhoto } from "@/lib/bundle";
 import { ProductImage } from "@/components/ProductImage";
 
 // Front elevations based on the supplied Laitys product photographs.
@@ -12,7 +12,7 @@ function AssemblyScheme({
   description,
 }: {
   color: string;
-  mechanisms: MechKind[];
+  mechanisms: string[];
   description: string;
 }) {
   const width = mechanisms.length * 120 + 4;
@@ -183,14 +183,15 @@ function AssemblyScheme({
   );
 }
 
-export function BundlePreview({ color, mechanisms }: { color: string; mechanisms: MechKind[] }) {
+export function BundlePreview({ color, mechanisms, labels, images }: { color: string; mechanisms: string[]; labels: string[]; images: (string | null)[] }) {
   const photo = getBundlePhoto(color, mechanisms);
   const [view, setView] = useState<"scheme" | "photo">("scheme");
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
   const showPhoto = view === "photo" && !!photo && !failed;
   const ready = showPhoto && loaded;
-  const description = mechanisms.length + " поста, " + bundleColorMeta(color).label.toLowerCase() + "; слева направо: " + mechanisms.map(mechLabel).join(", ");
+  const description = mechanisms.length + " поста, " + bundleColorMeta(color).label.toLowerCase() + "; слева направо: " + labels.join(", ");
+  const known = mechanisms.every(m=>['m-d1','m-s1','m-tv'].includes(m));
   return (
     <figure className="bundle-preview">
       {photo && <div className="bundle-preview-views" role="group" aria-label="Вид комплекта">
@@ -198,7 +199,7 @@ export function BundlePreview({ color, mechanisms }: { color: string; mechanisms
         <button type="button" aria-pressed={view === "photo"} onClick={() => setView("photo")}>Фото</button>
       </div>}
       <div className="bundle-preview-stage" aria-busy={showPhoto && !loaded}>
-        {!ready && <AssemblyScheme color={color} mechanisms={mechanisms} description={description} />}
+        {!ready && (known ? <AssemblyScheme color={color} mechanisms={mechanisms} description={description} /> : <div role="img" aria-label={`Схема: ${description}`} className="flex w-full gap-1 p-4">{mechanisms.map((m,i)=><div key={i} className="flex min-w-0 flex-1 flex-col justify-center border border-black/20 p-1" style={{background:bundleColorMeta(color).hex}}>{images[i] ? <ProductImage src={images[i]!} alt={labels[i]} className="aspect-square w-full"/> : <span className="bg-white p-1 text-center text-xs text-black">{labels[i]}</span>}</div>)}</div>)}
         {showPhoto && <ProductImage src={photo} alt={("Собранный блок: " + description)}
           className={("bundle-preview-photo " + (loaded ? "is-loaded" : ""))}
           onLoad={() => setLoaded(true)} onError={() => { setFailed(true); setLoaded(false); }} />}

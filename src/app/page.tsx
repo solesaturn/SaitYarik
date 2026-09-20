@@ -2,14 +2,21 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PopularProducts } from "@/components/PopularProducts";
 import { getHomeFaqs } from "@/lib/home-faqs";
-import { getSetting } from "@/lib/site";
+import { homeContent } from "@/lib/editor-server";
+import { getSession, isStaff } from "@/lib/auth";
+import { notFound } from "next/navigation";
 import { ProductImage } from "@/components/ProductImage";
 import { ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
-  const [categories, products, certificates, faqs, heroImage] = await Promise.all([
+export async function generateMetadata() { const content=await homeContent(); return {title:content.seoTitle,description:content.seoDescription}; }
+
+export default async function HomePage({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}) {
+  const preview=(await searchParams).preview==="home";
+  if(preview){const session=await getSession();if(!session || !isStaff(session.role))notFound();}
+  const content=await homeContent(preview);
+  const [categories, products, certificates, faqs] = await Promise.all([
     prisma.category.findMany({ where: { parentId: null }, orderBy: { sortOrder: "asc" } }),
     prisma.product.findMany({
       where: { active: true },
@@ -26,71 +33,77 @@ export default async function HomePage() {
         productType: true,
         color: true,
         kitRole: true,
+        attrsJson: true,
+        posts: true,
         brand: { select: { name: true } },
       },
       orderBy: [{ productType: "asc" }, { name: "asc" }],
     }),
     prisma.certificate.findMany({ where: { published: true }, orderBy: { number: "asc" } }),
-    getHomeFaqs(),
-    getSetting("hero_image", "/images/common/01.png"),
+    getHomeFaqs(preview),
+
   ]);
 
   return (
     <div>
+      {preview && <div className="bg-amber-100 p-4 text-center text-sm">Предпросмотр черновика. Посетители видят опубликованную версию. <Link className="underline" href="/admin/content">Вернуться в редактор</Link></div>}
       <section className="hero-gradient">
         <div className="mx-auto grid max-w-7xl items-center gap-6 px-4 pb-10 pt-8 sm:gap-10 sm:pb-16 sm:pt-12 lg:grid-cols-[0.85fr_1.15fr] lg:pt-16">
           <div>
-            <h1 className="section-title max-w-xl">Розетки и выключатели Laitys</h1>
+            <h1 className="section-title max-w-xl">{content.heroTitle}</h1>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-[var(--muted)]">
-              Для современного интерьера. В трёх цветах
+              {content.heroText}
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
               <Link href="/catalog" className="btn btn-primary w-full sm:w-auto">
-                В каталог
+                Смотреть каталог
               </Link>
               <Link href="/kit" className="btn btn-copper w-full sm:w-auto">
                 Собрать блок
               </Link>
             </div>
           </div>
-          <div className="w-full py-6 sm:py-10">
-            <ProductImage
-              src={heroImage}
-              alt="Розетки Laitys в трёх цветах: чёрный, белый и серый"
-              className="aspect-[2/1] w-full object-contain"
-            />
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#d4d2cb]">
+            {content.heroImage === '/images/products/D1-WH/01.png' ? <>
+              <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(120deg,#eeeae2_0%,#d4d2cb_70%,#b8b8b1_100%)]" />
+              <div aria-hidden="true" className="absolute inset-y-0 left-[12%] w-px bg-white/60 shadow-[30px_0_55px_12px_#b7b4ab]" />
+              <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[15%] border-t-8 border-[#9c7856] bg-[#ba9670]" />
+              <ProductImage src={content.heroImage} alt={content.heroAlt} className="absolute right-[22%] top-[23%] aspect-square w-[38%] drop-shadow-xl" />
+              <span className="absolute bottom-[21%] left-6 text-xs uppercase tracking-[.2em] text-[#5f5e59]">Laitys · Zero</span>
+            </> : <ProductImage src={content.heroImage} alt={content.heroAlt} className="h-full w-full object-contain p-4" />}
           </div>
         </div>
       </section>
 
+      <div className="mx-auto grid max-w-7xl gap-4 px-4 py-8 sm:grid-cols-2 lg:grid-cols-4">{content.benefits.map((text,i)=><div key={i} className="border-t-2 border-[var(--ink)] pt-4"><span className="text-xs text-[var(--muted)]">0{i+1}</span><p className="mt-2 text-sm font-medium">{text}</p></div>)}</div>
       <PopularProducts products={products} />
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div>
-            <h2 className="section-title">Почему Laitys</h2>
+            <h2 className="section-title">{content.whyTitle}</h2>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-[var(--muted)]">
-              Дизайн, качество и доступная цена — в одной коллекции.
+              {content.whyText}
             </p>
           </div>
           <div className="overflow-hidden rounded-[1.5rem] bg-[var(--card)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/common/01.png" alt="Розетки Laitys белая, серая и чёрная" className="aspect-[2/1] w-full object-contain p-4 sm:p-6" />
+            <img src={content.whyImage} alt="Розетки Laitys белая, серая и чёрная" className="aspect-[2/1] w-full object-contain p-4 sm:p-6" />
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-8">
-        <h2 className="section-title">Как собрать блок</h2>
+        <h2 className="section-title">{content.guideTitle}</h2>
         <p className="mt-3 max-w-xl text-sm text-[var(--muted)]">
-          Для одного места выберите готовое изделие. Для нескольких — рамку и подходящие механизмы.
+          {content.guideText}
         </p>
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { t: "Готовое изделие", d: "Для одного места" },
-            { t: "Рамка + механизмы", d: "Для двух, трёх и четырёх мест" },
-            { t: "Один цвет", d: "Белый, серый или чёрный" },
-            { t: "Пост", d: "Одно место в рамке для розетки или выключателя" },
+            { t: "Готовое изделие", d: "Одинарная розетка или выключатель. Отдельная рамка не нужна." },
+            { t: "Модуль", d: "Элемент для рамки на 2, 3 или 4 поста. Без рамки не используется." },
+            { t: "Рамка", d: "Основа блока на 2, 3 или 4 поста. Все модули — одного цвета." },
+            { t: "Пост", d: "Одно место в рамке для одного модуля" },
           ].map((x) => (
             <div key={x.t} className="rounded-2xl bg-white p-5">
               <p className="font-semibold">{x.t}</p>
@@ -171,9 +184,9 @@ export default async function HomePage() {
 
       <section className="bg-[#111] py-10 text-white sm:py-16">
         <div className="mx-auto max-w-7xl px-4">
-          <h2 className="section-title">Для бизнеса</h2>
+          <h2 className="section-title">{content.businessTitle}</h2>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/60">
-            Отправьте список товаров или спецификацию. Мы подготовим расчёт и согласуем условия заказа.
+            {content.businessText}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link href="/b2b" className="btn btn-light w-full sm:w-auto">

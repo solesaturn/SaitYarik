@@ -5,16 +5,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 const pills = [
   { href: "/catalog", label: "Все товары", type: "" },
-  { href: "/catalog?type=розетка", label: "Розетки", type: "розетка" },
-  { href: "/catalog?type=выключатель", label: "Выключатели", type: "выключатель" },
-  { href: "/catalog?type=рамка", label: "Рамки", type: "рамка" },
-  { href: "/catalog?type=механизм", label: "Механизмы", type: "механизм" },
+  { href: "/catalog?format=assembled", label: "Готовые изделия", type: "assembled" },
+  { href: "/catalog?format=mechanism", label: "Модули для рамок", type: "mechanism" },
+  { href: "/catalog?format=frame", label: "Рамки", type: "frame" },
 ];
 
 export function CatalogToolbar({ title }: { title: string }) {
   const router = useRouter();
   const sp = useSearchParams();
-  const activeType = sp.get("type") || "";
+  const activeType = sp.get("format") || "";
   const inStock = sp.get("stock") === "1";
   const sort = sp.get("sort") || "popular";
 
@@ -89,6 +88,7 @@ export function CatalogToolbar({ title }: { title: string }) {
           </Link>
         ))}
       </div>
+      <p className="mt-5 max-w-4xl rounded-xl bg-white p-4 text-sm leading-relaxed">Готовые одинарные розетки и выключатели устанавливаются без отдельной рамки. Для блока на 2, 3 или 4 поста выберите рамку и по одному модулю на каждый пост. Все элементы блока должны быть одного цвета. <Link href="/kit" className="font-medium underline">Собрать блок</Link></p>
     </div>
   );
 }

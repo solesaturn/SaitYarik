@@ -7,9 +7,11 @@ import { useState } from "react";
 export function ProductGallery({
   images,
   alt,
+  captions = [],
 }: {
   images: string[];
   alt: string;
+  captions?: string[];
 }) {
   const photos = images.filter(Boolean);
   const [active, setActive] = useState(0);
@@ -27,9 +29,10 @@ export function ProductGallery({
 
   return (
     <div>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--card)] sm:aspect-square">
-        <ProductImage src={current} alt={alt} className="h-full w-full object-contain p-4 sm:p-8" />
+      <div className="relative aspect-square overflow-hidden rounded-2xl bg-[var(--card)]">
+        <ProductImage src={current} alt={`${alt}, ${captions[active] || `фото ${active+1}`}`} className="h-full w-full object-contain p-6 sm:p-8" />
       </div>
+      {captions[active] && <p className="mt-2 text-sm text-[var(--muted)]">{captions[active]}</p>}
       {photos.length > 1 && (
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
           {photos.map((src, i) => (

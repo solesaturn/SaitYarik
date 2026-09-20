@@ -1,4 +1,5 @@
 import { HOME_FAQS } from "../src/lib/product-display";
+import photoManifest from "../data/product-photos.json";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import fs from "fs";
@@ -113,7 +114,7 @@ async function main() {
   });
   const catMech = await prisma.category.create({
     data: {
-      name: "Механизмы",
+      name: "Модули для рамок",
       slug: "mehanizmy",
       description: "Для сборки блока",
       sortOrder: 4,
@@ -160,7 +161,7 @@ async function main() {
         isSale: false,
         marked: false,
         imageUrl: images[0] || null,
-        imagesJson: JSON.stringify(images),
+        imagesJson: JSON.stringify((photoManifest as Record<string, {photos:{url:string;caption:string}[]}>)[item.sku]?.photos || images),
         attrsJson: JSON.stringify(item.attrs),
         documentsJson: JSON.stringify(docs),
         seoTitle: `${item.name} — ${item.sku}`,

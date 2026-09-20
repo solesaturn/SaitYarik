@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { AdminNav } from "@/components/AdminNav";
 import { getHomeFaqs } from "@/lib/home-faqs";
 import { ContentForms } from "@/components/ContentForms";
+import { HomeEditForm } from "@/components/HomeEditForm";
+import { homeContent } from "@/lib/editor-server";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +14,7 @@ export default async function AdminContentPage() {
   if (!session || !isStaff(session.role)) redirect("/account");
   const [settings, faqs, certs] = await Promise.all([
     prisma.siteSetting.findMany(),
-    getHomeFaqs(),
+    getHomeFaqs(true),
     prisma.certificate.findMany({ orderBy: { number: "asc" } }),
   ]);
   const map = Object.fromEntries(settings.map((s) => [s.key, s.value]));
@@ -20,6 +22,7 @@ export default async function AdminContentPage() {
     <div className="mx-auto max-w-3xl px-4 py-10">
       <AdminNav />
       <h1 className="section-title">Тексты и FAQ</h1>
+      <HomeEditForm key={map['draft:home'] || map.home_content || 'default'} content={await homeContent(true)} hasDraft={!!map['draft:home']} />
       <ContentForms map={map} faqs={faqs} certs={certs} />
     </div>
   );

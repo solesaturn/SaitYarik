@@ -18,6 +18,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
   const brand = one(sp.brand);
   const color = one(sp.color);
   const productType = one(sp.type);
+  const format = one(sp.format);
   const ip = one(sp.ip);
   const posts = one(sp.posts);
   const series = one(sp.series);
@@ -30,6 +31,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
 
   const inStock = one(sp.stock) === "1";
   const where: Record<string, unknown> = { active: true };
+  if (format && ['assembled','mechanism','frame'].includes(format)) where.kitRole = format;
   if (brand) where.brand = { slug: brand };
   if (color) where.color = color;
   if (productType) where.productType = productType;
@@ -72,7 +74,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
       take,
     }),
     prisma.product.findMany({
-      where: { active: true },
+      where: { active: true, ...(format && ['assembled','mechanism','frame'].includes(format) ? {kitRole:format} : {}) },
       select: { color: true, posts: true, productType: true },
     }),
   ]);
@@ -124,7 +126,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
           {pages > 1 && (
             <div className="mt-8 flex flex-wrap gap-2">
               {Array.from({ length: pages }, (_, i) => i + 1).map((p) => {
-                const next = new URLSearchParams();
+                const next = new URLSearchParams(Object.entries(sp).flatMap(([k,v])=>v ? [[k,one(v)!]] : []));
                 next.set("page", String(p));
                 if (productType) next.set("type", productType);
                 if (color) next.set("color", color);

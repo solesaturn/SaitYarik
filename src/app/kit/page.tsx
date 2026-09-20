@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export const metadata = {
   title: "Собрать блок",
-  description: "Соберите рамку и механизмы Laitys одного цвета",
+  description: "Соберите блок из рамки и модулей Laitys одного цвета на 2, 3 или 4 поста",
 };
 
 export const dynamic = "force-dynamic";
@@ -33,6 +33,7 @@ export default async function KitPage({ searchParams }: { searchParams: SearchPa
       priceWholesale: true,
       stock: true,
       packQty: true,
+      attrsJson: true,
     },
   });
 
@@ -43,10 +44,10 @@ export default async function KitPage({ searchParams }: { searchParams: SearchPa
         {" / "}
         <span>Собрать блок</span>
       </nav>
-      <p className="mt-3 text-xs uppercase tracking-wide text-[var(--muted)]">Рамка + механизмы</p>
-      <h1 className="section-title mt-2">Собрать блок</h1>
+      <p className="mt-3 text-xs uppercase tracking-wide text-[var(--muted)]">Рамка + модули</p>
+      <h1 className="section-title mt-2">Соберите блок из рамки и модулей</h1>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
-        Выберите размер и цвет рамки, затем наполните её розетками и выключателями. Состав и вид блока обновляются при каждом выборе.
+        Выберите рамку на 2, 3 или 4 поста, цвет и по одному модулю для каждой позиции. Состав комплекта и схема обновятся автоматически.
       </p>
       <ConstructorWizard key={one(sp.preset) || "default"} products={products} preset={one(sp.preset)} />
     </div>

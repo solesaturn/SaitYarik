@@ -5,7 +5,7 @@ const catalogLinks = [
   { href: "/catalog?type=розетка", label: "Розетки" },
   { href: "/catalog?type=выключатель", label: "Выключатели" },
   { href: "/catalog?type=рамка", label: "Рамки" },
-  { href: "/catalog?type=механизм", label: "Механизмы" },
+  { href: "/catalog?format=mechanism", label: "Модули для рамок" },
   { href: "/kit", label: "Собрать блок" },
 ];
 

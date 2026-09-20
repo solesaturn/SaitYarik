@@ -1,3 +1,5 @@
+import { photosOf } from "@/lib/product-content";
+
 export type ProductDisplayInput = {
   sku: string;
   name?: string | null;
@@ -46,8 +48,8 @@ export function colorLabel(color?: string | null) {
 }
 
 function completenessFromRole(kitRole?: string | null, fallback?: string | null): string | null {
-  if (kitRole === "assembled") return "В сборе";
-  if (kitRole === "mechanism") return "Без рамки";
+  if (kitRole === "assembled") return "Готовое изделие";
+  if (kitRole === "mechanism") return "Модуль для рамки";
   if (kitRole === "frame") return null;
   return fallback ?? null;
 }
@@ -141,15 +143,15 @@ const SPECS: Record<string, Spec> = {
 export function displayProduct(product: ProductDisplayInput): ProductDisplay {
   const spec = SPECS[skuBase(product.sku)];
   const color = colorLabel(product.color);
-  const completeness = spec?.completeness ?? completenessFromRole(product.kitRole);
-  const extras = spec?.extras ? [...spec.extras] : [];
-  if (!spec && product.posts && product.kitRole === "frame") {
+  const completeness = completenessFromRole(product.kitRole, spec?.completeness);
+  const extras: string[] = [];
+  if (product.posts && product.kitRole === "frame") {
     extras.push(`${product.posts} ${product.posts === 1 ? "место" : product.posts < 5 ? "места" : "мест"}`);
   }
-  const title = spec?.title || shortNameFromRaw(product.name || product.sku);
+  const title = shortNameFromRaw(product.name || spec?.title || product.sku);
   const description =
-    spec?.description ||
     cleanDescription(product.description) ||
+    spec?.description ||
     title;
   const badges = [color, completeness, ...extras].filter(Boolean) as string[];
   return { title, color, completeness, extras, description, badges };
@@ -167,6 +169,7 @@ function shortNameFromRaw(name: string) {
 function cleanDescription(text?: string | null) {
   if (!text) return "";
   return text
+    .replace(/soft[ -]?touch/gi, "матовая окрашенная поверхность")
     .replace(/одна вилка немецкого образца/gi, "розетка немецкого образца")
     .replace(/с одной немецкой вилкой/gi, "с розеткой Schuko")
     .replace(/\s+/g, " ")
@@ -174,21 +177,13 @@ function cleanDescription(text?: string | null) {
 }
 
 export function productImages(product: { imageUrl?: string | null; imagesJson?: string | null }) {
-  try {
-    const parsed = JSON.parse(product.imagesJson || "[]") as unknown;
-    if (Array.isArray(parsed)) {
-      const urls = parsed.filter((x): x is string => typeof x === "string" && x.length > 0);
-      if (urls.length) return urls;
-    }
-  } catch {
-    /* ignore */
-  }
-  return product.imageUrl ? [product.imageUrl] : [];
+  return photosOf(product).map(p => p.url);
 }
 
 export function productAlt(product: ProductDisplayInput, view = "вид спереди") {
   const { title, color } = displayProduct(product);
-  const adj = color ? COLOR_ADJ[color] || color : "";
+  const feminine = /розетка|рамка/i.test(title);
+  const adj = color ? feminine ? COLOR_ADJ[color] || color : color : "";
   const named = adj ? `${adj} ${title.toLowerCase()}` : title;
   return `${named} Laitys ${product.sku}, ${view}`;
 }
@@ -198,8 +193,8 @@ export function completenessLabel(kitRole?: string | null) {
 }
 
 export function kitRoleFilterLabel(kitRole: string) {
-  if (kitRole === "assembled") return "В сборе";
-  if (kitRole === "mechanism") return "Без рамки";
+  if (kitRole === "assembled") return "Готовое изделие";
+  if (kitRole === "mechanism") return "Модуль для рамки";
   if (kitRole === "frame") return "Рамка";
   return kitRole;
 }

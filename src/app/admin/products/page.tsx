@@ -13,6 +13,7 @@ export default async function AdminProductsPage() {
   const session = await getSession();
   if (!session || !isStaff(session.role)) redirect("/account");
   const products = await prisma.product.findMany({ orderBy: { sku: "asc" } });
+  const drafts = await prisma.siteSetting.findMany({where:{key:{startsWith:'draft:product:'}}});
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
@@ -20,11 +21,16 @@ export default async function AdminProductsPage() {
       <h1 className="section-title">Товары</h1>
       <p className="mt-2 text-sm text-[var(--muted)]">Цена и остаток только отсюда. 0 = «Цена уточняется».</p>
       <div className="mt-6 flex flex-wrap gap-3">
+        <Link href="/admin/products/new" className="btn btn-primary">Добавить товар</Link>
         <a href="/api/admin/catalog-file" className="btn btn-copper">
           Скачать Excel (CSV)
         </a>
         <CatalogImport />
       </div>
+      {drafts.length > 0 && <section className="mt-6 rounded-xl bg-[var(--sand)] p-4"><h2 className="font-semibold">Черновики</h2><ul className="mt-2 space-y-2">{drafts.map(d => {
+        const value = JSON.parse(d.value) as {name:string;sku:string};
+        return <li key={d.key}><Link className="underline" href={`/admin/products/${d.key.replace('draft:product:', '')}`}>{value.sku} · {value.name}</Link></li>;
+      })}</ul></section>}
       <div className="mt-8 overflow-x-auto rounded-2xl bg-white">
         <table className="w-full text-left text-sm">
           <thead>
