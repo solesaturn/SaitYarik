@@ -75,7 +75,6 @@ export default async function HomePage({searchParams}:{searchParams:Promise<Reco
         </div>
       </section>
 
-      <div className="mx-auto grid max-w-7xl gap-4 px-4 py-8 sm:grid-cols-2 lg:grid-cols-4">{content.benefits.map((text,i)=><div key={i} className="border-t-2 border-[var(--ink)] pt-4"><span className="text-xs text-[var(--muted)]">0{i+1}</span><p className="mt-2 text-sm font-medium">{text}</p></div>)}</div>
       <PopularProducts products={products} />
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
